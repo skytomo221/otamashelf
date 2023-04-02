@@ -1,15 +1,5 @@
-import Book, { BookWithPath } from './Book';
-
-export interface BookDiff {
-  revision: number;
-  comment: string;
-  diff: Book;
-}
-
-export interface BookTimeline {
-  diff: BookDiff[];
-  complete: Book;
-}
+import { BookWithPath } from './Book';
+import BookTimeline, { PlainBookTimeline } from './BookTimeline';
 
 export interface BookExtensionMappings {
   bookCreator: string;
@@ -21,22 +11,17 @@ export interface BookExtensionMappings {
 }
 
 export interface BookRepository {
-  book: Book;
-  bookTimeline: BookTimeline;
+  plainBookTimeline: PlainBookTimeline;
   bookExtensionMappings: BookExtensionMappings;
 }
 
-export default class BookController {
-  protected readonly commands: Map<string, BookRepository> = new Map();
+export default class BooksController {
+  protected readonly bookRepositories: Map<string, BookRepository> = new Map();
 
   public regesterBook(bookWithPath: BookWithPath) {
     const { path, ...book } = bookWithPath;
-    this.commands.set(path, {
-      book,
-      bookTimeline: {
-        diff: [],
-        complete: book,
-      },
+    this.bookRepositories.set(path, {
+      plainBookTimeline: new BookTimeline(bookWithPath).plain,
       bookExtensionMappings: {
         bookCreator: '',
         bookUpdater: '',
@@ -48,9 +33,7 @@ export default class BookController {
     });
   }
 
-  public executeCommand(command: string, ...props: any[]) {}
-
-  public getCommands() {}
-  public switchRevision() {}
-  public log() {}
+  public getBookRepository(id: string) {
+    return this.bookRepositories.get(id);
+  }
 }
