@@ -18,5 +18,4 @@ export * from './extensions/AllPageExplorer';
 export * from './extensions/EndsWithPageExplorer';
 export * from './extensions/IncludesPageExplorer';
 export * from './extensions/StartsWithPageExplorer';
-export * from './extensions/OtmController';
 export * from './extensions/OtmLayoutBuilder';
