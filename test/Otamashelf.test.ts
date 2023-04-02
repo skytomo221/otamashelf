@@ -3,7 +3,6 @@ import AllPageExplorer from '../src/extensions/AllPageExplorer';
 import EndsWithPageExplorer from '../src/extensions/EndsWithPageExplorer';
 import StartsWithPageExplorer from '../src/extensions/StartsWithPageExplorer';
 import IncludesPageExplorer from '../src/extensions/IncludesPageExplorer';
-import OtmController from '../src/extensions/OtmController';
 import OtmLayoutBuilder from '../src/extensions/OtmLayoutBuilder';
 import PageExplorer from '../src/PageExplorer';
 import LayoutBuilder from '../src/LayoutBuilder';
