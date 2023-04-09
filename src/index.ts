@@ -1,5 +1,5 @@
 export * from './Otamashelf';
-export * from './BookController';
+export * from './BooksController';
 export * from './defaultThemeParameters';
 export * from './Extension';
 export * from './ExtensionProperties';

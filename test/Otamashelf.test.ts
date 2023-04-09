@@ -31,6 +31,9 @@ test('Otamashelf has commands', () => {
     'otamashelf.bookSaversRegistry.constructor',
     'otamashelf.bookSaversRegistry.get',
     'otamashelf.bookSaversRegistry.register',
+    'otamashelf.booksController.constructor',
+    'otamashelf.booksController.getBookRepository',
+    'otamashelf.booksController.regesterBook',
     'otamashelf.getCommands',
     'otamashelf.getContext',
     'otamashelf.pageCardCreatorsRegistry.constructor',
@@ -42,7 +45,6 @@ test('Otamashelf has commands', () => {
     'otamashelf.pageCardUpdatersRegistry.constructor',
     'otamashelf.pageCardUpdatersRegistry.get',
     'otamashelf.pageCardUpdatersRegistry.register',
-    'otamashelf.pushBook',
     'otamashelf.regesterCommand',
     'otamashelf.regesterContext',
   ]);

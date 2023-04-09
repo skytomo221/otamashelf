@@ -18,11 +18,14 @@ export interface BookRepository {
 export default class BooksController {
   protected readonly bookRepositories: Map<string, BookRepository> = new Map();
 
-  public regesterBook(bookWithPath: BookWithPath) {
+  public regesterBook(
+    bookWithPath: BookWithPath,
+    bookExtensionMappings?: BookExtensionMappings,
+  ) {
     const { path, ...book } = bookWithPath;
     this.bookRepositories.set(path, {
       plainBookTimeline: new BookTimeline(bookWithPath).plain,
-      bookExtensionMappings: {
+      bookExtensionMappings: bookExtensionMappings ?? {
         bookCreator: '',
         bookUpdater: '',
         bookLoader: '',

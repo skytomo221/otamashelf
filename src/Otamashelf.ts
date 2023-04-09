@@ -1,6 +1,7 @@
 import { EventEmitter } from 'node:events';
 
 import Book from './Book';
+import BooksController from './BooksController';
 import BookLoadersRegistry from './BookLoadersRegistry';
 import BookSaversRegistry from './BookSaversRegistry';
 import BookCreatorsRegistry from './BookCreatorsRegistry';
@@ -21,7 +22,7 @@ function camelize(str: string) {
 export default class Otamashelf extends EventEmitter {
   protected commandsRegistry = new CommandsRegistry();
   protected contextsRegistry = new ContextsRegistry();
-  protected bookshelf: Book[] = [];
+  protected booksController = new BooksController();
 
   protected bookCreatorsRegistry = new BookCreatorsRegistry();
   protected bookLoadersRegistry = new BookLoadersRegistry();
@@ -73,9 +74,7 @@ export default class Otamashelf extends EventEmitter {
       'otamashelf.getContext',
       (name: string) => this.contextsRegistry.get(name),
     );
-    this.commandsRegistry.regesterCommand('otamashelf.pushBook', (book: Book) =>
-      this.bookshelf.push(book),
-    );
+    this.regesterMethodCommands(this.booksController);
     this.regesterMethodCommands(this.bookCreatorsRegistry);
     this.regesterMethodCommands(this.bookLoadersRegistry);
     this.regesterMethodCommands(this.bookSaversRegistry);
