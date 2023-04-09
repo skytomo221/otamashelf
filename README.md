@@ -6,7 +6,7 @@ Otamashelf (o8f) は、Otamajakushi Bookshelf (o20f) の核となるプログラ
 
 ```console
 npm run build
-cp package.json ./dist
+./scripts/copy.sh # Windows では  .\scripts\copy.ps1 を実行
 cd ./dist
 npm publish
 ```
