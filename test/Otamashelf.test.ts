@@ -76,11 +76,61 @@ test('Otamashelf has contextsRegistry commands', () => {
   expect(otamashelf.executeCommand('otamashelf.getContext', 'test')).toEqual(2);
 });
 
-// test('AllPageExplorer instance of PageExplorer', () => {
-//   expect(
-//     new Otamashelf().extensions[0](),
-//   ).toBeInstanceOf(PageExplorer);
-// });
+test('AllPageExplorer instance of PageExplorer', async () => {
+  const otamashelf = new Otamashelf();
+  await otamashelf.executeCommand(
+    'otamashelf.pageCardExploeresRegistry.register',
+    () => new AllPageExplorer(),
+  );
+  expect(
+    await otamashelf.executeCommand(
+      'otamashelf.pageCardExploeresRegistry.get',
+      'all-page-explorer',
+    ),
+  ).toBeInstanceOf(PageExplorer);
+});
+
+test('EndsWithPageExplorer instance of PageExplorer', async () => {
+  const otamashelf = new Otamashelf();
+  await otamashelf.executeCommand(
+    'otamashelf.pageCardExploeresRegistry.register',
+    () => new EndsWithPageExplorer(),
+  );
+  expect(
+    await otamashelf.executeCommand(
+      'otamashelf.pageCardExploeresRegistry.get',
+      'ends-with-page-explorer',
+    ),
+  ).toBeInstanceOf(PageExplorer);
+});
+
+test('StartsWithPageExplorer instance of PageExplorer', async () => {
+  const otamashelf = new Otamashelf();
+  await otamashelf.executeCommand(
+    'otamashelf.pageCardExploeresRegistry.register',
+    () => new StartsWithPageExplorer(),
+  );
+  expect(
+    await otamashelf.executeCommand(
+      'otamashelf.pageCardExploeresRegistry.get',
+      'starts-with-page-explorer',
+    ),
+  ).toBeInstanceOf(PageExplorer);
+});
+
+test('IncludesPageExplorer instance of PageExplorer', async () => {
+  const otamashelf = new Otamashelf();
+  await otamashelf.executeCommand(
+    'otamashelf.pageCardExploeresRegistry.register',
+    () => new IncludesPageExplorer(),
+  );
+  expect(
+    await otamashelf.executeCommand(
+      'otamashelf.pageCardExploeresRegistry.get',
+      'includes-page-explorer',
+    ),
+  ).toBeInstanceOf(PageExplorer);
+});
 
 // test('OtmController instance of BookController', () => {
 //   expect(
