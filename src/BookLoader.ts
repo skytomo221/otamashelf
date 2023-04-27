@@ -26,7 +26,7 @@ export type LoadRejectReturns = {
 export type LoadReturns = LoadResolveReturns | LoadRejectReturns;
 
 export default abstract class BookLoader extends Extension {
-  static properties: BookLoaderProperties;
+  abstract readonly properties: BookLoaderProperties;
 
   abstract load(props: LoadProps): Promise<LoadReturns>;
 }

@@ -1,6 +1,6 @@
-import PageCardUpdater from './PageCardUpdater';
+import PageCardProcessor, { ProcessPageProps, ProcessPageReturns } from './PageCardProcessor';
 
-export type PageCardUpdaterGenerator = () => PageCardUpdater;
+export type PageCardUpdaterGenerator = () => PageCardProcessor;
 
 export default class PageCardUpdatersRegistry {
   protected readonly pageCardUpdaters: Map<string, PageCardUpdaterGenerator> =
@@ -11,9 +11,23 @@ export default class PageCardUpdatersRegistry {
     this.pageCardUpdaters.set(id, pageCardUpdater);
   }
 
-  public get(id: string): PageCardUpdater | undefined {
+  public get(id: string): PageCardProcessor | undefined {
     const pageCardUpdater = this.pageCardUpdaters.get(id);
     if (!pageCardUpdater) return undefined;
     return pageCardUpdater();
+  }
+
+  public updatePage(id: string, props: ProcessPageProps): Promise<ProcessPageReturns> {
+    const pageCardUpdater = this.get(id);
+    if (!pageCardUpdater) {
+      return Promise.resolve({
+        name: 'update-page',
+        status: 'reject',
+        returns: {
+          reason: `PageCardUpdater ${id} not found`,
+        },
+      });
+    }
+    return pageCardUpdater.processPage(props);
   }
 }

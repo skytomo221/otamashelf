@@ -1,0 +1,20 @@
+import BookLoader, { LoadReturns } from '../src/BookLoader';
+import BookLoadersRegistry from '../src/BookLoadersRegistry';
+import OtmLoader from '../src/extensions/OtmLoader';
+
+test('BookLoadersRegistry instance of BookLoader', async () => {
+  const bookLoadersRegistry = new BookLoadersRegistry();
+  bookLoadersRegistry.register(() => new OtmLoader());
+  expect(bookLoadersRegistry.get('otm-loader')).toBeInstanceOf(BookLoader);
+});
+
+test('BookLoadersRegistry return load returns', async () => {
+  const bookLoadersRegistry = new BookLoadersRegistry();
+  bookLoadersRegistry.register(() => new OtmLoader());
+  const result: LoadReturns = await bookLoadersRegistry.load('otm-loader', {
+    name: 'load',
+    path: 'data/sample.json',
+  });
+  expect(result.name).toEqual('load');
+  expect(result.returns).toHaveProperty('book');
+});

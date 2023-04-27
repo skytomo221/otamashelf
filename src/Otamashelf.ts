@@ -6,7 +6,7 @@ import BookLoadersRegistry from './BookLoadersRegistry';
 import BookSaversRegistry from './BookSaversRegistry';
 import BookCreatorsRegistry from './BookCreatorsRegistry';
 import PageCardCreatorsRegistry from './PageCardCreatorsRegistry';
-import PageCardUpdatersRegistry from './pageCardUpdatersRegistry';
+import PageCardUpdatersRegistry from './PageCardUpdatersRegistry';
 import ContextsRegistry, { ContextTypes } from './ContextsRegistry';
 import CommandsRegistry from './CommandsRegistry';
 import PageCardExploeresRegistry from './PageExplorersRegistry';
