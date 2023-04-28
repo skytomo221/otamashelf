@@ -2,7 +2,7 @@ import PageCardProcessor, { ProcessPageProps, ProcessPageReturns } from './PageC
 
 export type PageCardUpdaterGenerator = () => PageCardProcessor;
 
-export default class PageCardUpdatersRegistry {
+export default class PageCardProcessorsRegistry {
   protected readonly pageCardUpdaters: Map<string, PageCardUpdaterGenerator> =
     new Map();
 
