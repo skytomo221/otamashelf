@@ -1,5 +1,5 @@
 import { BookWithPath } from './Book';
-import BookTimeline, { PlainBookTimeline } from './BookTimeline';
+import BookTimeMachine, { PlainBookTimeMachine } from './BookTimeMachine';
 
 export interface BookExtensionMappings {
   bookCreator: string;
@@ -11,7 +11,7 @@ export interface BookExtensionMappings {
 }
 
 export interface BookRepository {
-  plainBookTimeline: PlainBookTimeline;
+  plainBookTimeMachine: PlainBookTimeMachine;
   bookExtensionMappings: BookExtensionMappings;
 }
 
@@ -24,7 +24,7 @@ export default class BooksController {
   ) {
     const { path, ...book } = bookWithPath;
     this.bookRepositories.set(path, {
-      plainBookTimeline: new BookTimeline(bookWithPath).plain,
+      plainBookTimeMachine: new BookTimeMachine(bookWithPath).plain,
       bookExtensionMappings: bookExtensionMappings ?? {
         bookCreator: '',
         bookUpdater: '',
