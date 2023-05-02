@@ -8,8 +8,8 @@ import PageCardCreator, {
 
 export default class OtmPageCardCreator extends PageCardCreator {
   public readonly properties: PageCardCreatorProperties = {
-    name: 'OTM Controller',
-    id: 'otm-controller',
+    name: 'OTM Page Card Creator',
+    id: 'otm-page-card-creator',
     version: '0.1.0',
     type: 'page-card-creator',
     author: 'skytomo221',
@@ -34,12 +34,12 @@ export default class OtmPageCardCreator extends PageCardCreator {
     return id;
   }
 
-  public static nextId(excludes: number[]): string {
+  public static nextId(excludes: number[]): number {
     let id = 1;
     while (excludes.includes(id)) {
       id += 1;
     }
-    return id.toString();
+    return id;
   }
 
   public async create(props: CreateProps): Promise<CreateReturns> {
@@ -50,10 +50,10 @@ export default class OtmPageCardCreator extends PageCardCreator {
       status: 'resolve',
       returns: {
         pageCard: {
-          id: this.constructor().newId(pageCards.map(pageCard => pageCard.id)),
+          id: OtmPageCardCreator.newId(pageCards.map(pageCard => pageCard.id)),
           title: 'Word',
           entry: {
-            id: this.constructor().nextId(
+            id: OtmPageCardCreator.nextId(
               (pageCards as unknown as Word[]).map(
                 pageCard => pageCard.entry.id,
               ),

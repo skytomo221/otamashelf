@@ -6,10 +6,10 @@ import BookSaver, {
   SaveResolveReturns,
   SaveReturns,
 } from '../BookSaver';
-import OtmSaver from '../otm/OtmSaver';
+import BareOtmSaver from '../otm/OtmSaver';
 import { Otm, PlainOtm } from '../otm/Otm';
 
-export default class OtmBookSaver extends BookSaver {
+export default class OtmSaver extends BookSaver {
   public readonly properties: BookSaverProperties = {
     name: 'OTM Saver',
     id: 'otm-saver',
@@ -39,7 +39,7 @@ export default class OtmBookSaver extends BookSaver {
       }),
       ...(configration as object),
     } as unknown as PlainOtm;
-    const saver = new OtmSaver(Otm.fromPlain(otm), path);
+    const saver = new BareOtmSaver(Otm.fromPlain(otm), path);
     return saver
       .asPromise()
       .then(

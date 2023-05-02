@@ -1,4 +1,4 @@
-import PageExplorer from './PageExplorer';
+import PageExplorer, { SearchProps, SearchReturns } from './PageExplorer';
 
 export type PageExplorerGenerator = () => PageExplorer;
 
@@ -14,5 +14,11 @@ export default class PageCardExploeresRegistry {
     const pageExplorer = this.pageExplorers.get(id);
     if (!pageExplorer) return undefined;
     return pageExplorer();
+  }
+
+  public search(id: string, props: SearchProps): Promise<SearchReturns> {
+    const pageExplorer = this.pageExplorers.get(id);
+    if (!pageExplorer) return Promise.reject(new Error('PageExplorer not found.'));
+    return pageExplorer().search(props);
   }
 }

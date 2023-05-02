@@ -25,26 +25,42 @@ test('Otamashelf has commands', () => {
     'otamashelf.bookCreatorsRegistry.constructor',
     'otamashelf.bookCreatorsRegistry.get',
     'otamashelf.bookCreatorsRegistry.register',
+    'otamashelf.bookCreatorsRegistry.templates',
+    'otamashelf.bookIndexersRegistry.constructor',
+    'otamashelf.bookIndexersRegistry.get',
+    'otamashelf.bookIndexersRegistry.readSearchIndexes',
+    'otamashelf.bookIndexersRegistry.readSearchModes',
+    'otamashelf.bookIndexersRegistry.register',
     'otamashelf.bookLoadersRegistry.constructor',
     'otamashelf.bookLoadersRegistry.get',
+    'otamashelf.bookLoadersRegistry.load',
     'otamashelf.bookLoadersRegistry.register',
     'otamashelf.bookSaversRegistry.constructor',
     'otamashelf.bookSaversRegistry.get',
     'otamashelf.bookSaversRegistry.register',
+    'otamashelf.bookSaversRegistry.save',
+    'otamashelf.bookUpdatersRegistry.constructor',
+    'otamashelf.bookUpdatersRegistry.get',
+    'otamashelf.bookUpdatersRegistry.register',
+    'otamashelf.bookUpdatersRegistry.updateBook',
     'otamashelf.booksController.constructor',
     'otamashelf.booksController.getBookRepository',
     'otamashelf.booksController.regesterBook',
     'otamashelf.getCommands',
     'otamashelf.getContext',
     'otamashelf.pageCardCreatorsRegistry.constructor',
+    'otamashelf.pageCardCreatorsRegistry.create',
     'otamashelf.pageCardCreatorsRegistry.get',
     'otamashelf.pageCardCreatorsRegistry.register',
+    'otamashelf.pageCardCreatorsRegistry.templates',
     'otamashelf.pageCardExploeresRegistry.constructor',
     'otamashelf.pageCardExploeresRegistry.get',
     'otamashelf.pageCardExploeresRegistry.register',
-    'otamashelf.pageCardUpdatersRegistry.constructor',
-    'otamashelf.pageCardUpdatersRegistry.get',
-    'otamashelf.pageCardUpdatersRegistry.register',
+    'otamashelf.pageCardExploeresRegistry.search',
+    'otamashelf.pageCardProcessorsRegistry.constructor',
+    'otamashelf.pageCardProcessorsRegistry.get',
+    'otamashelf.pageCardProcessorsRegistry.register',
+    'otamashelf.pageCardProcessorsRegistry.updatePage',
     'otamashelf.regesterCommand',
     'otamashelf.regesterContext',
   ]);
@@ -76,11 +92,106 @@ test('Otamashelf has contextsRegistry commands', () => {
   expect(otamashelf.executeCommand('otamashelf.getContext', 'test')).toEqual(2);
 });
 
-// test('AllPageExplorer instance of PageExplorer', () => {
-//   expect(
-//     new Otamashelf().extensions[0](),
-//   ).toBeInstanceOf(PageExplorer);
-// });
+test('AllPageExplorer instance of PageExplorer', async () => {
+  const otamashelf = new Otamashelf();
+  await otamashelf.executeCommand(
+    'otamashelf.pageCardExploeresRegistry.register',
+    () => new AllPageExplorer(),
+  );
+  expect(
+    await otamashelf.executeCommand(
+      'otamashelf.pageCardExploeresRegistry.get',
+      'all-page-explorer',
+    ),
+  ).toBeInstanceOf(PageExplorer);
+});
+
+test('EndsWithPageExplorer instance of PageExplorer', async () => {
+  const otamashelf = new Otamashelf();
+  await otamashelf.executeCommand(
+    'otamashelf.pageCardExploeresRegistry.register',
+    () => new EndsWithPageExplorer(),
+  );
+  expect(
+    await otamashelf.executeCommand(
+      'otamashelf.pageCardExploeresRegistry.get',
+      'ends-with-page-explorer',
+    ),
+  ).toBeInstanceOf(PageExplorer);
+});
+
+test('StartsWithPageExplorer instance of PageExplorer', async () => {
+  const otamashelf = new Otamashelf();
+  await otamashelf.executeCommand(
+    'otamashelf.pageCardExploeresRegistry.register',
+    () => new StartsWithPageExplorer(),
+  );
+  expect(
+    await otamashelf.executeCommand(
+      'otamashelf.pageCardExploeresRegistry.get',
+      'starts-with-page-explorer',
+    ),
+  ).toBeInstanceOf(PageExplorer);
+});
+
+test('IncludesPageExplorer instance of PageExplorer', async () => {
+  const otamashelf = new Otamashelf();
+  await otamashelf.executeCommand(
+    'otamashelf.pageCardExploeresRegistry.register',
+    () => new IncludesPageExplorer(),
+  );
+  expect(
+    await otamashelf.executeCommand(
+      'otamashelf.pageCardExploeresRegistry.get',
+      'includes-page-explorer',
+    ),
+  ).toBeInstanceOf(PageExplorer);
+});
+
+test('AllPageExplorer return all ids.', async () => {
+  const otamashelf = new Otamashelf();
+  await otamashelf.executeCommand(
+    'otamashelf.pageCardExploeresRegistry.register',
+    () => new AllPageExplorer(),
+  );
+  expect(
+    await otamashelf.executeCommand(
+      'otamashelf.pageCardExploeresRegistry.search',
+      'all-page-explorer',
+      {
+        name: 'search',
+        cards: [
+          {
+            id: '1',
+            targets: [
+              'すべての人間は、生れながらにして自由であり、かつ、尊厳と権利とについて平等である。',
+              '人間は、理性と良心とを授けられており、互いに同胞の精神をもって行動しなければならない。',
+            ],
+          },
+          {
+            id: '3',
+            targets: [
+              'すべて人は、生命、自由及び身体の安全に対する権利を有する。',
+            ],
+          },
+          {
+            id: '4',
+            targets: [
+              '何人も、奴隷にされ、又は苦役に服することはない。奴隷制度及び奴隷売買は、いかなる形においても禁止する。',
+            ],
+          },
+        ],
+        searchWord: 'すべて',
+      },
+    ),
+  ).toEqual({
+    name: 'search',
+    status: 'resolve',
+    returns: {
+      ids: ['1', '3', '4'],
+    },
+  });
+});
 
 // test('OtmController instance of BookController', () => {
 //   expect(

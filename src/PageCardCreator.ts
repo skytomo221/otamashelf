@@ -46,7 +46,7 @@ export type CreateRejectReturns = {
 export type CreateReturns = CreateResolveReturns | CreateRejectReturns;
 
 export default abstract class PageCardCreator extends Extension {
-  static properties: PageCardCreatorProperties;
+  abstract properties: PageCardCreatorProperties;
 
   abstract templates(): Promise<TemplatesReturns>;
 

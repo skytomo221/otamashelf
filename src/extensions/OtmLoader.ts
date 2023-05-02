@@ -6,10 +6,10 @@ import BookLoader, {
 import { PageCard } from '../PageCard';
 import { Word } from '../otm/Word';
 import { BookLoaderProperties } from '../ExtensionProperties';
-import OtmLoader from '../otm/OtmLoader';
+import BareOtmLoader from '../otm/OtmLoader';
 
-export default class OtmBookLoader extends BookLoader {
-  public static properties: BookLoaderProperties = {
+export default class OtmLoader extends BookLoader {
+  public readonly properties: BookLoaderProperties = {
     name: 'OTM Loader',
     id: 'otm-loader',
     version: '0.1.0',
@@ -30,7 +30,7 @@ export default class OtmBookLoader extends BookLoader {
 
   public async load(props: LoadProps): Promise<LoadReturns> {
     const { path } = props;
-    const loader = new OtmLoader(path);
+    const loader = new BareOtmLoader(path);
     return loader
       .asPromise()
       .then((otm): LoadResolveReturns => {
@@ -41,7 +41,7 @@ export default class OtmBookLoader extends BookLoader {
           returns: {
             book: {
               configration,
-              pageCards: words.map(OtmBookLoader.toWordCard),
+              pageCards: words.map(OtmLoader.toWordCard),
             },
           },
         };

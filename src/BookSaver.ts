@@ -24,7 +24,7 @@ export type SaveRejectReturns = {
 export type SaveReturns = SaveResolveReturns | SaveRejectReturns;
 
 export default abstract class BookSaver extends Extension {
-  static properties: BookSaverProperties;
+  abstract properties: BookSaverProperties;
 
   abstract save(props: SaveProps): Promise<SaveReturns>;
 }

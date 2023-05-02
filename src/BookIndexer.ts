@@ -50,7 +50,7 @@ export type SearchIndexesProps = {
 };
 
 export default abstract class BookIndexer extends Extension {
-  static properties: BookIndexerProperties;
+  abstract readonly properties: BookIndexerProperties;
 
   abstract readSearchModes(): Promise<SearchModesReturns>;
 

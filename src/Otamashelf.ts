@@ -1,15 +1,16 @@
 import { EventEmitter } from 'node:events';
 
-import Book from './Book';
 import BooksController from './BooksController';
 import BookLoadersRegistry from './BookLoadersRegistry';
 import BookSaversRegistry from './BookSaversRegistry';
 import BookCreatorsRegistry from './BookCreatorsRegistry';
 import PageCardCreatorsRegistry from './PageCardCreatorsRegistry';
-import PageCardUpdatersRegistry from './pageCardUpdatersRegistry';
+import PageCardProcessorsRegistry from './PageCardProcessorsRegistry';
 import ContextsRegistry, { ContextTypes } from './ContextsRegistry';
 import CommandsRegistry from './CommandsRegistry';
 import PageCardExploeresRegistry from './PageExplorersRegistry';
+import BookIndexersRegistry from './BookIndexersRegistry';
+import BookUpdatersRegistry from './BookUpdatersRegistry';
 
 function camelize(str: string) {
   return str
@@ -25,11 +26,13 @@ export default class Otamashelf extends EventEmitter {
   protected booksController = new BooksController();
 
   protected bookCreatorsRegistry = new BookCreatorsRegistry();
+  protected bookIndexersRegistry = new BookIndexersRegistry();
   protected bookLoadersRegistry = new BookLoadersRegistry();
   protected bookSaversRegistry = new BookSaversRegistry();
+  protected bookUpdatersRegistry = new BookUpdatersRegistry();
   protected pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
+  protected pageCardProcessorsRegistry = new PageCardProcessorsRegistry();
   protected pageCardExploeresRegistry = new PageCardExploeresRegistry();
-  protected pageCardUpdatersRegistry = new PageCardUpdatersRegistry();
 
   private regesterMethodCommands(obj: object) {
     Object.getOwnPropertyNames(obj.constructor.prototype)
@@ -76,11 +79,13 @@ export default class Otamashelf extends EventEmitter {
     );
     this.regesterMethodCommands(this.booksController);
     this.regesterMethodCommands(this.bookCreatorsRegistry);
+    this.regesterMethodCommands(this.bookIndexersRegistry);
     this.regesterMethodCommands(this.bookLoadersRegistry);
     this.regesterMethodCommands(this.bookSaversRegistry);
+    this.regesterMethodCommands(this.bookUpdatersRegistry);
     this.regesterMethodCommands(this.pageCardCreatorsRegistry);
     this.regesterMethodCommands(this.pageCardExploeresRegistry);
-    this.regesterMethodCommands(this.pageCardUpdatersRegistry);
+    this.regesterMethodCommands(this.pageCardProcessorsRegistry);
   }
 
   executeCommand(name: string, ...props: any[]) {
