@@ -1,8 +1,9 @@
 import BookSaver, { SaveProps, SaveReturns } from './BookSaver';
+import Registry from './Registry';
 
 export type BookSaverGenerator = () => BookSaver;
 
-export default class BookSaversRegistry {
+export default class BookSaversRegistry extends Registry {
   protected readonly bookSavers: Map<string, BookSaverGenerator> = new Map();
 
   public register(bookSaver: BookSaverGenerator): void {
@@ -14,6 +15,10 @@ export default class BookSaversRegistry {
     const bookSaver = this.bookSavers.get(id);
     if (!bookSaver) return undefined;
     return bookSaver();
+  }
+
+  keys(): string[] {
+    return Array.from(this.bookSavers.keys());
   }
 
   save(id: string, props: SaveProps): Promise<SaveReturns> {

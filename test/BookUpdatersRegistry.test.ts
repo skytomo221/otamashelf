@@ -8,6 +8,12 @@ test('BookUpdatersRegistry instance of BookUpdater', async () => {
   expect(bookUpdatersRegistry.get('otm-updater')).toBeInstanceOf(BookUpdater);
 });
 
+test('BookUpdatersRegistry return keys', async () => {
+  const bookUpdatersRegistry = new BookUpdatersRegistry();
+  bookUpdatersRegistry.register(() => new OtmUpdater());
+  expect(bookUpdatersRegistry.keys()).toEqual(['otm-updater']);
+});
+
 test('BookUpdatersRegistry return updateBook returns', async () => {
   const bookUpdatersRegistry = new BookUpdatersRegistry();
   bookUpdatersRegistry.register(() => new OtmUpdater());

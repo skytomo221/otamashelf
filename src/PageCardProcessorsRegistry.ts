@@ -1,8 +1,9 @@
 import PageCardProcessor, { ProcessPageProps, ProcessPageReturns } from './PageCardProcessor';
+import Registry from './Registry';
 
 export type PageCardUpdaterGenerator = () => PageCardProcessor;
 
-export default class PageCardProcessorsRegistry {
+export default class PageCardProcessorsRegistry extends Registry {
   protected readonly pageCardUpdaters: Map<string, PageCardUpdaterGenerator> =
     new Map();
 
@@ -15,6 +16,10 @@ export default class PageCardProcessorsRegistry {
     const pageCardUpdater = this.pageCardUpdaters.get(id);
     if (!pageCardUpdater) return undefined;
     return pageCardUpdater();
+  }
+
+  keys(): string[] {
+    return Array.from(this.pageCardUpdaters.keys());
   }
 
   public updatePage(id: string, props: ProcessPageProps): Promise<ProcessPageReturns> {

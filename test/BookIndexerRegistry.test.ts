@@ -7,6 +7,12 @@ test('BookIndexerRegistry instance of BookLoader', async () => {
   expect(bookIndexerRegistry.get('otm-indexer')).toBeInstanceOf(OtmIndexer);
 });
 
+test('BookIndexerRegistry return keys', async () => {
+  const bookIndexerRegistry = new BookIndexersRegistry();
+  bookIndexerRegistry.register(() => new OtmIndexer());
+  expect(bookIndexerRegistry.keys()).toEqual(['otm-indexer']);
+});
+
 test('BookIndexerRegistry return indexes returns', async () => {
   const bookIndexerRegistry = new BookIndexersRegistry();
   bookIndexerRegistry.register(() => new OtmIndexer());
