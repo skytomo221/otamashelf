@@ -1,8 +1,9 @@
 import BookLoader, { LoadProps, LoadReturns } from './BookLoader';
+import Registry from './Registry';
 
 export type BookLoaderGenerator = () => BookLoader;
 
-export default class BookLoadersRegistry {
+export default class BookLoadersRegistry extends Registry {
   protected readonly bookLoaders: Map<string, BookLoaderGenerator> = new Map();
 
   public register(bookLoader: BookLoaderGenerator): void {
@@ -14,6 +15,10 @@ export default class BookLoadersRegistry {
     const bookLoader = this.bookLoaders.get(id);
     if (!bookLoader) return undefined;
     return bookLoader();
+  }
+
+  keys(): string[] {
+    return Array.from(this.bookLoaders.keys());
   }
 
   public load(id: string, props: LoadProps): Promise<LoadReturns> {

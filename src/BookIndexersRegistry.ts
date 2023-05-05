@@ -3,10 +3,11 @@ import BookIndexer, {
   SearchIndexesReturns,
   SearchModesReturns,
 } from './BookIndexer';
+import Registry from './Registry';
 
 export type BookIndexerGenerator = () => BookIndexer;
 
-export default class BookIndexersRegistry {
+export default class BookIndexersRegistry extends Registry {
   protected readonly bookIndexers: Map<string, BookIndexerGenerator> =
     new Map();
 
@@ -19,6 +20,10 @@ export default class BookIndexersRegistry {
     const bookIndexer = this.bookIndexers.get(id);
     if (!bookIndexer) return undefined;
     return bookIndexer();
+  }
+
+  keys(): string[] {
+    return Array.from(this.bookIndexers.keys());
   }
 
   public readSearchModes(id: string): Promise<SearchModesReturns> {

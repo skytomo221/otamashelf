@@ -1,8 +1,9 @@
 import BookCreator, { TemplatesReturns } from './BookCreator';
+import Registry from './Registry';
 
 export type BookCreatorGenerator = () => BookCreator;
 
-export default class BookCreatorsRegistry {
+export default class BookCreatorsRegistry extends Registry {
   protected readonly bookCreators: Map<string, BookCreatorGenerator> =
     new Map();
 
@@ -15,6 +16,10 @@ export default class BookCreatorsRegistry {
     const bookCreator = this.bookCreators.get(id);
     if (!bookCreator) return undefined;
     return bookCreator();
+  }
+
+  keys(): string[] {
+    return Array.from(this.bookCreators.keys());
   }
 
   public templates(id: string): Promise<TemplatesReturns> {

@@ -11,6 +11,12 @@ test('PageCardCreatorsRegistry instance of BookLoader', async () => {
   );
 });
 
+test('BookUpdatersRegistry return keys', async () => {
+  const pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
+  pageCardCreatorsRegistry.register(() => new OtmPageCardCreator());
+  expect(pageCardCreatorsRegistry.keys()).toEqual(['otm-page-card-creator']);
+});
+
 test('PageCardCreatorsRegistry return templates returns', async () => {
   const pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
   pageCardCreatorsRegistry.register(() => new OtmPageCardCreator());

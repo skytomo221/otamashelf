@@ -1,11 +1,11 @@
-import Book, { BookWithPath } from './Book';
+import Book from './Book';
 import { Json } from './Json';
 import { PageCard } from './PageCard';
 
 export interface FirstCommit {
   type: 'first-commit';
   comment: string;
-  bookWithPath: BookWithPath;
+  book: Book;
 }
 
 export interface AddPageCard {
@@ -66,17 +66,23 @@ export default class BookTimeMachine {
   currentRevision: number;
   diffs: BookDiff[];
 
-  constructor(bookWithPath: BookWithPath) {
-    const { path, ...book } = bookWithPath;
+  constructor(book: Book) {
     this.currentBook = book;
     this.currentRevision = 0;
     this.diffs = [
       {
         type: 'first-commit',
         comment: 'Initial commit',
-        bookWithPath,
+        book,
       },
     ];
+  }
+
+  static fromPlain(plain: PlainBookTimeMachine) {
+    const bookTimeMachine = new BookTimeMachine(plain.currentBook);
+    bookTimeMachine.currentRevision = plain.currentRevision;
+    bookTimeMachine.diffs = plain.diffs;
+    return bookTimeMachine;
   }
 
   get plain() {

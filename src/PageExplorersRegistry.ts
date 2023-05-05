@@ -1,8 +1,9 @@
 import PageExplorer, { SearchProps, SearchReturns } from './PageExplorer';
+import Registry from './Registry';
 
 export type PageExplorerGenerator = () => PageExplorer;
 
-export default class PageCardExploeresRegistry {
+export default class PageCardExploeresRegistry extends Registry {
   protected readonly pageExplorers: Map<string, PageExplorerGenerator> = new Map();
 
   public register(pageExplorer: PageExplorerGenerator): void {
@@ -14,6 +15,10 @@ export default class PageCardExploeresRegistry {
     const pageExplorer = this.pageExplorers.get(id);
     if (!pageExplorer) return undefined;
     return pageExplorer();
+  }
+
+  keys(): string[] {
+    return Array.from(this.pageExplorers.keys());
   }
 
   public search(id: string, props: SearchProps): Promise<SearchReturns> {

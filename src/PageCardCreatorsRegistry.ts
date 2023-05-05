@@ -1,8 +1,9 @@
 import PageCardCreator, { CreateProps, CreateReturns, TemplatesReturns } from './PageCardCreator';
+import Registry from './Registry';
 
 export type PageCardCreatorGenerator = () => PageCardCreator;
 
-export default class PageCardCreatorsRegistry {
+export default class PageCardCreatorsRegistry extends Registry {
   protected readonly pageCardCreators: Map<string, PageCardCreatorGenerator> = new Map();
 
   public register(pageCardCreator: PageCardCreatorGenerator): void {
@@ -14,6 +15,10 @@ export default class PageCardCreatorsRegistry {
     const pageCardCreator = this.pageCardCreators.get(id);
     if (!pageCardCreator) return undefined;
     return pageCardCreator();
+  }
+
+  keys(): string[] {
+    return Array.from(this.pageCardCreators.keys());
   }
 
   templates(id: string): Promise<TemplatesReturns> {

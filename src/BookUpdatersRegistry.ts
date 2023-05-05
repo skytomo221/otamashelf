@@ -1,8 +1,9 @@
-import BookUpdater, { UpdateBookProps, UpdateBookReturns } from "./BookUpdater";
+import BookUpdater, { UpdateBookProps, UpdateBookReturns } from './BookUpdater';
+import Registry from './Registry';
 
 export type BookUpdaterGenerator = () => BookUpdater;
 
-export default class BookUpdatersRegistry {
+export default class BookUpdatersRegistry extends Registry {
   protected readonly bookIndexers: Map<string, BookUpdaterGenerator> =
     new Map();
 
@@ -17,7 +18,14 @@ export default class BookUpdatersRegistry {
     return bookUpdater();
   }
 
-  public updateBook(id: string, props: UpdateBookProps): Promise<UpdateBookReturns> {
+  keys(): string[] {
+    return Array.from(this.bookIndexers.keys());
+  }
+
+  public updateBook(
+    id: string,
+    props: UpdateBookProps,
+  ): Promise<UpdateBookReturns> {
     const bookLoader = this.bookIndexers.get(id);
     if (!bookLoader) return Promise.reject(new Error('BookLoader not found.'));
     return bookLoader().updateBook(props);

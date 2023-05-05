@@ -8,6 +8,12 @@ test('BookCreatorsRegistry instance of BookLoader', async () => {
   expect(bookCreatorsRegistry.get('otm-creator')).toBeInstanceOf(BookCreator);
 });
 
+test('BookCreatorsRegistry return keys', async () => {
+  const bookCreatorsRegistry = new BookCreatorsRegistry();
+  bookCreatorsRegistry.register(() => new OtmCreator());
+  expect(bookCreatorsRegistry.keys()).toEqual(['otm-creator']);
+});
+
 test('BookCreatorsRegistry return templates returns', async () => {
   const bookCreatorsRegistry = new BookCreatorsRegistry();
   bookCreatorsRegistry.register(() => new OtmCreator());

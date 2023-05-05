@@ -8,6 +8,12 @@ test('BookLoadersRegistry instance of BookLoader', async () => {
   expect(bookLoadersRegistry.get('otm-loader')).toBeInstanceOf(BookLoader);
 });
 
+test('BookLoadersRegistry return keys', async () => {
+  const bookLoadersRegistry = new BookLoadersRegistry();
+  bookLoadersRegistry.register(() => new OtmLoader());
+  expect(bookLoadersRegistry.keys()).toEqual(['otm-loader']);
+});
+
 test('BookLoadersRegistry return load returns', async () => {
   const bookLoadersRegistry = new BookLoadersRegistry();
   bookLoadersRegistry.register(() => new OtmLoader());
