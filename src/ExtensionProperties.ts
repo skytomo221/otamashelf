@@ -34,6 +34,7 @@ export interface BookCreatorProperties {
   version: string;
   author: string;
   type: 'book-creator';
+  format: 'file' | 'directory';
   bookFormat: string[];
 }
 

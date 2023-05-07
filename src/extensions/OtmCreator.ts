@@ -7,6 +7,7 @@ export default class OtmCreator extends BookCreator {
     id: 'otm-creator',
     version: '0.1.0',
     type: 'book-creator',
+    format: 'file',
     author: 'skytomo221',
     bookFormat: ['otm'],
   };
