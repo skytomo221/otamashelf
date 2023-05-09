@@ -8,6 +8,7 @@ export default class OtmCreator extends BookCreator {
     version: '0.1.0',
     type: 'book-creator',
     format: 'file',
+    filters: [{ name: 'OTM-JSON', extensions: ['json'] }],
     author: 'skytomo221',
     bookFormat: ['otm'],
   };
