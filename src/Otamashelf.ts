@@ -21,18 +21,18 @@ function camelize(str: string) {
 }
 
 export default class Otamashelf extends EventEmitter {
-  protected commandsRegistry = new CommandsRegistry();
-  protected contextsRegistry = new ContextsRegistry();
-  protected booksController = new BooksController();
+  readonly commandsRegistry = new CommandsRegistry();
+  readonly contextsRegistry = new ContextsRegistry();
+  readonly booksController = new BooksController();
 
-  protected bookCreatorsRegistry = new BookCreatorsRegistry();
-  protected bookIndexersRegistry = new BookIndexersRegistry();
-  protected bookLoadersRegistry = new BookLoadersRegistry();
-  protected bookSaversRegistry = new BookSaversRegistry();
-  protected bookUpdatersRegistry = new BookUpdatersRegistry();
-  protected pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
-  protected pageCardProcessorsRegistry = new PageCardProcessorsRegistry();
-  protected pageCardExploeresRegistry = new PageCardExploeresRegistry();
+  readonly bookCreatorsRegistry = new BookCreatorsRegistry();
+  readonly bookIndexersRegistry = new BookIndexersRegistry();
+  readonly bookLoadersRegistry = new BookLoadersRegistry();
+  readonly bookSaversRegistry = new BookSaversRegistry();
+  readonly bookUpdatersRegistry = new BookUpdatersRegistry();
+  readonly pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
+  readonly pageCardProcessorsRegistry = new PageCardProcessorsRegistry();
+  readonly pageCardExploeresRegistry = new PageCardExploeresRegistry();
 
   private regesterMethodCommands(obj: object) {
     Object.getOwnPropertyNames(obj.constructor.prototype)
