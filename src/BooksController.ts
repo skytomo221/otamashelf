@@ -95,4 +95,15 @@ export default class BooksController {
     bookTimeMachine.commitConfigration(configration, comment);
     bookRepository.plainBookTimeMachine = bookTimeMachine.plain;
   }
+
+  removePageCard(id: string, pageCard: PageCard, comment: string) {
+    const bookRepository = this.bookRepositories.get(id);
+    if (!bookRepository) {
+      throw new Error(`BookRepository not found: ${id}`);
+    }
+    const { plainBookTimeMachine } = bookRepository;
+    const bookTimeMachine = BookTimeMachine.fromPlain(plainBookTimeMachine);
+    bookTimeMachine.removePageCard(pageCard, comment);
+    bookRepository.plainBookTimeMachine = bookTimeMachine.plain;
+  }
 }

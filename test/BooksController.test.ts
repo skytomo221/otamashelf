@@ -95,4 +95,24 @@ describe('booksController', () => {
       });
     });
   });
+  describe('removePageCard', () => {
+    it('removes page card', () => {
+      const booksController = new BooksController();
+      booksController.regesterBook({ path, pageCards, configration });
+      booksController.commitPageCard(
+        path,
+        samplePageCard,
+        'Add test page card',
+      );
+      booksController.removePageCard(
+        path,
+        samplePageCard,
+        'Remove test page card',
+      );
+      expect(booksController.currentBook(path)).toEqual({
+        pageCards: [],
+        configration,
+      });
+    });
+  });
 });

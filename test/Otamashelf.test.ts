@@ -55,6 +55,7 @@ test('Otamashelf has commands', () => {
     'otamashelf.booksController.forwardRevision',
     'otamashelf.booksController.getBookRepository',
     'otamashelf.booksController.regesterBook',
+    'otamashelf.booksController.removePageCard',
     'otamashelf.booksController.revertRevision',
     'otamashelf.getCommands',
     'otamashelf.getContext',
