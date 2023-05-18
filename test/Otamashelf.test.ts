@@ -66,6 +66,7 @@ test('Otamashelf has commands', () => {
     'otamashelf.pageCardCreatorsRegistry.register',
     'otamashelf.pageCardCreatorsRegistry.templates',
     'otamashelf.pageCardExploeresRegistry.constructor',
+    'otamashelf.pageCardExploeresRegistry.filter',
     'otamashelf.pageCardExploeresRegistry.get',
     'otamashelf.pageCardExploeresRegistry.keys',
     'otamashelf.pageCardExploeresRegistry.register',

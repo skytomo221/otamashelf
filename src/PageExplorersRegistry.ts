@@ -1,3 +1,4 @@
+import { PageExplorerProperties } from './ExtensionProperties';
 import PageExplorer, { SearchProps, SearchReturns } from './PageExplorer';
 import Registry from './Registry';
 
@@ -19,6 +20,10 @@ export default class PageCardExploeresRegistry extends Registry {
 
   keys(): string[] {
     return Array.from(this.pageExplorers.keys());
+  }
+
+  filter(predicate: (properties: PageExplorerProperties) => boolean): string[] {
+    return this.keys().filter((id) => predicate(this.get(id)!.properties));
   }
 
   public search(id: string, props: SearchProps): Promise<SearchReturns> {
