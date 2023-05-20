@@ -1,4 +1,5 @@
 import BookUpdater, { UpdateBookProps, UpdateBookReturns } from './BookUpdater';
+import { BookUpdaterProperties } from './ExtensionProperties';
 import Registry from './Registry';
 
 export type BookUpdaterGenerator = () => BookUpdater;
@@ -20,6 +21,10 @@ export default class BookUpdatersRegistry extends Registry {
 
   keys(): string[] {
     return Array.from(this.bookIndexers.keys());
+  }
+
+  filterKeys(predicate: (properties: BookUpdaterProperties) => boolean): string[] {
+    return this.keys().filter((id) => predicate(this.get(id)!.properties));
   }
 
   public updateBook(

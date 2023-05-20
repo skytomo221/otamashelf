@@ -13,6 +13,16 @@ test('BookIndexerRegistry return keys', async () => {
   expect(bookIndexerRegistry.keys()).toEqual(['otm-indexer']);
 });
 
+test('BookIndexerRegistry filters keys', async () => {
+  const bookIndexerRegistry = new BookIndexersRegistry();
+  bookIndexerRegistry.register(() => new OtmIndexer());
+  expect(
+    bookIndexerRegistry.filterKeys(
+      properties => properties.id === 'otm-indexer',
+    ),
+  ).toStrictEqual(['otm-indexer']);
+});
+
 test('BookIndexerRegistry return indexes returns', async () => {
   const bookIndexerRegistry = new BookIndexersRegistry();
   bookIndexerRegistry.register(() => new OtmIndexer());

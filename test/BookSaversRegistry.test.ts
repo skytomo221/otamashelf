@@ -13,6 +13,16 @@ test('BookSaversRegistry return keys', async () => {
   expect(bookSaversRegistry.keys()).toEqual(['otm-saver']);
 });
 
+test('BookUpdatersRegistry filters keys', async () => {
+  const bookSaversRegistry = new BookSaversRegistry();
+  bookSaversRegistry.register(() => new OtmSaver());
+  expect(
+    bookSaversRegistry.filterKeys(
+      properties => properties.id === 'otm-saver',
+    ),
+  ).toStrictEqual(['otm-saver']);
+});
+
 test('BookSaversRegistry return save returns', async () => {
   const bookSaversRegistry = new BookSaversRegistry();
   bookSaversRegistry.register(() => new OtmSaver());

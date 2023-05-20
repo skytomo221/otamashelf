@@ -22,7 +22,7 @@ export default class PageCardExploeresRegistry extends Registry {
     return Array.from(this.pageExplorers.keys());
   }
 
-  filter(predicate: (properties: PageExplorerProperties) => boolean): string[] {
+  filterKeys(predicate: (properties: PageExplorerProperties) => boolean): string[] {
     return this.keys().filter((id) => predicate(this.get(id)!.properties));
   }
 

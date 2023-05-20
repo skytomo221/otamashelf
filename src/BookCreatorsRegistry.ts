@@ -1,4 +1,5 @@
 import BookCreator, { TemplatesReturns } from './BookCreator';
+import { BookCreatorProperties } from './ExtensionProperties';
 import Registry from './Registry';
 
 export type BookCreatorGenerator = () => BookCreator;
@@ -20,6 +21,10 @@ export default class BookCreatorsRegistry extends Registry {
 
   keys(): string[] {
     return Array.from(this.bookCreators.keys());
+  }
+
+  filterKeys(predicate: (properties: BookCreatorProperties) => boolean): string[] {
+    return this.keys().filter((id) => predicate(this.get(id)!.properties));
   }
 
   public templates(id: string): Promise<TemplatesReturns> {

@@ -14,6 +14,16 @@ test('BookCreatorsRegistry return keys', async () => {
   expect(bookCreatorsRegistry.keys()).toEqual(['otm-creator']);
 });
 
+test('BookCreatorsRegistry filters keys', async () => {
+  const bookIndexerRegistry = new BookCreatorsRegistry();
+  bookIndexerRegistry.register(() => new OtmCreator());
+  expect(
+    bookIndexerRegistry.filterKeys(
+      properties => properties.id === 'otm-creator',
+    ),
+  ).toStrictEqual(['otm-creator']);
+});
+
 test('BookCreatorsRegistry return templates returns', async () => {
   const bookCreatorsRegistry = new BookCreatorsRegistry();
   bookCreatorsRegistry.register(() => new OtmCreator());

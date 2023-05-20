@@ -1,4 +1,5 @@
 import BookSaver, { SaveProps, SaveReturns } from './BookSaver';
+import { BookSaverProperties } from './ExtensionProperties';
 import Registry from './Registry';
 
 export type BookSaverGenerator = () => BookSaver;
@@ -19,6 +20,10 @@ export default class BookSaversRegistry extends Registry {
 
   keys(): string[] {
     return Array.from(this.bookSavers.keys());
+  }
+
+  filterKeys(predicate: (properties: BookSaverProperties) => boolean): string[] {
+    return this.keys().filter((id) => predicate(this.get(id)!.properties));
   }
 
   save(id: string, props: SaveProps): Promise<SaveReturns> {

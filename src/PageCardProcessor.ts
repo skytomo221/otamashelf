@@ -28,7 +28,7 @@ export type ProcessPageReturns =
   | ProcessPageRejectReturns;
 
 export default abstract class PageCardProcessor extends Extension {
-  static properties: PageCardProcessorProperties;
+  abstract readonly properties: PageCardProcessorProperties;
 
   abstract processPage(props: ProcessPageProps): Promise<ProcessPageReturns>;
 }

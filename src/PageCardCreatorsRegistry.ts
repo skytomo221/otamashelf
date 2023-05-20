@@ -1,3 +1,4 @@
+import { PageCardCreatorProperties } from './ExtensionProperties';
 import PageCardCreator, { CreateProps, CreateReturns, TemplatesReturns } from './PageCardCreator';
 import Registry from './Registry';
 
@@ -19,6 +20,10 @@ export default class PageCardCreatorsRegistry extends Registry {
 
   keys(): string[] {
     return Array.from(this.pageCardCreators.keys());
+  }
+
+  filterKeys(predicate: (properties: PageCardCreatorProperties) => boolean): string[] {
+    return this.keys().filter((id) => predicate(this.get(id)!.properties));
   }
 
   templates(id: string): Promise<TemplatesReturns> {

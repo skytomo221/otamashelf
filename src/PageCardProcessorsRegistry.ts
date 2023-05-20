@@ -1,3 +1,4 @@
+import { PageCardProcessorProperties } from './ExtensionProperties';
 import PageCardProcessor, { ProcessPageProps, ProcessPageReturns } from './PageCardProcessor';
 import Registry from './Registry';
 
@@ -20,6 +21,10 @@ export default class PageCardProcessorsRegistry extends Registry {
 
   keys(): string[] {
     return Array.from(this.pageCardUpdaters.keys());
+  }
+
+  filterKeys(predicate: (properties: PageCardProcessorProperties) => boolean): string[] {
+    return this.keys().filter((id) => predicate(this.get(id)!.properties));
   }
 
   public updatePage(id: string, props: ProcessPageProps): Promise<ProcessPageReturns> {

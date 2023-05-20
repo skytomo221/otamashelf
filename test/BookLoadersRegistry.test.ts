@@ -14,6 +14,16 @@ test('BookLoadersRegistry return keys', async () => {
   expect(bookLoadersRegistry.keys()).toEqual(['otm-loader']);
 });
 
+test('BookLoadersRegistry filters keys', async () => {
+  const bookLoadersRegistry = new BookLoadersRegistry();
+  bookLoadersRegistry.register(() => new OtmLoader());
+  expect(
+    bookLoadersRegistry.filterKeys(
+      properties => properties.id === 'otm-loader',
+    ),
+  ).toStrictEqual(['otm-loader']);
+});
+
 test('BookLoadersRegistry return load returns', async () => {
   const bookLoadersRegistry = new BookLoadersRegistry();
   bookLoadersRegistry.register(() => new OtmLoader());

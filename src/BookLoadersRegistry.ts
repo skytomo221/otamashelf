@@ -1,4 +1,5 @@
 import BookLoader, { LoadProps, LoadReturns } from './BookLoader';
+import { BookLoaderProperties } from './ExtensionProperties';
 import Registry from './Registry';
 
 export type BookLoaderGenerator = () => BookLoader;
@@ -19,6 +20,10 @@ export default class BookLoadersRegistry extends Registry {
 
   keys(): string[] {
     return Array.from(this.bookLoaders.keys());
+  }
+
+  filterKeys(predicate: (properties: BookLoaderProperties) => boolean): string[] {
+    return this.keys().filter((id) => predicate(this.get(id)!.properties));
   }
 
   public load(id: string, props: LoadProps): Promise<LoadReturns> {

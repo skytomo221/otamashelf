@@ -3,6 +3,7 @@ import BookIndexer, {
   SearchIndexesReturns,
   SearchModesReturns,
 } from './BookIndexer';
+import { BookIndexerProperties } from './ExtensionProperties';
 import Registry from './Registry';
 
 export type BookIndexerGenerator = () => BookIndexer;
@@ -24,6 +25,10 @@ export default class BookIndexersRegistry extends Registry {
 
   keys(): string[] {
     return Array.from(this.bookIndexers.keys());
+  }
+
+  filterKeys(predicate: (properties: BookIndexerProperties) => boolean): string[] {
+    return this.keys().filter((id) => predicate(this.get(id)!.properties));
   }
 
   public readSearchModes(id: string): Promise<SearchModesReturns> {

@@ -31,6 +31,16 @@ test('PageCardCreatorsRegistry return templates returns', async () => {
   });
 });
 
+test('PageCardCreatorsRegistry filters keys', async () => {
+  const pageExplorersRegistry = new PageCardCreatorsRegistry();
+  pageExplorersRegistry.register(() => new OtmPageCardCreator());
+  expect(
+    pageExplorersRegistry.filterKeys(
+      properties => properties.id === 'otm-page-card-creator',
+    ),
+  ).toStrictEqual(['otm-page-card-creator']);
+});
+
 test('PageCardCreatorsRegistry return create returns', async () => {
   const pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
   pageCardCreatorsRegistry.register(() => new OtmPageCardCreator());

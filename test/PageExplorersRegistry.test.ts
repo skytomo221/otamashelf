@@ -18,17 +18,17 @@ test('PageCardExploeresRegistry return keys', async () => {
   ]);
 });
 
-test('PageCardExploeresRegistry return filter returns', async () => {
+test('PageCardExploeresRegistry filters keys', async () => {
   const pageExplorersRegistry = new PageExplorersRegistry();
   pageExplorersRegistry.register(() => new StartsWithPageExplorer());
   expect(
-    pageExplorersRegistry.filter(
+    pageExplorersRegistry.filterKeys(
       properties => properties.id === 'starts-with-page-explorer',
     ),
   ).toStrictEqual(['starts-with-page-explorer']);
 });
 
-test('PageCardExploeresRegistry return filter returns', async () => {
+test('PageCardExploeresRegistry return search returns', async () => {
   const pageExplorersRegistry = new PageExplorersRegistry();
   pageExplorersRegistry.register(() => new StartsWithPageExplorer());
   expect(
