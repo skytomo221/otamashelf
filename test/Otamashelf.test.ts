@@ -23,34 +23,34 @@ test('Otamashelf has commands', () => {
     'log.warning',
     'noop',
     'otamashelf.bookCreatorsRegistry.constructor',
-    'otamashelf.bookCreatorsRegistry.filterKeys',
     'otamashelf.bookCreatorsRegistry.get',
     'otamashelf.bookCreatorsRegistry.keys',
+    'otamashelf.bookCreatorsRegistry.properties',
     'otamashelf.bookCreatorsRegistry.register',
     'otamashelf.bookCreatorsRegistry.templates',
     'otamashelf.bookIndexersRegistry.constructor',
-    'otamashelf.bookIndexersRegistry.filterKeys',
     'otamashelf.bookIndexersRegistry.get',
     'otamashelf.bookIndexersRegistry.keys',
+    'otamashelf.bookIndexersRegistry.properties',
     'otamashelf.bookIndexersRegistry.readSearchIndexes',
     'otamashelf.bookIndexersRegistry.readSearchModes',
     'otamashelf.bookIndexersRegistry.register',
     'otamashelf.bookLoadersRegistry.constructor',
-    'otamashelf.bookLoadersRegistry.filterKeys',
     'otamashelf.bookLoadersRegistry.get',
     'otamashelf.bookLoadersRegistry.keys',
     'otamashelf.bookLoadersRegistry.load',
+    'otamashelf.bookLoadersRegistry.properties',
     'otamashelf.bookLoadersRegistry.register',
     'otamashelf.bookSaversRegistry.constructor',
-    'otamashelf.bookSaversRegistry.filterKeys',
     'otamashelf.bookSaversRegistry.get',
     'otamashelf.bookSaversRegistry.keys',
+    'otamashelf.bookSaversRegistry.properties',
     'otamashelf.bookSaversRegistry.register',
     'otamashelf.bookSaversRegistry.save',
     'otamashelf.bookUpdatersRegistry.constructor',
-    'otamashelf.bookUpdatersRegistry.filterKeys',
     'otamashelf.bookUpdatersRegistry.get',
     'otamashelf.bookUpdatersRegistry.keys',
+    'otamashelf.bookUpdatersRegistry.properties',
     'otamashelf.bookUpdatersRegistry.register',
     'otamashelf.bookUpdatersRegistry.updateBook',
     'otamashelf.booksController.commitConfigration',
@@ -66,21 +66,21 @@ test('Otamashelf has commands', () => {
     'otamashelf.getContext',
     'otamashelf.pageCardCreatorsRegistry.constructor',
     'otamashelf.pageCardCreatorsRegistry.create',
-    'otamashelf.pageCardCreatorsRegistry.filterKeys',
     'otamashelf.pageCardCreatorsRegistry.get',
     'otamashelf.pageCardCreatorsRegistry.keys',
+    'otamashelf.pageCardCreatorsRegistry.properties',
     'otamashelf.pageCardCreatorsRegistry.register',
     'otamashelf.pageCardCreatorsRegistry.templates',
     'otamashelf.pageCardExploeresRegistry.constructor',
-    'otamashelf.pageCardExploeresRegistry.filterKeys',
     'otamashelf.pageCardExploeresRegistry.get',
     'otamashelf.pageCardExploeresRegistry.keys',
+    'otamashelf.pageCardExploeresRegistry.properties',
     'otamashelf.pageCardExploeresRegistry.register',
     'otamashelf.pageCardExploeresRegistry.search',
     'otamashelf.pageCardProcessorsRegistry.constructor',
-    'otamashelf.pageCardProcessorsRegistry.filterKeys',
     'otamashelf.pageCardProcessorsRegistry.get',
     'otamashelf.pageCardProcessorsRegistry.keys',
+    'otamashelf.pageCardProcessorsRegistry.properties',
     'otamashelf.pageCardProcessorsRegistry.register',
     'otamashelf.pageCardProcessorsRegistry.updatePage',
     'otamashelf.regesterCommand',
@@ -118,7 +118,7 @@ test('AllPageExplorer instance of PageExplorer', async () => {
   const otamashelf = new Otamashelf();
   await otamashelf.executeCommand(
     'otamashelf.pageCardExploeresRegistry.register',
-    () => new AllPageExplorer(),
+    new AllPageExplorer(),
   );
   expect(
     await otamashelf.executeCommand(
@@ -132,7 +132,7 @@ test('EndsWithPageExplorer instance of PageExplorer', async () => {
   const otamashelf = new Otamashelf();
   await otamashelf.executeCommand(
     'otamashelf.pageCardExploeresRegistry.register',
-    () => new EndsWithPageExplorer(),
+    new EndsWithPageExplorer(),
   );
   expect(
     await otamashelf.executeCommand(
@@ -146,7 +146,7 @@ test('StartsWithPageExplorer instance of PageExplorer', async () => {
   const otamashelf = new Otamashelf();
   await otamashelf.executeCommand(
     'otamashelf.pageCardExploeresRegistry.register',
-    () => new StartsWithPageExplorer(),
+    new StartsWithPageExplorer(),
   );
   expect(
     await otamashelf.executeCommand(
@@ -160,7 +160,7 @@ test('IncludesPageExplorer instance of PageExplorer', async () => {
   const otamashelf = new Otamashelf();
   await otamashelf.executeCommand(
     'otamashelf.pageCardExploeresRegistry.register',
-    () => new IncludesPageExplorer(),
+    new IncludesPageExplorer(),
   );
   expect(
     await otamashelf.executeCommand(
@@ -174,7 +174,7 @@ test('AllPageExplorer return all ids.', async () => {
   const otamashelf = new Otamashelf();
   await otamashelf.executeCommand(
     'otamashelf.pageCardExploeresRegistry.register',
-    () => new AllPageExplorer(),
+    new AllPageExplorer(),
   );
   expect(
     await otamashelf.executeCommand(

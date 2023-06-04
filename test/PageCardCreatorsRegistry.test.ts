@@ -5,7 +5,7 @@ import { PageCard } from '../src/PageCard';
 
 test('PageCardCreatorsRegistry instance of BookLoader', async () => {
   const pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
-  pageCardCreatorsRegistry.register(() => new OtmPageCardCreator());
+  pageCardCreatorsRegistry.register(new OtmPageCardCreator());
   expect(pageCardCreatorsRegistry.get('otm-page-card-creator')).toBeInstanceOf(
     PageCardCreator,
   );
@@ -13,13 +13,13 @@ test('PageCardCreatorsRegistry instance of BookLoader', async () => {
 
 test('BookUpdatersRegistry return keys', async () => {
   const pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
-  pageCardCreatorsRegistry.register(() => new OtmPageCardCreator());
-  expect(pageCardCreatorsRegistry.keys()).toEqual(['otm-page-card-creator']);
+  pageCardCreatorsRegistry.register(new OtmPageCardCreator());
+  expect(Array.from(pageCardCreatorsRegistry.keys())).toEqual(['otm-page-card-creator']);
 });
 
 test('PageCardCreatorsRegistry return templates returns', async () => {
   const pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
-  pageCardCreatorsRegistry.register(() => new OtmPageCardCreator());
+  pageCardCreatorsRegistry.register(new OtmPageCardCreator());
   expect(
     await pageCardCreatorsRegistry.templates('otm-page-card-creator'),
   ).toEqual({
@@ -31,19 +31,9 @@ test('PageCardCreatorsRegistry return templates returns', async () => {
   });
 });
 
-test('PageCardCreatorsRegistry filters keys', async () => {
-  const pageExplorersRegistry = new PageCardCreatorsRegistry();
-  pageExplorersRegistry.register(() => new OtmPageCardCreator());
-  expect(
-    pageExplorersRegistry.filterKeys(
-      properties => properties.id === 'otm-page-card-creator',
-    ),
-  ).toStrictEqual(['otm-page-card-creator']);
-});
-
 test('PageCardCreatorsRegistry return create returns', async () => {
   const pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
-  pageCardCreatorsRegistry.register(() => new OtmPageCardCreator());
+  pageCardCreatorsRegistry.register(new OtmPageCardCreator());
   const result = await pageCardCreatorsRegistry.create(
     'otm-page-card-creator',
     {

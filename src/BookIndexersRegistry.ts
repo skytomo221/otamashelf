@@ -6,43 +6,26 @@ import BookIndexer, {
 import { BookIndexerProperties } from './ExtensionProperties';
 import Registry from './Registry';
 
-export type BookIndexerGenerator = () => BookIndexer;
-
-export default class BookIndexersRegistry extends Registry {
-  protected readonly bookIndexers: Map<string, BookIndexerGenerator> =
-    new Map();
-
-  public register(bookLoader: BookIndexerGenerator): void {
-    const { id } = bookLoader().properties;
-    this.bookIndexers.set(id, bookLoader);
+export default class BookIndexersRegistry<
+  K extends string,
+  V extends BookIndexer,
+> extends Registry<K, V> {
+  properties(): IterableIterator<BookIndexerProperties> {
+    return super.properties() as IterableIterator<BookIndexerProperties>;
   }
 
-  public get(id: string): BookIndexer | undefined {
-    const bookIndexer = this.bookIndexers.get(id);
-    if (!bookIndexer) return undefined;
-    return bookIndexer();
-  }
-
-  keys(): string[] {
-    return Array.from(this.bookIndexers.keys());
-  }
-
-  filterKeys(predicate: (properties: BookIndexerProperties) => boolean): string[] {
-    return this.keys().filter((id) => predicate(this.get(id)!.properties));
-  }
-
-  public readSearchModes(id: string): Promise<SearchModesReturns> {
-    const bookLoader = this.bookIndexers.get(id);
-    if (!bookLoader) return Promise.reject(new Error('BookLoader not found.'));
-    return bookLoader().readSearchModes();
+  public readSearchModes(id: K): Promise<SearchModesReturns> {
+    const v = this.get(id);
+    if (!v) return Promise.reject(new Error('BookIndexer not found.'));
+    return v.readSearchModes();
   }
 
   public readSearchIndexes(
-    id: string,
+    id: K,
     props: SearchIndexesProps,
   ): Promise<SearchIndexesReturns> {
-    const bookLoader = this.bookIndexers.get(id);
-    if (!bookLoader) return Promise.reject(new Error('BookLoader not found.'));
-    return bookLoader().readSearchIndexes(props);
+    const v = this.get(id);
+    if (!v) return Promise.reject(new Error('BookIndexer not found.'));
+    return v.readSearchIndexes(props);
   }
 }

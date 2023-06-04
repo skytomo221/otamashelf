@@ -11,6 +11,8 @@ import CommandsRegistry from './CommandsRegistry';
 import PageCardExploeresRegistry from './PageExplorersRegistry';
 import BookIndexersRegistry from './BookIndexersRegistry';
 import BookUpdatersRegistry from './BookUpdatersRegistry';
+import Registry from './Registry';
+import Extension from './Extension';
 
 function camelize(str: string) {
   return str
@@ -45,6 +47,25 @@ export default class Otamashelf extends EventEmitter {
           (...props: any[]) => obj[item](...props),
         );
       });
+  }
+
+  private regesterRegistryMethodCommands(obj: Registry<string, Extension>) {
+    this.commandsRegistry.regesterCommand(
+      `otamashelf.${camelize(obj.constructor.name)}.get`,
+      (key: string) => obj.get(key),
+    );
+    this.commandsRegistry.regesterCommand(
+      `otamashelf.${camelize(obj.constructor.name)}.keys`,
+      () => obj.keys(),
+    );
+    this.commandsRegistry.regesterCommand(
+      `otamashelf.${camelize(obj.constructor.name)}.register`,
+      (value: Extension) => obj.register(value),
+    );
+    this.commandsRegistry.regesterCommand(
+      `otamashelf.${camelize(obj.constructor.name)}.properties`,
+      () => obj.properties(),
+    );
   }
 
   constructor() {
@@ -86,6 +107,14 @@ export default class Otamashelf extends EventEmitter {
     this.regesterMethodCommands(this.pageCardCreatorsRegistry);
     this.regesterMethodCommands(this.pageCardExploeresRegistry);
     this.regesterMethodCommands(this.pageCardProcessorsRegistry);
+    this.regesterRegistryMethodCommands(this.bookCreatorsRegistry);
+    this.regesterRegistryMethodCommands(this.bookIndexersRegistry);
+    this.regesterRegistryMethodCommands(this.bookLoadersRegistry);
+    this.regesterRegistryMethodCommands(this.bookSaversRegistry);
+    this.regesterRegistryMethodCommands(this.bookUpdatersRegistry);
+    this.regesterRegistryMethodCommands(this.pageCardCreatorsRegistry);
+    this.regesterRegistryMethodCommands(this.pageCardExploeresRegistry);
+    this.regesterRegistryMethodCommands(this.pageCardProcessorsRegistry);
   }
 
   executeCommand(name: string, ...props: any[]) {

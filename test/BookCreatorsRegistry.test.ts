@@ -4,29 +4,19 @@ import OtmCreator from '../src/extensions/OtmCreator';
 
 test('BookCreatorsRegistry instance of BookLoader', async () => {
   const bookCreatorsRegistry = new BookCreatorsRegistry();
-  bookCreatorsRegistry.register(() => new OtmCreator());
+  bookCreatorsRegistry.register(new OtmCreator());
   expect(bookCreatorsRegistry.get('otm-creator')).toBeInstanceOf(BookCreator);
 });
 
 test('BookCreatorsRegistry return keys', async () => {
   const bookCreatorsRegistry = new BookCreatorsRegistry();
-  bookCreatorsRegistry.register(() => new OtmCreator());
-  expect(bookCreatorsRegistry.keys()).toEqual(['otm-creator']);
-});
-
-test('BookCreatorsRegistry filters keys', async () => {
-  const bookIndexerRegistry = new BookCreatorsRegistry();
-  bookIndexerRegistry.register(() => new OtmCreator());
-  expect(
-    bookIndexerRegistry.filterKeys(
-      properties => properties.id === 'otm-creator',
-    ),
-  ).toStrictEqual(['otm-creator']);
+  bookCreatorsRegistry.register(new OtmCreator());
+  expect(Array.from(bookCreatorsRegistry.keys())).toEqual(['otm-creator']);
 });
 
 test('BookCreatorsRegistry return templates returns', async () => {
   const bookCreatorsRegistry = new BookCreatorsRegistry();
-  bookCreatorsRegistry.register(() => new OtmCreator());
+  bookCreatorsRegistry.register(new OtmCreator());
   expect(await bookCreatorsRegistry.templates('otm-creator')).toEqual({
     name: 'templates',
     status: 'resolve',

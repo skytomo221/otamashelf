@@ -1,39 +1,32 @@
+import BookSaver from '../src/BookSaver';
 import BookSaversRegistry from '../src/BookSaversRegistry';
 import OtmSaver from '../src/extensions/OtmSaver';
 
 test('BookSaversRegistry instance of BookLoader', async () => {
   const bookSaversRegistry = new BookSaversRegistry();
-  bookSaversRegistry.register(() => new OtmSaver());
-  expect(bookSaversRegistry.get('otm-saver')).toBeInstanceOf(OtmSaver);
+  bookSaversRegistry.register(new OtmSaver());
+  expect(bookSaversRegistry.get('otm-saver')).toBeInstanceOf(BookSaver);
 });
 
 test('BookSaversRegistry return keys', async () => {
   const bookSaversRegistry = new BookSaversRegistry();
-  bookSaversRegistry.register(() => new OtmSaver());
-  expect(bookSaversRegistry.keys()).toEqual(['otm-saver']);
-});
-
-test('BookUpdatersRegistry filters keys', async () => {
-  const bookSaversRegistry = new BookSaversRegistry();
-  bookSaversRegistry.register(() => new OtmSaver());
-  expect(
-    bookSaversRegistry.filterKeys(
-      properties => properties.id === 'otm-saver',
-    ),
-  ).toStrictEqual(['otm-saver']);
+  bookSaversRegistry.register(new OtmSaver());
+  expect(Array.from(bookSaversRegistry.keys())).toEqual(['otm-saver']);
 });
 
 test('BookSaversRegistry return save returns', async () => {
   const bookSaversRegistry = new BookSaversRegistry();
-  bookSaversRegistry.register(() => new OtmSaver());
-  expect(await bookSaversRegistry.save('otm-saver', {
-    name: 'save',
-    book: {
-      pageCards: [],
-      configration: {},
-      path: 'test/tmp.json',
-    }
-  })).toEqual({
+  bookSaversRegistry.register(new OtmSaver());
+  expect(
+    await bookSaversRegistry.save('otm-saver', {
+      name: 'save',
+      book: {
+        pageCards: [],
+        configration: {},
+        path: 'test/tmp.json',
+      },
+    }),
+  ).toEqual({
     name: 'save',
     status: 'resolve',
   });

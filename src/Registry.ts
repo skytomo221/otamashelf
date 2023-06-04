@@ -1,9 +1,29 @@
-export default abstract class Registry {
-  abstract register(extension: () => any): void;
+import Extension from './Extension';
+import { ExtensionProperties } from './ExtensionProperties';
 
-  abstract get(id: string): any | undefined;
+export default class Registry<
+  K extends string,
+  V extends Extension,
+> extends Map<K, V> {
+  register(extension: V) {
+    const { id } = extension.properties;
+    this.set(id as K, extension);
+  }
 
-  abstract keys(): string[];
-
-  abstract filterKeys(predicate: (properties: any) => boolean): string[];
+  properties(): IterableIterator<ExtensionProperties> {
+    const values = this.values();
+    return {
+      next: (): IteratorResult<ExtensionProperties> => {
+        const next = values.next();
+        if (next.done) return next;
+        return {
+          done: false,
+          value: next.value.properties,
+        };
+      },
+      [Symbol.iterator](): IterableIterator<ExtensionProperties> {
+        return this;
+      },
+    };
+  }
 }

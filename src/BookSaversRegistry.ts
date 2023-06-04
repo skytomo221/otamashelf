@@ -2,33 +2,17 @@ import BookSaver, { SaveProps, SaveReturns } from './BookSaver';
 import { BookSaverProperties } from './ExtensionProperties';
 import Registry from './Registry';
 
-export type BookSaverGenerator = () => BookSaver;
-
-export default class BookSaversRegistry extends Registry {
-  protected readonly bookSavers: Map<string, BookSaverGenerator> = new Map();
-
-  public register(bookSaver: BookSaverGenerator): void {
-    const { id } = bookSaver().properties;
-    this.bookSavers.set(id, bookSaver);
+export default class BookSaversRegistry<
+  K extends string,
+  V extends BookSaver,
+> extends Registry<K, V> {
+  properties(): IterableIterator<BookSaverProperties> {
+    return super.properties() as IterableIterator<BookSaverProperties>;
   }
 
-  public get(id: string): BookSaver | undefined {
-    const bookSaver = this.bookSavers.get(id);
-    if (!bookSaver) return undefined;
-    return bookSaver();
-  }
-
-  keys(): string[] {
-    return Array.from(this.bookSavers.keys());
-  }
-
-  filterKeys(predicate: (properties: BookSaverProperties) => boolean): string[] {
-    return this.keys().filter((id) => predicate(this.get(id)!.properties));
-  }
-
-  save(id: string, props: SaveProps): Promise<SaveReturns> {
-    const bookSaver = this.bookSavers.get(id);
-    if (!bookSaver) return Promise.reject(new Error('BookSaver not found.'));
-    return bookSaver().save(props);
+  save(id: K, props: SaveProps): Promise<SaveReturns> {
+    const v = this.get(id);
+    if (!v) return Promise.reject(new Error('BookSaver not found.'));
+    return v.save(props);
   }
 }

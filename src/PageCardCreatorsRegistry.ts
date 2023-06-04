@@ -1,40 +1,28 @@
 import { PageCardCreatorProperties } from './ExtensionProperties';
-import PageCardCreator, { CreateProps, CreateReturns, TemplatesReturns } from './PageCardCreator';
+import PageCardCreator, {
+  CreateProps,
+  CreateReturns,
+  TemplatesReturns,
+} from './PageCardCreator';
 import Registry from './Registry';
 
-export type PageCardCreatorGenerator = () => PageCardCreator;
-
-export default class PageCardCreatorsRegistry extends Registry {
-  protected readonly pageCardCreators: Map<string, PageCardCreatorGenerator> = new Map();
-
-  public register(pageCardCreator: PageCardCreatorGenerator): void {
-    const { id } = pageCardCreator().properties;
-    this.pageCardCreators.set(id, pageCardCreator);
+export default class PageCardCreatorsRegistry<
+  K extends string,
+  V extends PageCardCreator,
+> extends Registry<K, V> {
+  properties(): IterableIterator<PageCardCreatorProperties> {
+    return super.properties() as IterableIterator<PageCardCreatorProperties>;
   }
 
-  public get(id: string): PageCardCreator | undefined {
-    const pageCardCreator = this.pageCardCreators.get(id);
-    if (!pageCardCreator) return undefined;
-    return pageCardCreator();
+  templates(id: K): Promise<TemplatesReturns> {
+    const v = this.get(id);
+    if (!v) return Promise.reject(new Error('PageCardCreator not found.'));
+    return v.templates();
   }
 
-  keys(): string[] {
-    return Array.from(this.pageCardCreators.keys());
-  }
-
-  filterKeys(predicate: (properties: PageCardCreatorProperties) => boolean): string[] {
-    return this.keys().filter((id) => predicate(this.get(id)!.properties));
-  }
-
-  templates(id: string): Promise<TemplatesReturns> {
-    const pageCardCreator = this.pageCardCreators.get(id);
-    if (!pageCardCreator) return Promise.reject(new Error('PageCardCreator not found.'));
-    return pageCardCreator().templates();
-  }
-
-  create(id: string, props: CreateProps): Promise<CreateReturns> {
-    const pageCardCreator = this.pageCardCreators.get(id);
-    if (!pageCardCreator) return Promise.reject(new Error('PageCardCreator not found.'));
-    return pageCardCreator().create(props);
+  create(id: K, props: CreateProps): Promise<CreateReturns> {
+    const v = this.get(id);
+    if (!v) return Promise.reject(new Error('PageCardCreator not found.'));
+    return v.create(props);
   }
 }
