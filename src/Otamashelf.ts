@@ -11,6 +11,7 @@ import CommandsRegistry from './CommandsRegistry';
 import PageCardExploeresRegistry from './PageExplorersRegistry';
 import BookIndexersRegistry from './BookIndexersRegistry';
 import BookUpdatersRegistry from './BookUpdatersRegistry';
+import LayoutBuilderRegistry from './LayoutBuilderRegistry';
 import Registry from './Registry';
 import Extension from './Extension';
 
@@ -32,6 +33,7 @@ export default class Otamashelf extends EventEmitter {
   readonly bookLoadersRegistry = new BookLoadersRegistry();
   readonly bookSaversRegistry = new BookSaversRegistry();
   readonly bookUpdatersRegistry = new BookUpdatersRegistry();
+  readonly layoutBuilderRegistry = new LayoutBuilderRegistry();
   readonly pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
   readonly pageCardProcessorsRegistry = new PageCardProcessorsRegistry();
   readonly pageCardExploeresRegistry = new PageCardExploeresRegistry();
