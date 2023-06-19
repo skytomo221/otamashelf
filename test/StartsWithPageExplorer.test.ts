@@ -13,7 +13,7 @@ test('StartsWithPageExplorer properties', () => {
 test('StartsWithPageExplorer properties', async () => {
   expect(
     await new StartsWithPageExplorer().search({
-      name: 'search',
+      action: 'search',
       cards: [
         {
           id: '1',
@@ -31,7 +31,7 @@ test('StartsWithPageExplorer properties', async () => {
       searchWord: 'be',
     }),
   ).toStrictEqual({
-    name: 'search',
+    action: 'search',
     returns: { ids: ['2', '3'] },
     status: 'resolve',
   });

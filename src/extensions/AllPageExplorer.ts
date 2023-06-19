@@ -1,5 +1,5 @@
 import { PageExplorerProperties } from '../ExtensionProperties';
-import PageExplorer, { SearchProps, SearchReturns } from '../PageExplorer';
+import PageExplorer, { NameProps, SearchProps, SearchReturns } from '../PageExplorer';
 
 export default class AllPageExplorer extends PageExplorer {
   public readonly properties: PageExplorerProperties = {
@@ -15,7 +15,7 @@ export default class AllPageExplorer extends PageExplorer {
   public readonly search = async ({
     cards,
   }: SearchProps): Promise<SearchReturns> => ({
-    name: 'search',
+    action: 'search',
     status: 'resolve',
     returns: {
       ids: cards.map(card => card.id),

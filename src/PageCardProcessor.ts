@@ -3,12 +3,12 @@ import { PageCardProcessorProperties } from './ExtensionProperties';
 import { PageCard } from './PageCard';
 
 export type ProcessPageProps = {
-  name: 'update-page';
+  action: 'update-page';
   pageCard: PageCard;
 };
 
 export type ProcessPageResolveReturns = {
-  name: 'update-page';
+  action: 'update-page';
   status: 'resolve';
   returns: {
     pageCard: PageCard;
@@ -16,7 +16,7 @@ export type ProcessPageResolveReturns = {
 };
 
 export type ProcessPageRejectReturns = {
-  name: 'update-page';
+  action: 'update-page';
   status: 'reject';
   returns: {
     reason: string;

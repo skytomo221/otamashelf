@@ -23,7 +23,7 @@ test('PageCardExploeresRegistry return search returns', async () => {
   pageExplorersRegistry.register(new StartsWithPageExplorer());
   expect(
     await pageExplorersRegistry.search('starts-with-page-explorer', {
-      name: 'search',
+      action: 'search',
       cards: [
         {
           id: '1',
@@ -41,7 +41,7 @@ test('PageCardExploeresRegistry return search returns', async () => {
       searchWord: 'be',
     }),
   ).toStrictEqual({
-    name: 'search',
+    action: 'search',
     returns: { ids: ['2', '3'] },
     status: 'resolve',
   });

@@ -4,17 +4,17 @@ import { BookSaverProperties } from './ExtensionProperties';
 import { BookWithPath } from './Book';
 
 export type SaveProps = {
-  name: 'save';
+  action: 'save';
   book: BookWithPath;
 };
 
 export type SaveResolveReturns = {
-  name: 'save';
+  action: 'save';
   status: 'resolve';
 };
 
 export type SaveRejectReturns = {
-  name: 'save';
+  action: 'save';
   status: 'reject';
   returns: {
     reason: string;

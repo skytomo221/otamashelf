@@ -18,7 +18,7 @@ export default class OtmPageCardCreator extends PageCardCreator {
 
   public async templates(): Promise<TemplatesReturns> {
     return {
-      name: 'templates',
+      action: 'templates',
       status: 'resolve',
       returns: {
         templates: ['word'],
@@ -46,7 +46,7 @@ export default class OtmPageCardCreator extends PageCardCreator {
     const { book } = props;
     const { pageCards } = book;
     return {
-      name: 'create',
+      action: 'create',
       status: 'resolve',
       returns: {
         pageCard: {

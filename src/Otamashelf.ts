@@ -81,24 +81,24 @@ export default class Otamashelf extends EventEmitter {
     });
     this.commandsRegistry.executeCommand(
       'otamashelf.executeCommand',
-      (name: string, ...props: any[]) => this.executeCommand(name, ...props),
+      (action: string, ...props: any[]) => this.executeCommand(action, ...props),
     );
     this.commandsRegistry.regesterCommand(
       'otamashelf.regesterCommand',
-      (name: string, callback: (...props: any[]) => any) =>
-        this.regesterCommand(name, callback),
+      (action: string, callback: (...props: any[]) => any) =>
+        this.regesterCommand(action, callback),
     );
     this.commandsRegistry.regesterCommand('otamashelf.getCommands', () =>
       this.commandsRegistry.getCommands(),
     );
     this.commandsRegistry.regesterCommand(
       'otamashelf.regesterContext',
-      (name: string, value: ContextTypes) =>
-        this.contextsRegistry.regesterContext(name, value),
+      (action: string, value: ContextTypes) =>
+        this.contextsRegistry.regesterContext(action, value),
     );
     this.commandsRegistry.regesterCommand(
       'otamashelf.getContext',
-      (name: string) => this.contextsRegistry.get(name),
+      (action: string) => this.contextsRegistry.get(action),
     );
     this.regesterMethodCommands(this.booksController);
     this.regesterMethodCommands(this.bookCreatorsRegistry);
@@ -121,8 +121,8 @@ export default class Otamashelf extends EventEmitter {
     this.regesterRegistryMethodCommands(this.pageCardProcessorsRegistry);
   }
 
-  executeCommand(name: string, ...props: any[]) {
-    return this.commandsRegistry.executeCommand(name, ...props);
+  executeCommand(action: string, ...props: any[]) {
+    return this.commandsRegistry.executeCommand(action, ...props);
   }
 
   regesterCommand(command: string, callback: (...props: any[]) => any) {

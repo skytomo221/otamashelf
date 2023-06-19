@@ -3,8 +3,12 @@ import { PageCardCreatorProperties } from './ExtensionProperties';
 import { PageCard } from './PageCard';
 import Book from './Book';
 
+export type TemplatesProps = {
+  action: 'templates';
+};
+
 export type TemplatesResolveReturns = {
-  name: 'templates';
+  action: 'templates';
   status: 'resolve';
   returns: {
     templates: string[];
@@ -12,7 +16,7 @@ export type TemplatesResolveReturns = {
 };
 
 export type TemplatesRejectReturns = {
-  name: 'templates';
+  action: 'templates';
   status: 'reject';
   returns: {
     reason: string;
@@ -22,13 +26,13 @@ export type TemplatesRejectReturns = {
 export type TemplatesReturns = TemplatesResolveReturns | TemplatesRejectReturns;
 
 export type CreateProps = {
-  name: 'create';
+  action: 'create';
   templateId: string;
   book: Book;
 };
 
 export type CreateResolveReturns = {
-  name: 'create';
+  action: 'create';
   status: 'resolve';
   returns: {
     pageCard: PageCard;
@@ -36,7 +40,7 @@ export type CreateResolveReturns = {
 };
 
 export type CreateRejectReturns = {
-  name: 'create';
+  action: 'create';
   status: 'reject';
   returns: {
     reason: string;
@@ -48,7 +52,7 @@ export type CreateReturns = CreateResolveReturns | CreateRejectReturns;
 export default abstract class PageCardCreator extends Extension {
   abstract properties: PageCardCreatorProperties;
 
-  abstract templates(): Promise<TemplatesReturns>;
+  abstract templates(props: TemplatesProps): Promise<TemplatesReturns>;
 
   abstract create(props: CreateProps): Promise<CreateReturns>;
 }

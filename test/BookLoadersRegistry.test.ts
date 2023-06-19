@@ -18,9 +18,9 @@ test('BookLoadersRegistry return load returns', async () => {
   const bookLoadersRegistry = new BookLoadersRegistry();
   bookLoadersRegistry.register(new OtmLoader());
   const result: LoadReturns = await bookLoadersRegistry.load('otm-loader', {
-    name: 'load',
+    action: 'load',
     path: 'data/sample.json',
   });
-  expect(result.name).toEqual('load');
+  expect(result.action).toEqual('load');
   expect(result.returns).toHaveProperty('book');
 });

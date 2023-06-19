@@ -3,8 +3,12 @@ import { BookIndexerProperties, FileFilter } from './ExtensionProperties';
 import { PageCard } from './PageCard';
 import { SearchCard } from './SearchCard';
 
+export type SearchModesProps = {
+  action: 'search-modes';
+};
+
 export type SearchModesResolveReturns = {
-  name: 'search-modes';
+  action: 'search-modes';
   status: 'resolve';
   returns: {
     modes: string[];
@@ -12,7 +16,7 @@ export type SearchModesResolveReturns = {
 };
 
 export type SearchModesRejectReturns = {
-  name: 'search-modes';
+  action: 'search-modes';
   status: 'reject';
   returns: {
     reason: string;
@@ -24,7 +28,7 @@ export type SearchModesReturns =
   | SearchModesRejectReturns;
 
 export type SearchIndexesResolveReturns = {
-  name: 'search-indexes';
+  action: 'search-indexes';
   status: 'resolve';
   returns: {
     searchCards: SearchCard[];
@@ -32,7 +36,7 @@ export type SearchIndexesResolveReturns = {
 };
 
 export type SearchIndexesRejectReturns = {
-  name: 'search-indexes';
+  action: 'search-indexes';
   status: 'reject';
   returns: {
     reason: string;
@@ -44,7 +48,7 @@ export type SearchIndexesReturns =
   | SearchIndexesRejectReturns;
 
 export type SearchIndexesProps = {
-  name: 'search-indexes';
+  action: 'search-indexes';
   searchModeId: string;
   pageCards: PageCard[];
 };
@@ -52,7 +56,9 @@ export type SearchIndexesProps = {
 export default abstract class BookIndexer extends Extension {
   abstract readonly properties: BookIndexerProperties;
 
-  abstract readSearchModes(): Promise<SearchModesReturns>;
+  abstract readSearchModes(
+    props: SearchModesProps,
+  ): Promise<SearchModesReturns>;
 
   abstract readSearchIndexes(
     props: SearchIndexesProps,

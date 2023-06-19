@@ -17,8 +17,12 @@ test('BookIndexerRegistry return keys', async () => {
 test('BookIndexerRegistry return indexes returns', async () => {
   const bookIndexerRegistry = new BookIndexersRegistry();
   bookIndexerRegistry.register(new OtmIndexer());
-  expect(await bookIndexerRegistry.readSearchModes('otm-indexer')).toEqual({
-    name: 'search-modes',
+  expect(
+    await bookIndexerRegistry.readSearchModes('otm-indexer', {
+      action: 'search-modes',
+    }),
+  ).toEqual({
+    action: 'search-modes',
     returns: { modes: ['form', 'translation', 'both', 'all'] },
     status: 'resolve',
   });
@@ -29,12 +33,12 @@ test('BookIndexerRegistry return readSearchIndexes returns', async () => {
   bookIndexerRegistry.register(new OtmIndexer());
   expect(
     await bookIndexerRegistry.readSearchIndexes('otm-indexer', {
-      name: 'search-indexes',
+      action: 'search-indexes',
       searchModeId: 'all',
       pageCards: [],
     }),
   ).toEqual({
-    name: 'search-indexes',
+    action: 'search-indexes',
     status: 'resolve',
     returns: {
       searchCards: [],

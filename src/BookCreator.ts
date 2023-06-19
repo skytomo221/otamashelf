@@ -2,8 +2,12 @@ import Extension from './Extension';
 import Book from './Book';
 import { BookCreatorProperties } from './ExtensionProperties';
 
+export type TemplatesProps = {
+  action: 'templates';
+}
+
 export type TemplatesResolveReturns = {
-  name: 'templates';
+  action: 'templates';
   status: 'resolve';
   returns: {
     book: Omit<Book, 'path'>;
@@ -11,7 +15,7 @@ export type TemplatesResolveReturns = {
 };
 
 export type TemplatesRejectReturns = {
-  name: 'templates';
+  action: 'templates';
   status: 'reject';
   returns: {
     reason: string;
@@ -23,5 +27,5 @@ export type TemplatesReturns = TemplatesResolveReturns | TemplatesRejectReturns;
 export default abstract class BookCreator extends Extension {
   abstract readonly properties: BookCreatorProperties;
 
-  abstract templates(): Promise<TemplatesReturns>;
+  abstract templates(props: TemplatesProps): Promise<TemplatesReturns>;
 }

@@ -2,14 +2,18 @@ import Extension from './Extension';
 import { PageExplorerProperties } from './ExtensionProperties';
 import { SearchCard } from './SearchCard';
 
+export type NameProps = {
+  action: 'name';
+};
+
 export type SearchProps = {
-  name: 'search';
+  action: 'search';
   cards: SearchCard[];
   searchWord: string;
 };
 
 export type SearchResolveReturns = {
-  name: 'search';
+  action: 'search';
   status: 'resolve';
   returns: {
     ids: string[];
@@ -17,7 +21,7 @@ export type SearchResolveReturns = {
 };
 
 export type SearchRejectReturns = {
-  name: 'search';
+  action: 'search';
   status: 'reject';
   returns: {
     reason: string;
@@ -29,7 +33,7 @@ export type SearchReturns = SearchResolveReturns | SearchRejectReturns;
 export default abstract class PageExplorer extends Extension {
   abstract readonly properties: PageExplorerProperties;
 
-  abstract readonly name: () => Promise<string>;
+  abstract readonly name: (props: NameProps) => Promise<string>;
 
   abstract readonly search: (props: SearchProps) => Promise<SearchReturns>;
 }

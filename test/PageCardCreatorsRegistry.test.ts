@@ -14,16 +14,20 @@ test('PageCardCreatorsRegistry instance of BookLoader', async () => {
 test('BookUpdatersRegistry return keys', async () => {
   const pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
   pageCardCreatorsRegistry.register(new OtmPageCardCreator());
-  expect(Array.from(pageCardCreatorsRegistry.keys())).toEqual(['otm-page-card-creator']);
+  expect(Array.from(pageCardCreatorsRegistry.keys())).toEqual([
+    'otm-page-card-creator',
+  ]);
 });
 
 test('PageCardCreatorsRegistry return templates returns', async () => {
   const pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
   pageCardCreatorsRegistry.register(new OtmPageCardCreator());
   expect(
-    await pageCardCreatorsRegistry.templates('otm-page-card-creator'),
+    await pageCardCreatorsRegistry.templates('otm-page-card-creator', {
+      action: 'templates',
+    }),
   ).toEqual({
-    name: 'templates',
+    action: 'templates',
     status: 'resolve',
     returns: {
       templates: ['word'],
@@ -37,7 +41,7 @@ test('PageCardCreatorsRegistry return create returns', async () => {
   const result = await pageCardCreatorsRegistry.create(
     'otm-page-card-creator',
     {
-      name: 'create',
+      action: 'create',
       templateId: 'word',
       book: {
         pageCards: [],
@@ -45,7 +49,7 @@ test('PageCardCreatorsRegistry return create returns', async () => {
       },
     },
   );
-  expect(result.name).toEqual('create');
+  expect(result.action).toEqual('create');
   expect(result.status).toEqual('resolve');
   const { pageCard } = result.returns as {
     pageCard: PageCard;

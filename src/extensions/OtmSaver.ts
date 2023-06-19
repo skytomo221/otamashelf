@@ -44,12 +44,12 @@ export default class OtmSaver extends BookSaver {
       .asPromise()
       .then(
         (): SaveResolveReturns => ({
-          name: 'save',
+          action: 'save',
           status: 'resolve',
         }),
       )
       .catch(error => ({
-        name: 'save',
+        action: 'save',
         status: 'reject',
         returns: {
           reason: error.message,

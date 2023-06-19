@@ -15,7 +15,7 @@ export default class OtmCreator extends BookCreator {
 
   templates(): Promise<TemplatesReturns> {
     return Promise.resolve({
-      name: 'templates',
+      action: 'templates',
       status: 'resolve',
       returns: {
         book: {

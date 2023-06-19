@@ -17,7 +17,7 @@ export default class OtmUpdater extends BookUpdater {
   updateBook(props: UpdateBookProps): Promise<UpdateBookReturns> {
     const { book, pageCard } = props;
     return Promise.resolve({
-      name: 'update-book',
+      action: 'update-book',
       status: 'resolve',
       returns: {
         book: {

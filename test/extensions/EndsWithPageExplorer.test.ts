@@ -4,12 +4,12 @@ test('EndsWithPageExplorer searches empty and return empty ids.', async () => {
   const pageExplorer = new EndsWithPageExplorer();
   expect(
     await pageExplorer.search({
-      name: 'search',
+      action: 'search',
       cards: [],
       searchWord: '',
     }),
   ).toEqual({
-    name: 'search',
+    action: 'search',
     status: 'resolve',
     returns: {
       ids: [],
@@ -21,7 +21,7 @@ test('EndsWithPageExplorer searches matching ends.', async () => {
   const pageExplorer = new EndsWithPageExplorer();
   expect(
     await pageExplorer.search({
-      name: 'search',
+      action: 'search',
       cards: [
         {
           id: '1',
@@ -46,7 +46,7 @@ test('EndsWithPageExplorer searches matching ends.', async () => {
       searchWord: 'する。',
     }),
   ).toEqual({
-    name: 'search',
+    action: 'search',
     status: 'resolve',
     returns: {
       ids: ['3', '4'],

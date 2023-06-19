@@ -36,7 +36,7 @@ export default class OtmLoader extends BookLoader {
       .then((otm): LoadResolveReturns => {
         const { words, ...configration } = otm.toPlain();
         return {
-          name: 'load',
+          action: 'load',
           status: 'resolve',
           returns: {
             book: {
@@ -47,7 +47,7 @@ export default class OtmLoader extends BookLoader {
         };
       })
       .catch(error => ({
-        name: 'load',
+        action: 'load',
         status: 'reject',
         returns: {
           reason: error.message,

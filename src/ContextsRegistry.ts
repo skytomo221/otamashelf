@@ -3,11 +3,11 @@ export type ContextTypes = boolean | number | string;
 export default class ContextsRegistry {
   protected readonly contexts: Map<string, ContextTypes> = new Map();
 
-  public regesterContext(name: string, value: ContextTypes) {
-    this.contexts.set(name, value);
+  public regesterContext(action: string, value: ContextTypes) {
+    this.contexts.set(action, value);
   }
 
-  public get(name: string) {
-    return this.contexts.get(name);
+  public get(action: string) {
+    return this.contexts.get(action);
   }
 }

@@ -17,8 +17,12 @@ test('BookCreatorsRegistry return keys', async () => {
 test('BookCreatorsRegistry return templates returns', async () => {
   const bookCreatorsRegistry = new BookCreatorsRegistry();
   bookCreatorsRegistry.register(new OtmCreator());
-  expect(await bookCreatorsRegistry.templates('otm-creator')).toEqual({
-    name: 'templates',
+  expect(
+    await bookCreatorsRegistry.templates('otm-creator', {
+      action: 'templates',
+    }),
+  ).toEqual({
+    action: 'templates',
     status: 'resolve',
     returns: {
       book: {

@@ -19,7 +19,7 @@ test('BookUpdatersRegistry return updateBook returns', async () => {
   bookUpdatersRegistry.register(new OtmUpdater());
   expect(
     await bookUpdatersRegistry.updateBook('otm-updater', {
-      name: 'update-book',
+      action: 'update-book',
       book: {
         pageCards: [],
         configration: {},
@@ -34,7 +34,7 @@ test('BookUpdatersRegistry return updateBook returns', async () => {
       },
     }),
   ).toEqual({
-    name: 'update-book',
+    action: 'update-book',
     status: 'resolve',
     returns: {
       book: {

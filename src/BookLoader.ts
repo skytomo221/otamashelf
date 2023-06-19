@@ -3,12 +3,12 @@ import { BookLoaderProperties } from './ExtensionProperties';
 import Book from './Book';
 
 export type LoadProps = {
-  name: 'load';
+  action: 'load';
   path: string;
 };
 
 export type LoadResolveReturns = {
-  name: 'load';
+  action: 'load';
   status: 'resolve';
   returns: {
     book: Book;
@@ -16,7 +16,7 @@ export type LoadResolveReturns = {
 };
 
 export type LoadRejectReturns = {
-  name: 'load';
+  action: 'load';
   status: 'reject';
   returns: {
     reason: string;

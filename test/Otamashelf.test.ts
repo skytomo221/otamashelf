@@ -64,6 +64,13 @@ test('Otamashelf has commands', () => {
     'otamashelf.booksController.revertRevision',
     'otamashelf.getCommands',
     'otamashelf.getContext',
+    'otamashelf.layoutBuilderRegistry.constructor',
+    'otamashelf.layoutBuilderRegistry.get',
+    'otamashelf.layoutBuilderRegistry.indexes',
+    'otamashelf.layoutBuilderRegistry.keys',
+    'otamashelf.layoutBuilderRegistry.layout',
+    'otamashelf.layoutBuilderRegistry.properties',
+    'otamashelf.layoutBuilderRegistry.register',
     'otamashelf.pageCardCreatorsRegistry.constructor',
     'otamashelf.pageCardCreatorsRegistry.create',
     'otamashelf.pageCardCreatorsRegistry.get',
@@ -181,7 +188,7 @@ test('AllPageExplorer return all ids.', async () => {
       'otamashelf.pageCardExploeresRegistry.search',
       'all-page-explorer',
       {
-        name: 'search',
+        action: 'search',
         cards: [
           {
             id: '1',
@@ -207,7 +214,7 @@ test('AllPageExplorer return all ids.', async () => {
       },
     ),
   ).toEqual({
-    name: 'search',
+    action: 'search',
     status: 'resolve',
     returns: {
       ids: ['1', '3', '4'],

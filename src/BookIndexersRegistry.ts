@@ -1,6 +1,7 @@
 import BookIndexer, {
   SearchIndexesProps,
   SearchIndexesReturns,
+  SearchModesProps,
   SearchModesReturns,
 } from './BookIndexer';
 import { BookIndexerProperties } from './ExtensionProperties';
@@ -14,10 +15,10 @@ export default class BookIndexersRegistry<
     return super.properties() as IterableIterator<BookIndexerProperties>;
   }
 
-  public readSearchModes(id: K): Promise<SearchModesReturns> {
+  public readSearchModes(id: K, props: SearchModesProps): Promise<SearchModesReturns> {
     const v = this.get(id);
     if (!v) return Promise.reject(new Error('BookIndexer not found.'));
-    return v.readSearchModes();
+    return v.readSearchModes(props);
   }
 
   public readSearchIndexes(

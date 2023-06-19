@@ -21,7 +21,7 @@ export default class OtmIndexer extends BookIndexer {
   // eslint-disable-next-line class-methods-use-this
   public async readSearchModes(): Promise<SearchModesReturns> {
     return {
-      name: 'search-modes',
+      action: 'search-modes',
       status: 'resolve',
       returns: {
         modes: ['form', 'translation', 'both', 'all'],
@@ -70,7 +70,7 @@ export default class OtmIndexer extends BookIndexer {
   ): Promise<SearchIndexesReturns> {
     const { searchModeId, pageCards } = props;
     return {
-      name: 'search-indexes',
+      action: 'search-indexes',
       status: 'resolve',
       returns: {
         searchCards: OtmIndexer.searchCard(searchModeId, pageCards),

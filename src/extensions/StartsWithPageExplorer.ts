@@ -16,7 +16,7 @@ export default class StartsWithPageExplorer extends PageExplorer {
     cards,
     searchWord,
   }: SearchProps): Promise<SearchReturns> => ({
-    name: 'search',
+    action: 'search',
     status: 'resolve',
     returns: {
       ids: cards

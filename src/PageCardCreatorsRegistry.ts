@@ -1,3 +1,4 @@
+import { TemplatesProps } from './BookCreator';
 import { PageCardCreatorProperties } from './ExtensionProperties';
 import PageCardCreator, {
   CreateProps,
@@ -14,10 +15,10 @@ export default class PageCardCreatorsRegistry<
     return super.properties() as IterableIterator<PageCardCreatorProperties>;
   }
 
-  templates(id: K): Promise<TemplatesReturns> {
+  templates(id: K, props: TemplatesProps): Promise<TemplatesReturns> {
     const v = this.get(id);
     if (!v) return Promise.reject(new Error('PageCardCreator not found.'));
-    return v.templates();
+    return v.templates(props);
   }
 
   create(id: K, props: CreateProps): Promise<CreateReturns> {

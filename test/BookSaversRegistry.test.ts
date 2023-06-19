@@ -19,7 +19,7 @@ test('BookSaversRegistry return save returns', async () => {
   bookSaversRegistry.register(new OtmSaver());
   expect(
     await bookSaversRegistry.save('otm-saver', {
-      name: 'save',
+      action: 'save',
       book: {
         pageCards: [],
         configration: {},
@@ -27,7 +27,7 @@ test('BookSaversRegistry return save returns', async () => {
       },
     }),
   ).toEqual({
-    name: 'save',
+    action: 'save',
     status: 'resolve',
   });
 });
