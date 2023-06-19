@@ -106,6 +106,7 @@ export default class Otamashelf extends EventEmitter {
     this.regesterMethodCommands(this.bookLoadersRegistry);
     this.regesterMethodCommands(this.bookSaversRegistry);
     this.regesterMethodCommands(this.bookUpdatersRegistry);
+    this.regesterMethodCommands(this.layoutBuilderRegistry);
     this.regesterMethodCommands(this.pageCardCreatorsRegistry);
     this.regesterMethodCommands(this.pageCardExploeresRegistry);
     this.regesterMethodCommands(this.pageCardProcessorsRegistry);
@@ -114,6 +115,7 @@ export default class Otamashelf extends EventEmitter {
     this.regesterRegistryMethodCommands(this.bookLoadersRegistry);
     this.regesterRegistryMethodCommands(this.bookSaversRegistry);
     this.regesterRegistryMethodCommands(this.bookUpdatersRegistry);
+    this.regesterRegistryMethodCommands(this.layoutBuilderRegistry);
     this.regesterRegistryMethodCommands(this.pageCardCreatorsRegistry);
     this.regesterRegistryMethodCommands(this.pageCardExploeresRegistry);
     this.regesterRegistryMethodCommands(this.pageCardProcessorsRegistry);
