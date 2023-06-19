@@ -6,7 +6,7 @@ import BookUpdater, {
 
 export default class OtmUpdater extends BookUpdater {
   public readonly properties: BookUpdaterProperties = {
-    name: 'OTM Loader',
+    name: 'OTM Updater',
     id: 'otm-updater',
     version: '0.1.0',
     type: 'book-updater',
