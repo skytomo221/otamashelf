@@ -1,5 +1,10 @@
 import { PageExplorerProperties } from '../ExtensionProperties';
-import PageExplorer, { NameProps, SearchProps, SearchReturns } from '../PageExplorer';
+import PageExplorer, {
+  NameProps,
+  NameReturns,
+  SearchProps,
+  SearchReturns,
+} from '../PageExplorer';
 
 export default class AllPageExplorer extends PageExplorer {
   public readonly properties: PageExplorerProperties = {
@@ -11,15 +16,17 @@ export default class AllPageExplorer extends PageExplorer {
     type: 'page-explorer',
   };
 
-  public readonly name = async (): Promise<string> => '部分一致';
+  async name(): Promise<NameReturns> {
+    return { action: 'name', name: '部分一致' };
+  }
 
-  public readonly search = async ({
-    cards,
-  }: SearchProps): Promise<SearchReturns> => ({
-    action: 'search',
-    status: 'resolve',
-    returns: {
-      ids: cards.map(card => card.id),
-    },
-  });
+  async search({ cards }: SearchProps): Promise<SearchReturns> {
+    return {
+      action: 'search',
+      status: 'resolve',
+      returns: {
+        ids: cards.map(card => card.id),
+      },
+    };
+  }
 }

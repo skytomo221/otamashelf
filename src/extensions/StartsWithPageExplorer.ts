@@ -1,5 +1,5 @@
 import { PageExplorerProperties } from '../ExtensionProperties';
-import PageExplorer, { SearchProps, SearchReturns } from '../PageExplorer';
+import PageExplorer, { NameReturns, SearchProps, SearchReturns } from '../PageExplorer';
 
 export default class StartsWithPageExplorer extends PageExplorer {
   public readonly properties: PageExplorerProperties = {
@@ -11,18 +11,19 @@ export default class StartsWithPageExplorer extends PageExplorer {
     type: 'page-explorer',
   };
 
-  public readonly name = async (): Promise<string> => '語頭一致';
+  async name(): Promise<NameReturns> {
+    return { action: 'name', name: '語頭一致' };
+  }
 
-  public readonly search = async ({
-    cards,
-    searchWord,
-  }: SearchProps): Promise<SearchReturns> => ({
-    action: 'search',
-    status: 'resolve',
-    returns: {
-      ids: cards
-        .filter(card => card.targets.some(t => t.startsWith(searchWord)))
-        .map(card => card.id),
-    },
-  });
+  async search({ cards, searchWord }: SearchProps): Promise<SearchReturns> {
+    return {
+      action: 'search',
+      status: 'resolve',
+      returns: {
+        ids: cards
+          .filter(card => card.targets.some(t => t.startsWith(searchWord)))
+          .map(card => card.id),
+      },
+    };
+  }
 }

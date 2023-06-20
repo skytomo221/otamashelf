@@ -6,6 +6,11 @@ export type NameProps = {
   action: 'name';
 };
 
+export type NameReturns = {
+  action: 'name';
+  name: string;
+};
+
 export type SearchProps = {
   action: 'search';
   cards: SearchCard[];
@@ -31,9 +36,9 @@ export type SearchRejectReturns = {
 export type SearchReturns = SearchResolveReturns | SearchRejectReturns;
 
 export default abstract class PageExplorer extends Extension {
-  abstract readonly properties: PageExplorerProperties;
+  abstract properties: PageExplorerProperties;
 
-  abstract readonly name: (props: NameProps) => Promise<string>;
+  abstract name(props: NameProps): Promise<NameReturns>;
 
-  abstract readonly search: (props: SearchProps) => Promise<SearchReturns>;
+  abstract search(props: SearchProps): Promise<SearchReturns>;
 }
