@@ -3,6 +3,7 @@ import PageExplorer, { SearchProps, SearchReturns } from '../PageExplorer';
 
 export default class EndsWithPageExplorer extends PageExplorer {
   public readonly properties: PageExplorerProperties = {
+    action: 'properties',
     name: 'Ends With Page Explorer',
     id: 'ends-with-page-explorer',
     version: '0.1.0',

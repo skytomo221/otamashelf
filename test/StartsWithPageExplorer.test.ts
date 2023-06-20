@@ -2,6 +2,7 @@ import StartsWithPageExplorer from '../src/extensions/StartsWithPageExplorer';
 
 test('StartsWithPageExplorer properties', () => {
   expect(new StartsWithPageExplorer().properties).toStrictEqual({
+    action: 'properties',
     name: 'Starts With Page Explorer',
     id: 'starts-with-page-explorer',
     version: '0.1.0',

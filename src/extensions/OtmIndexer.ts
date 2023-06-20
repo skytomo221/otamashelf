@@ -10,6 +10,7 @@ import BookIndexer, {
 
 export default class OtmIndexer extends BookIndexer {
   public readonly properties: BookIndexerProperties = {
+    action: 'properties',
     name: 'OTM Indexer',
     id: 'otm-indexer',
     version: '0.1.0',

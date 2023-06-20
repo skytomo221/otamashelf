@@ -15,6 +15,7 @@ import { Word, wordScheme } from '../otm/Word';
 
 export default class OtmLayoutBuilder extends LayoutBuilder {
   public properties: LayoutBuilderProperties = ({
+    action: 'properties',
     name: 'OTM Layout Builder',
     id: 'otm-layout-builder',
     version: '0.1.0',

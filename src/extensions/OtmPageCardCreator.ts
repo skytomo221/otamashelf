@@ -8,6 +8,7 @@ import PageCardCreator, {
 
 export default class OtmPageCardCreator extends PageCardCreator {
   public readonly properties: PageCardCreatorProperties = {
+    action: 'properties',
     name: 'OTM Page Card Creator',
     id: 'otm-page-card-creator',
     version: '0.1.0',

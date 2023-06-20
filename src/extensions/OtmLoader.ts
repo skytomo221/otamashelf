@@ -10,6 +10,7 @@ import BareOtmLoader from '../otm/OtmLoader';
 
 export default class OtmLoader extends BookLoader {
   public readonly properties: BookLoaderProperties = {
+    action: 'properties',
     name: 'OTM Loader',
     id: 'otm-loader',
     version: '0.1.0',

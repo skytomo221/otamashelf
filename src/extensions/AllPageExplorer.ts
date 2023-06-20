@@ -3,6 +3,7 @@ import PageExplorer, { NameProps, SearchProps, SearchReturns } from '../PageExpl
 
 export default class AllPageExplorer extends PageExplorer {
   public readonly properties: PageExplorerProperties = {
+    action: 'properties',
     name: 'All Page Explorer',
     id: 'all-page-explorer',
     version: '0.1.0',

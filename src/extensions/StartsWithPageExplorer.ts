@@ -3,6 +3,7 @@ import PageExplorer, { SearchProps, SearchReturns } from '../PageExplorer';
 
 export default class StartsWithPageExplorer extends PageExplorer {
   public readonly properties: PageExplorerProperties = {
+    action: 'properties',
     name: 'Starts With Page Explorer',
     id: 'starts-with-page-explorer',
     version: '0.1.0',

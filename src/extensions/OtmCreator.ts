@@ -3,6 +3,7 @@ import BookCreator, { TemplatesReturns } from '../BookCreator';
 
 export default class OtmCreator extends BookCreator {
   public readonly properties: BookCreatorProperties = {
+    action: 'properties',
     name: 'OTM Creator',
     id: 'otm-creator',
     version: '0.1.0',

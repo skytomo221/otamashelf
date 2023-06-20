@@ -11,6 +11,7 @@ import { Otm, PlainOtm } from '../otm/Otm';
 
 export default class OtmSaver extends BookSaver {
   public readonly properties: BookSaverProperties = {
+    action: 'properties',
     name: 'OTM Saver',
     id: 'otm-saver',
     version: '0.1.0',

@@ -19,6 +19,7 @@ export type ExtensionProperties =
   | StyleThemeProperties;
 
 export interface BookControllerProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
@@ -29,6 +30,7 @@ export interface BookControllerProperties {
 }
 
 export interface BookCreatorProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
@@ -40,6 +42,7 @@ export interface BookCreatorProperties {
 }
 
 export interface BookIndexerProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
@@ -49,6 +52,7 @@ export interface BookIndexerProperties {
 }
 
 export interface BookLoaderProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
@@ -60,6 +64,7 @@ export interface BookLoaderProperties {
 }
 
 export interface BookSaverProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
@@ -71,6 +76,7 @@ export interface BookSaverProperties {
 }
 
 export interface BookUpdaterProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
@@ -80,6 +86,7 @@ export interface BookUpdaterProperties {
 }
 
 export interface PageCardCreatorProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
@@ -89,6 +96,7 @@ export interface PageCardCreatorProperties {
 }
 
 export interface PageExplorerProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
@@ -97,6 +105,7 @@ export interface PageExplorerProperties {
 }
 
 export interface PageCardProcessorProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
@@ -106,6 +115,7 @@ export interface PageCardProcessorProperties {
 }
 
 export interface LayoutBuilderProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
@@ -114,6 +124,7 @@ export interface LayoutBuilderProperties {
 }
 
 export interface StyleThemeProperties {
+  action: 'properties';
   name: string;
   id: string;
   version: string;
