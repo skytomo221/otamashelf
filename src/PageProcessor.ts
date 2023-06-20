@@ -1,5 +1,5 @@
 import Extension from './Extension';
-import { PageCardProcessorProperties } from './ExtensionProperties';
+import { PageProcessorProperties } from './ExtensionProperties';
 import { PageCard } from './PageCard';
 
 export type ProcessPageProps = {
@@ -27,8 +27,8 @@ export type ProcessPageReturns =
   | ProcessPageResolveReturns
   | ProcessPageRejectReturns;
 
-export default abstract class PageCardProcessor extends Extension {
-  abstract readonly properties: PageCardProcessorProperties;
+export default abstract class PageProcessor extends Extension {
+  abstract readonly properties: PageProcessorProperties;
 
   abstract processPage(props: ProcessPageProps): Promise<ProcessPageReturns>;
 }

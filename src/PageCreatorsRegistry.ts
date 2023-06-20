@@ -1,18 +1,18 @@
 import { TemplatesProps } from './BookCreator';
-import { PageCardCreatorProperties } from './ExtensionProperties';
-import PageCardCreator, {
+import { PageCreatorProperties } from './ExtensionProperties';
+import PageCreator, {
   CreateProps,
   CreateReturns,
   TemplatesReturns,
-} from './PageCardCreator';
+} from './PageCreator';
 import Registry from './Registry';
 
-export default class PageCardCreatorsRegistry<
+export default class PageCreatorsRegistry<
   K extends string,
-  V extends PageCardCreator,
+  V extends PageCreator,
 > extends Registry<K, V> {
-  properties(): IterableIterator<PageCardCreatorProperties> {
-    return super.properties() as IterableIterator<PageCardCreatorProperties>;
+  properties(): IterableIterator<PageCreatorProperties> {
+    return super.properties() as IterableIterator<PageCreatorProperties>;
   }
 
   templates(id: K, props: TemplatesProps): Promise<TemplatesReturns> {

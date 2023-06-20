@@ -4,11 +4,11 @@ import BooksController from './BooksController';
 import BookLoadersRegistry from './BookLoadersRegistry';
 import BookSaversRegistry from './BookSaversRegistry';
 import BookCreatorsRegistry from './BookCreatorsRegistry';
-import PageCardCreatorsRegistry from './PageCardCreatorsRegistry';
-import PageCardProcessorsRegistry from './PageCardProcessorsRegistry';
+import PageCreatorsRegistry from './PageCreatorsRegistry';
+import PageProcessorsRegistry from './PageProcessorsRegistry';
 import ContextsRegistry, { ContextTypes } from './ContextsRegistry';
 import CommandsRegistry from './CommandsRegistry';
-import PageCardExploeresRegistry from './PageExplorersRegistry';
+import PageExplorersRegistry from './PageExplorersRegistry';
 import BookIndexersRegistry from './BookIndexersRegistry';
 import BookUpdatersRegistry from './BookUpdatersRegistry';
 import LayoutBuilderRegistry from './LayoutBuilderRegistry';
@@ -34,9 +34,9 @@ export default class Otamashelf extends EventEmitter {
   readonly bookSaversRegistry = new BookSaversRegistry();
   readonly bookUpdatersRegistry = new BookUpdatersRegistry();
   readonly layoutBuilderRegistry = new LayoutBuilderRegistry();
-  readonly pageCardCreatorsRegistry = new PageCardCreatorsRegistry();
-  readonly pageCardProcessorsRegistry = new PageCardProcessorsRegistry();
-  readonly pageCardExploeresRegistry = new PageCardExploeresRegistry();
+  readonly pageCreatorsRegistry = new PageCreatorsRegistry();
+  readonly pageProcessorsRegistry = new PageProcessorsRegistry();
+  readonly pageExplorersRegistry = new PageExplorersRegistry();
 
   private regesterMethodCommands(obj: object) {
     Object.getOwnPropertyNames(obj.constructor.prototype)
@@ -107,18 +107,18 @@ export default class Otamashelf extends EventEmitter {
     this.regesterMethodCommands(this.bookSaversRegistry);
     this.regesterMethodCommands(this.bookUpdatersRegistry);
     this.regesterMethodCommands(this.layoutBuilderRegistry);
-    this.regesterMethodCommands(this.pageCardCreatorsRegistry);
-    this.regesterMethodCommands(this.pageCardExploeresRegistry);
-    this.regesterMethodCommands(this.pageCardProcessorsRegistry);
+    this.regesterMethodCommands(this.pageCreatorsRegistry);
+    this.regesterMethodCommands(this.pageExplorersRegistry);
+    this.regesterMethodCommands(this.pageProcessorsRegistry);
     this.regesterRegistryMethodCommands(this.bookCreatorsRegistry);
     this.regesterRegistryMethodCommands(this.bookIndexersRegistry);
     this.regesterRegistryMethodCommands(this.bookLoadersRegistry);
     this.regesterRegistryMethodCommands(this.bookSaversRegistry);
     this.regesterRegistryMethodCommands(this.bookUpdatersRegistry);
     this.regesterRegistryMethodCommands(this.layoutBuilderRegistry);
-    this.regesterRegistryMethodCommands(this.pageCardCreatorsRegistry);
-    this.regesterRegistryMethodCommands(this.pageCardExploeresRegistry);
-    this.regesterRegistryMethodCommands(this.pageCardProcessorsRegistry);
+    this.regesterRegistryMethodCommands(this.pageCreatorsRegistry);
+    this.regesterRegistryMethodCommands(this.pageExplorersRegistry);
+    this.regesterRegistryMethodCommands(this.pageProcessorsRegistry);
   }
 
   executeCommand(action: string, ...props: any[]) {

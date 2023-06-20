@@ -1,16 +1,16 @@
-import { PageCardProcessorProperties } from './ExtensionProperties';
-import PageCardProcessor, {
+import { PageProcessorProperties } from './ExtensionProperties';
+import PageProcessor, {
   ProcessPageProps,
   ProcessPageReturns,
-} from './PageCardProcessor';
+} from './PageProcessor';
 import Registry from './Registry';
 
-export default class PageCardProcessorsRegistry<
+export default class PageProcessorsRegistry<
   K extends string,
-  V extends PageCardProcessor,
+  V extends PageProcessor,
 > extends Registry<K, V> {
-  properties(): IterableIterator<PageCardProcessorProperties> {
-    return super.properties() as IterableIterator<PageCardProcessorProperties>;
+  properties(): IterableIterator<PageProcessorProperties> {
+    return super.properties() as IterableIterator<PageProcessorProperties>;
   }
 
   public updatePage(

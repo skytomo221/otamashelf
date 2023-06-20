@@ -1,13 +1,13 @@
-import { PageCardCreatorProperties } from '../ExtensionProperties';
+import { PageCreatorProperties } from '../ExtensionProperties';
 import { Word } from '../otm/Word';
-import PageCardCreator, {
+import PageCreator, {
   CreateProps,
   CreateReturns,
   TemplatesReturns,
-} from '../PageCardCreator';
+} from '../PageCreator';
 
-export default class OtmPageCardCreator extends PageCardCreator {
-  public readonly properties: PageCardCreatorProperties = {
+export default class OtmPageCreator extends PageCreator {
+  public readonly properties: PageCreatorProperties = {
     action: 'properties',
     name: 'OTM Page Card Creator',
     id: 'otm-page-card-creator',
@@ -51,10 +51,10 @@ export default class OtmPageCardCreator extends PageCardCreator {
       status: 'resolve',
       returns: {
         pageCard: {
-          id: OtmPageCardCreator.newId(pageCards.map(pageCard => pageCard.id)),
+          id: OtmPageCreator.newId(pageCards.map(pageCard => pageCard.id)),
           title: 'Word',
           entry: {
-            id: OtmPageCardCreator.nextId(
+            id: OtmPageCreator.nextId(
               (pageCards as unknown as Word[]).map(
                 pageCard => pageCard.entry.id,
               ),

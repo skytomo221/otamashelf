@@ -2,7 +2,7 @@ import PageExplorer from '../src/PageExplorer';
 import PageExplorersRegistry from '../src/PageExplorersRegistry';
 import StartsWithPageExplorer from '../src/extensions/StartsWithPageExplorer';
 
-test('PageCardExploeresRegistry instance of PageExplorer', async () => {
+test('PageExploeresRegistry instance of PageExplorer', async () => {
   const pageExplorersRegistry = new PageExplorersRegistry();
   pageExplorersRegistry.register(new StartsWithPageExplorer());
   expect(pageExplorersRegistry.get('starts-with-page-explorer')).toBeInstanceOf(
@@ -10,7 +10,7 @@ test('PageCardExploeresRegistry instance of PageExplorer', async () => {
   );
 });
 
-test('PageCardExploeresRegistry return keys', async () => {
+test('PageExploeresRegistry return keys', async () => {
   const pageExplorersRegistry = new PageExplorersRegistry();
   pageExplorersRegistry.register(new StartsWithPageExplorer());
   expect(Array.from(pageExplorersRegistry.keys())).toStrictEqual([
@@ -18,7 +18,7 @@ test('PageCardExploeresRegistry return keys', async () => {
   ]);
 });
 
-test('PageCardExploeresRegistry return search returns', async () => {
+test('PageExploeresRegistry return search returns', async () => {
   const pageExplorersRegistry = new PageExplorersRegistry();
   pageExplorersRegistry.register(new StartsWithPageExplorer());
   expect(

@@ -2,7 +2,7 @@ import { PageExplorerProperties } from './ExtensionProperties';
 import PageExplorer, { SearchProps, SearchReturns } from './PageExplorer';
 import Registry from './Registry';
 
-export default class PageCardExploeresRegistry<
+export default class PageExplorersRegistry<
   K extends string,
   V extends PageExplorer,
 > extends Registry<K, V> {

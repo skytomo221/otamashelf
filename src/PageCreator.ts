@@ -1,5 +1,5 @@
 import Extension from './Extension';
-import { PageCardCreatorProperties } from './ExtensionProperties';
+import { PageCreatorProperties } from './ExtensionProperties';
 import { PageCard } from './PageCard';
 import Book from './Book';
 
@@ -49,8 +49,8 @@ export type CreateRejectReturns = {
 
 export type CreateReturns = CreateResolveReturns | CreateRejectReturns;
 
-export default abstract class PageCardCreator extends Extension {
-  abstract properties: PageCardCreatorProperties;
+export default abstract class PageCreator extends Extension {
+  abstract properties: PageCreatorProperties;
 
   abstract templates(props: TemplatesProps): Promise<TemplatesReturns>;
 

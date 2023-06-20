@@ -13,8 +13,8 @@ export type ExtensionProperties =
   | BookSaverProperties
   | BookUpdaterProperties
   | LayoutBuilderProperties
-  | PageCardCreatorProperties
-  | PageCardProcessorProperties
+  | PageCreatorProperties
+  | PageProcessorProperties
   | PageExplorerProperties
   | StyleThemeProperties;
 
@@ -85,7 +85,7 @@ export interface BookUpdaterProperties {
   bookFormat: string[];
 }
 
-export interface PageCardCreatorProperties {
+export interface PageCreatorProperties {
   action: 'properties';
   name: string;
   id: string;
@@ -104,7 +104,7 @@ export interface PageExplorerProperties {
   type: 'page-explorer';
 }
 
-export interface PageCardProcessorProperties {
+export interface PageProcessorProperties {
   action: 'properties';
   name: string;
   id: string;
