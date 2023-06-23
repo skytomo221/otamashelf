@@ -91,7 +91,7 @@ export interface PageCreatorProperties {
   id: string;
   version: string;
   author: string;
-  type: 'page-card-creator';
+  type: 'page-creator';
   bookFormat: string[];
 }
 
@@ -110,7 +110,7 @@ export interface PageProcessorProperties {
   id: string;
   version: string;
   author: string;
-  type: 'page-card-processor';
+  type: 'page-processor';
   bookFormat: string[];
 }
 

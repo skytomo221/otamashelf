@@ -9,10 +9,10 @@ import PageCreator, {
 export default class OtmPageCreator extends PageCreator {
   public readonly properties: PageCreatorProperties = {
     action: 'properties',
-    name: 'OTM Page Card Creator',
-    id: 'otm-page-card-creator',
+    name: 'OTM Page Creator',
+    id: 'otm-page-creator',
     version: '0.1.0',
-    type: 'page-card-creator',
+    type: 'page-creator',
     author: 'skytomo221',
     bookFormat: ['otm'],
   };

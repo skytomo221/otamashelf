@@ -6,7 +6,7 @@ import { PageCard } from '../src/PageCard';
 test('PageCreatorsRegistry instance of BookLoader', async () => {
   const pageCreatorsRegistry = new PageCreatorsRegistry();
   pageCreatorsRegistry.register(new OtmPageCreator());
-  expect(pageCreatorsRegistry.get('otm-page-card-creator')).toBeInstanceOf(
+  expect(pageCreatorsRegistry.get('otm-page-creator')).toBeInstanceOf(
     PageCreator,
   );
 });
@@ -15,7 +15,7 @@ test('BookUpdatersRegistry return keys', async () => {
   const pageCreatorsRegistry = new PageCreatorsRegistry();
   pageCreatorsRegistry.register(new OtmPageCreator());
   expect(Array.from(pageCreatorsRegistry.keys())).toEqual([
-    'otm-page-card-creator',
+    'otm-page-creator',
   ]);
 });
 
@@ -23,7 +23,7 @@ test('PageCreatorsRegistry return templates returns', async () => {
   const pageCreatorsRegistry = new PageCreatorsRegistry();
   pageCreatorsRegistry.register(new OtmPageCreator());
   expect(
-    await pageCreatorsRegistry.templates('otm-page-card-creator', {
+    await pageCreatorsRegistry.templates('otm-page-creator', {
       action: 'templates',
     }),
   ).toEqual({
@@ -39,7 +39,7 @@ test('PageCreatorsRegistry return create returns', async () => {
   const pageCreatorsRegistry = new PageCreatorsRegistry();
   pageCreatorsRegistry.register(new OtmPageCreator());
   const result = await pageCreatorsRegistry.create(
-    'otm-page-card-creator',
+    'otm-page-creator',
     {
       action: 'create',
       templateId: 'word',
