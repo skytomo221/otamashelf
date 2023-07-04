@@ -13,6 +13,7 @@ export type ExtensionProperties =
   | BookSaverProperties
   | BookUpdaterProperties
   | LayoutBuilderProperties
+  | LayoutProcessorProperties
   | PageCreatorProperties
   | PageProcessorProperties
   | PageExplorerProperties
@@ -115,6 +116,15 @@ export interface PageProcessorProperties {
 }
 
 export interface LayoutBuilderProperties {
+  action: 'properties';
+  name: string;
+  id: string;
+  version: string;
+  author: string;
+  type: 'layout-builder';
+}
+
+export interface LayoutProcessorProperties {
   action: 'properties';
   name: string;
   id: string;
