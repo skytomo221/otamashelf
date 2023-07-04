@@ -20,7 +20,7 @@ export default class PageProcessorsRegistry<
     const v = this.get(id);
     if (!v) {
       return Promise.resolve({
-        action: 'update-page',
+        action: 'process-page',
         status: 'reject',
         returns: {
           reason: `PageCardUpdater ${id} not found`,
