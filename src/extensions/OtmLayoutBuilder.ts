@@ -2,26 +2,20 @@ import Ajv, { JSONSchemaType } from 'ajv';
 
 import { LayoutBuilderProperties } from '../ExtensionProperties';
 import LayoutBuilder from '../LayoutBuilder';
-import {
-  LayoutCard,
-  Chip,
-  LayoutComponent,
-  Plain,
-  P,
-} from '../LayoutCard';
+import { LayoutCard, Chip, LayoutComponent, Reference, P } from '../LayoutCard';
 import { PageCard } from '../PageCard';
 import { Translation } from '../otm/Translation';
 import { Word, wordScheme } from '../otm/Word';
 
 export default class OtmLayoutBuilder extends LayoutBuilder {
-  public properties: LayoutBuilderProperties = ({
+  public properties: LayoutBuilderProperties = {
     action: 'properties',
     name: 'OTM Layout Builder',
     id: 'otm-layout-builder',
     version: '0.1.0',
     type: 'layout-builder',
     author: 'skytomo221',
-  });
+  };
 
   public readonly layout = async (word: PageCard): Promise<LayoutCard> => {
     const ajv = new Ajv();
@@ -39,7 +33,8 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
             component: 'h3',
             contents: [
               {
-                component: 'text/plain',
+                component: 'reference',
+                mime: 'text/plain',
                 reference: `.title`,
               } as LayoutComponent,
             ],
@@ -48,7 +43,8 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
             component: 'p',
             contents: [
               {
-                component: 'text/markdown',
+                component: 'reference',
+                mime: 'text/markdown',
                 reference: `.text`,
               } as LayoutComponent,
             ],
@@ -66,7 +62,8 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
             onClick: 'contents/add',
             contents: [
               {
-                component: 'text/plain',
+                component: 'text',
+                mime: 'text/plain',
                 text: '新しくコンテンツを追加する',
               },
             ],
@@ -84,13 +81,15 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
               {
                 component: 'chip',
                 key: {
-                  component: 'text/plain',
+                  component: 'text',
+                  mime: 'text/plain',
                   text: translation.title,
                 },
               },
               ...translation.forms.map(
-                (_, twIndex): Plain => ({
-                  component: 'text/plain',
+                (_, twIndex): Reference => ({
+                  component: 'reference',
+                  mime: 'text/plain',
                   reference: `translations.${index}.forms.${twIndex}`,
                 }),
               ),
@@ -107,13 +106,14 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
             component: 'h2',
             contents: [
               {
-                component: 'text/plain',
+                component: 'reference',
+                mime: 'text/plain',
                 reference: 'entry.form',
               },
               ...(word.tags ?? []).map(
                 (tag): Chip => ({
                   component: 'chip',
-                  key: { component: 'text/plain', text: tag },
+                  key: { component: 'text', mime: 'text/plain', text: tag },
                 }),
               ),
             ],
@@ -130,7 +130,9 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
     items: wordScheme,
   };
 
-  public readonly indexes = async (words: PageCard[]): Promise<LayoutCard[]> => {
+  public readonly indexes = async (
+    words: PageCard[],
+  ): Promise<LayoutCard[]> => {
     const ajv = new Ajv();
     const valid = ajv.validate(this.wordsScheme, words);
     if (!valid) {
@@ -144,7 +146,8 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
             component: 'div',
             contents: [
               {
-                component: 'text/plain',
+                component: 'text',
+                mime: 'text/plain',
                 text: (word as unknown as Word).entry.form,
               } as LayoutComponent,
             ],

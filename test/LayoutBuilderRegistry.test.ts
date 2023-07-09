@@ -51,13 +51,15 @@ describe('LayoutBuilderRegistry', () => {
               component: 'h2',
               contents: [
                 {
-                  component: 'text/plain',
+                  component: 'reference',
+                  mime: 'text/plain',
                   reference: 'entry.form',
                 },
                 {
                   component: 'chip',
                   key: {
-                    component: 'text/plain',
+                    component: 'text',
+                    mime: 'text/plain',
                     text: '命令',
                   },
                 },
@@ -72,12 +74,14 @@ describe('LayoutBuilderRegistry', () => {
                     {
                       component: 'chip',
                       key: {
-                        component: 'text/plain',
+                        component: 'text',
+                        mime: 'text/plain',
                         text: '動詞',
                       },
                     },
                     {
-                      component: 'text/plain',
+                      component: 'reference',
+                      mime: 'text/plain',
                       reference: 'translations.0.forms.0',
                     },
                   ],
@@ -94,7 +98,8 @@ describe('LayoutBuilderRegistry', () => {
                     component: 'h3',
                     contents: [
                       {
-                        component: 'text/plain',
+                        component: 'reference',
+                        mime: 'text/plain',
                         reference: '.title',
                       },
                     ],
@@ -103,7 +108,8 @@ describe('LayoutBuilderRegistry', () => {
                     component: 'p',
                     contents: [
                       {
-                        component: 'text/markdown',
+                        component: 'reference',
+                        mime: 'text/markdown',
                         reference: '.text',
                       },
                     ],
@@ -118,7 +124,8 @@ describe('LayoutBuilderRegistry', () => {
                   component: 'button',
                   contents: [
                     {
-                      component: 'text/plain',
+                      component: 'text',
+                      mime: 'text/plain',
                       text: '新しくコンテンツを追加する',
                     },
                   ],
@@ -181,7 +188,7 @@ describe('LayoutBuilderRegistry', () => {
             contents: [
               {
                 component: 'div',
-                contents: [{ component: 'text/plain', text: '+' }],
+                contents: [{ component: 'text', mime: 'text/plain', text: '+' }],
               },
             ],
           },

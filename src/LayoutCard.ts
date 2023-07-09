@@ -19,8 +19,8 @@ export type LayoutComponent =
   | Chip
   | DraggableArray
   | Recursion
-  | Plain
-  | Markdown;
+  | Text
+  | Reference;
 
 export interface LayoutBaseComponent {
   component: string;
@@ -86,8 +86,8 @@ export type Array = LayoutBaseComponent & {
 
 export type Chip = LayoutBaseComponent & {
   component: 'chip';
-  key: Plain;
-  value?: Plain;
+  key: Text | Reference;
+  value?: Text | Reference;
 };
 
 export type DraggableArray = LayoutBaseComponent & {
@@ -101,29 +101,17 @@ export type Recursion = LayoutBaseComponent & {
   contents: LayoutComponent[];
 };
 
-export type Plain = LayoutBaseComponent &
-  (
-    | {
-        component: 'text/plain';
-        text: string;
-      }
-    | {
-        component: 'text/plain';
-        reference: string;
-      }
-  );
+export type Text = LayoutBaseComponent & {
+  component: 'text';
+  mime: string;
+  text: string;
+};
 
-export type Markdown = LayoutBaseComponent &
-  (
-    | {
-        component: 'text/markdown';
-        text: string;
-      }
-    | {
-        component: 'text/markdown';
-        reference: string;
-      }
-  );
+export type Reference = LayoutBaseComponent & {
+  component: 'reference';
+  mime: string;
+  reference: string;
+};
 
 export type LayoutOption = {
   [key: string]: string | number | boolean;
