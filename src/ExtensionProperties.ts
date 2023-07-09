@@ -130,7 +130,7 @@ export interface LayoutProcessorProperties {
   id: string;
   version: string;
   author: string;
-  type: 'layout-builder';
+  type: 'layout-processor';
 }
 
 export interface StyleThemeProperties {
