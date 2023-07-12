@@ -4,14 +4,14 @@ import { LayoutCard } from './LayoutCard';
 
 export type ProcessLayoutProps = {
   action: 'process-layout';
-  pageCard: LayoutCard;
+  layoutCard: LayoutCard;
 };
 
 export type ProcessLayoutResolveReturns = {
   action: 'process-layout';
   status: 'resolve';
   returns: {
-    pageCard: LayoutCard;
+    layoutCard: LayoutCard;
   };
 };
 
@@ -30,5 +30,5 @@ export type ProcessLayoutReturns =
 export default abstract class LayoutProcessor extends Extension {
   static properties: LayoutProcessorProperties;
 
-  abstract processLayout(word: ProcessLayoutProps): Promise<ProcessLayoutReturns>;
+  abstract processLayout(props: ProcessLayoutProps): Promise<ProcessLayoutReturns>;
 }
