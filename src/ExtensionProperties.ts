@@ -17,7 +17,8 @@ export type ExtensionProperties =
   | PageCreatorProperties
   | PageProcessorProperties
   | PageExplorerProperties
-  | StyleThemeProperties;
+  | StyleThemeProperties
+  | TextConverterProperties;
 
 export interface BookControllerProperties {
   action: 'properties';
@@ -140,4 +141,13 @@ export interface StyleThemeProperties {
   version: string;
   author: string;
   type: 'style-theme';
+}
+
+export interface TextConverterProperties {
+  action: 'properties';
+  name: string;
+  id: string;
+  version: string;
+  author: string;
+  type: 'text-converter';
 }
