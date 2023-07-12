@@ -149,5 +149,6 @@ export interface TextConverterProperties {
   id: string;
   version: string;
   author: string;
+  mime: string;
   type: 'text-converter';
 }

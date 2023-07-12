@@ -12,6 +12,7 @@ class TestTextConverter extends TextConverter {
     id: 'test-text-converter',
     version: '0.1.0',
     author: 'skytomo221',
+    mime: 'text/plain',
     type: 'text-converter',
   };
 
