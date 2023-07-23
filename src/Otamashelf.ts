@@ -14,6 +14,7 @@ import BookUpdatersRegistry from './BookUpdatersRegistry';
 import LayoutBuilderRegistry from './LayoutBuilderRegistry';
 import Registry from './Registry';
 import Extension from './Extension';
+import TextConvertersRegistry from './TextConvertersRegistry';
 
 function camelize(str: string) {
   return str
@@ -37,6 +38,7 @@ export default class Otamashelf extends EventEmitter {
   readonly pageCreatorsRegistry = new PageCreatorsRegistry();
   readonly pageProcessorsRegistry = new PageProcessorsRegistry();
   readonly pageExplorersRegistry = new PageExplorersRegistry();
+  readonly textConvertersRegistry = new TextConvertersRegistry();
 
   private regesterMethodCommands(obj: object) {
     Object.getOwnPropertyNames(obj.constructor.prototype)
@@ -110,6 +112,7 @@ export default class Otamashelf extends EventEmitter {
     this.regesterMethodCommands(this.pageCreatorsRegistry);
     this.regesterMethodCommands(this.pageExplorersRegistry);
     this.regesterMethodCommands(this.pageProcessorsRegistry);
+    this.regesterMethodCommands(this.textConvertersRegistry);
     this.regesterRegistryMethodCommands(this.bookCreatorsRegistry);
     this.regesterRegistryMethodCommands(this.bookIndexersRegistry);
     this.regesterRegistryMethodCommands(this.bookLoadersRegistry);
@@ -119,6 +122,7 @@ export default class Otamashelf extends EventEmitter {
     this.regesterRegistryMethodCommands(this.pageCreatorsRegistry);
     this.regesterRegistryMethodCommands(this.pageExplorersRegistry);
     this.regesterRegistryMethodCommands(this.pageProcessorsRegistry);
+    this.regesterRegistryMethodCommands(this.textConvertersRegistry);
   }
 
   executeCommand(action: string, ...props: any[]) {

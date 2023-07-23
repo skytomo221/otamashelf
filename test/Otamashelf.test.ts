@@ -92,6 +92,12 @@ test('Otamashelf has commands', () => {
     'otamashelf.pageProcessorsRegistry.updatePage',
     'otamashelf.regesterCommand',
     'otamashelf.regesterContext',
+    'otamashelf.textConvertersRegistry.constructor',
+    'otamashelf.textConvertersRegistry.convert',
+    'otamashelf.textConvertersRegistry.get',
+    'otamashelf.textConvertersRegistry.keys',
+    'otamashelf.textConvertersRegistry.properties',
+    'otamashelf.textConvertersRegistry.register',
   ]);
 });
 
