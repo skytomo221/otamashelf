@@ -17,6 +17,7 @@ export type ExtensionProperties =
   | PageCreatorProperties
   | PageProcessorProperties
   | PageExplorerProperties
+  | PageUpdaterProperties
   | StyleThemeProperties
   | TextConverterProperties;
 
@@ -113,6 +114,16 @@ export interface PageProcessorProperties {
   version: string;
   author: string;
   type: 'page-processor';
+  bookFormat: string[];
+}
+
+export interface PageUpdaterProperties {
+  action: 'properties';
+  name: string;
+  id: string;
+  version: string;
+  author: string;
+  type: 'page-updater';
   bookFormat: string[];
 }
 
