@@ -69,8 +69,9 @@ test('PageCreatorsRegistry return update returns', async () => {
   expect(pageCard.tags).toEqual([]);
   expect(pageCard.contents).toEqual([
     {
+      title: '無題のコンテンツ',
       text: '',
-      type: '無題のコンテンツ',
+      markdown: '',
     },
   ]);
   expect(pageCard.variations).toEqual([]);

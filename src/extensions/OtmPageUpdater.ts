@@ -38,7 +38,7 @@ export default class OtmPageUpdater extends PageUpdater {
             ...pageCard,
             contents: [
               ...(pageCard as unknown as Word).contents,
-              { type: '無題のコンテンツ', text: '' },
+              { title: '無題のコンテンツ', text: '', markdown: '' },
             ],
           },
         },
