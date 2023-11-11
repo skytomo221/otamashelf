@@ -6,6 +6,7 @@ import BookSaversRegistry from './BookSaversRegistry';
 import BookCreatorsRegistry from './BookCreatorsRegistry';
 import PageCreatorsRegistry from './PageCreatorsRegistry';
 import PageProcessorsRegistry from './PageProcessorsRegistry';
+import PageUpdatersRegistry from './PageUpdatersRegistry';
 import ContextsRegistry, { ContextTypes } from './ContextsRegistry';
 import CommandsRegistry from './CommandsRegistry';
 import PageExplorersRegistry from './PageExplorersRegistry';
@@ -38,6 +39,7 @@ export default class Otamashelf extends EventEmitter {
   readonly pageCreatorsRegistry = new PageCreatorsRegistry();
   readonly pageProcessorsRegistry = new PageProcessorsRegistry();
   readonly pageExplorersRegistry = new PageExplorersRegistry();
+  readonly pageUpdatersRegistry = new PageUpdatersRegistry();
   readonly textConvertersRegistry = new TextConvertersRegistry();
 
   private regesterMethodCommands(obj: object) {
@@ -113,6 +115,7 @@ export default class Otamashelf extends EventEmitter {
     this.regesterMethodCommands(this.pageExplorersRegistry);
     this.regesterMethodCommands(this.pageProcessorsRegistry);
     this.regesterMethodCommands(this.textConvertersRegistry);
+    this.regesterMethodCommands(this.textConvertersRegistry);
     this.regesterRegistryMethodCommands(this.bookCreatorsRegistry);
     this.regesterRegistryMethodCommands(this.bookIndexersRegistry);
     this.regesterRegistryMethodCommands(this.bookLoadersRegistry);
@@ -122,6 +125,7 @@ export default class Otamashelf extends EventEmitter {
     this.regesterRegistryMethodCommands(this.pageCreatorsRegistry);
     this.regesterRegistryMethodCommands(this.pageExplorersRegistry);
     this.regesterRegistryMethodCommands(this.pageProcessorsRegistry);
+    this.regesterRegistryMethodCommands(this.pageUpdatersRegistry);
     this.regesterRegistryMethodCommands(this.textConvertersRegistry);
   }
 
