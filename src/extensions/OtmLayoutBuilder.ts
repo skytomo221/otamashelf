@@ -61,7 +61,11 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
         contents: [
           {
             component: 'button',
-            onClick: 'contents/add',
+            onClick: {
+              type: 'page-updater',
+              id: 'otm-page-updater',
+              script: 'contents/add'
+            },
             contents: [
               {
                 component: 'text',

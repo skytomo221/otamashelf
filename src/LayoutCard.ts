@@ -30,7 +30,11 @@ export interface LayoutBaseComponent {
 
 export type Button = LayoutBaseComponent & {
   component: 'button';
-  onClick: string;
+  onClick: {
+    type: string;
+    id: string;
+    script: string;
+  };
   contents: LayoutComponent[];
 };
 

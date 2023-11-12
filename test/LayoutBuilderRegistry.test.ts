@@ -129,7 +129,11 @@ describe('LayoutBuilderRegistry', () => {
                       text: '新しくコンテンツを追加する',
                     },
                   ],
-                  onClick: 'contents/add',
+                  onClick: {
+                    'id': 'otm-page-updater',
+                    'script': 'contents/add',
+                    'type': 'page-updater',
+                  },
                 },
               ],
             },
