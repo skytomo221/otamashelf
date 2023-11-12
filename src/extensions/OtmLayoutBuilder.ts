@@ -15,6 +15,8 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
     version: '0.1.0',
     type: 'layout-builder',
     author: 'skytomo221',
+    bookFormat: ['otm'],
+    dependentPageUpdaters: ['otm-page-updater'],
   };
 
   public readonly layout = async (word: PageCard): Promise<LayoutCard> => {

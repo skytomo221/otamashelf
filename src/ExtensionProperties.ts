@@ -134,6 +134,8 @@ export interface LayoutBuilderProperties {
   version: string;
   author: string;
   type: 'layout-builder';
+  bookFormat: string[];
+  dependentPageUpdaters: string[];
 }
 
 export interface LayoutProcessorProperties {
