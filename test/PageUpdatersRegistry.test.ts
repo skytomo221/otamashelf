@@ -39,7 +39,7 @@ test('PageCreatorsRegistry return update returns', async () => {
   pageUpdatersRegistry.register(new OtmPageUpdater());
   const result = await pageUpdatersRegistry.update('otm-page-updater', {
     action: 'update-page',
-    script: 'content/add',
+    script: 'contents/add',
     pageCard: {
       id: '1',
       title: 'Word',
