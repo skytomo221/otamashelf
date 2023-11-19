@@ -29,7 +29,7 @@ export default class OtmPageUpdater extends PageUpdater {
 
   updatePage(props: UpdatePageProps): Promise<UpdatePageReturns> {
     const { pageCard, script } = props;
-    if (script === 'content/add') {
+    if (script === 'contents/add') {
       return Promise.resolve({
         action: 'update-page',
         status: 'resolve',
