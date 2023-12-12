@@ -15,9 +15,9 @@ export type LayoutComponent =
   | H6
   | P
   | Span
-  | Array
   | Chip
-  | DraggableArray
+  | Droppable
+  | Draggable
   | Recursion
   | Text
   | Reference;
@@ -82,22 +82,23 @@ export type Span = LayoutBaseComponent & {
   contents: LayoutComponent[];
 };
 
-export type Array = LayoutBaseComponent & {
-  component: 'array';
-  baseReference: string;
-  content: LayoutComponent;
-};
-
 export type Chip = LayoutBaseComponent & {
   component: 'chip';
   key: Text | Reference;
   value?: Text | Reference;
 };
 
-export type DraggableArray = LayoutBaseComponent & {
-  component: 'draggable-array';
-  baseReference: string;
-  content: LayoutComponent;
+export type Droppable = LayoutBaseComponent & {
+  component: 'droppable';
+  reference: string;
+  type: string;
+  contents: LayoutComponent[];
+};
+
+export type Draggable = LayoutBaseComponent & {
+  component: 'draggable';
+  reference: string;
+  contents: LayoutComponent[];
 };
 
 export type Recursion = LayoutBaseComponent & {

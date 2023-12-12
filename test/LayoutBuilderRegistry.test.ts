@@ -89,33 +89,105 @@ describe('LayoutBuilderRegistry', () => {
               ],
             },
             {
-              baseReference: 'contents',
-              component: 'draggable-array',
-              content: {
-                component: 'recursion',
-                contents: [
-                  {
-                    component: 'h3',
-                    contents: [
-                      {
-                        component: 'reference',
-                        mime: 'text/plain',
-                        reference: '.title',
-                      },
-                    ],
-                  },
-                  {
-                    component: 'p',
-                    contents: [
-                      {
-                        component: 'reference',
-                        mime: 'text/markdown',
-                        reference: '.text',
-                      },
-                    ],
-                  },
-                ],
-              },
+              component: 'droppable',
+              reference: 'contents',
+              type: 'content',
+              contents: [
+                {
+                  component: 'draggable',
+                  key: 0,
+                  reference: 'contents.0',
+                  contents: [
+                    {
+                      component: 'div',
+                      contents: [
+                        {
+                          component: 'h3',
+                          contents: [
+                            {
+                              component: 'reference',
+                              mime: 'text/plain',
+                              reference: 'contents.0.title',
+                            },
+                          ],
+                        },
+                        {
+                          component: 'p',
+                          contents: [
+                            {
+                              component: 'reference',
+                              mime: 'text/markdown',
+                              reference: 'contents.0.text',
+                            },
+                          ],
+                        },
+                        {
+                          component: 'button',
+                          onClick: {
+                            type: 'page-updater',
+                            id: 'otm-page-updater',
+                            script: `contents/remove\t0`,
+                          },
+                          contents: [
+                            {
+                              component: 'text',
+                              mime: 'text/plain',
+                              text: 'コンテンツを削除する',
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  component: 'draggable',
+                  key: 1,
+                  reference: 'contents.1',
+                  contents: [
+                    {
+                      component: 'div',
+                      contents: [
+                        {
+                          component: 'h3',
+                          contents: [
+                            {
+                              component: 'reference',
+                              mime: 'text/plain',
+                              reference: 'contents.1.title',
+                            },
+                          ],
+                        },
+                        {
+                          component: 'p',
+                          contents: [
+                            {
+                              component: 'reference',
+                              mime: 'text/markdown',
+                              reference: 'contents.1.text',
+                            },
+                          ],
+                        },
+                        {
+                          component: 'button',
+                          onClick: {
+                            type: 'page-updater',
+                            id: 'otm-page-updater',
+                            script: `contents/remove\t1`,
+                          },
+                          contents: [
+                            {
+                              component: 'text',
+                              mime: 'text/plain',
+                              text: 'コンテンツを削除する',
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
             },
             {
               component: 'div',
@@ -130,9 +202,9 @@ describe('LayoutBuilderRegistry', () => {
                     },
                   ],
                   onClick: {
-                    'id': 'otm-page-updater',
-                    'script': 'contents/add',
-                    'type': 'page-updater',
+                    id: 'otm-page-updater',
+                    script: 'contents/add',
+                    type: 'page-updater',
                   },
                 },
               ],
@@ -192,7 +264,9 @@ describe('LayoutBuilderRegistry', () => {
             contents: [
               {
                 component: 'div',
-                contents: [{ component: 'text', mime: 'text/plain', text: '+' }],
+                contents: [
+                  { component: 'text', mime: 'text/plain', text: '+' },
+                ],
               },
             ],
           },

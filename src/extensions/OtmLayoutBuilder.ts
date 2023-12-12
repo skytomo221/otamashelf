@@ -6,6 +6,7 @@ import { LayoutCard, Chip, LayoutComponent, Reference, P } from '../LayoutCard';
 import { PageCard } from '../PageCard';
 import { Translation } from '../otm/Translation';
 import { Word, wordScheme } from '../otm/Word';
+import { contentScheme } from '../otm/Content';
 
 export default class OtmLayoutBuilder extends LayoutBuilder {
   public properties: LayoutBuilderProperties = {
@@ -26,33 +27,62 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
       throw new Error(ajv.errorsText());
     }
     const rawContents = {
-      baseReference: 'contents',
-      component: 'draggable-array',
-      content: {
-        component: 'recursion',
-        contents: [
-          {
-            component: 'h3',
-            contents: [
-              {
-                component: 'reference',
-                mime: 'text/plain',
-                reference: `.title`,
-              } as LayoutComponent,
-            ],
-          },
-          {
-            component: 'p',
-            contents: [
-              {
-                component: 'reference',
-                mime: 'text/markdown',
-                reference: `.text`,
-              } as LayoutComponent,
-            ],
-          },
-        ],
-      },
+      component: 'droppable',
+      reference: 'contents',
+      type: 'content',
+      contents: word.contents.map((content, index) => {
+        const valid = ajv.validate(contentScheme, content);
+        if (!valid) {
+          throw new Error(ajv.errorsText());
+        }
+        return {
+          component: 'draggable',
+          reference: `contents.${index}`,
+          contents: [
+            {
+              component: 'div',
+              contents: [
+                {
+                  component: 'h3',
+                  contents: [
+                    {
+                      component: 'reference',
+                      mime: 'text/plain',
+                      reference: `contents.${index}.title`,
+                    },
+                  ],
+                },
+                {
+                  component: 'p',
+                  contents: [
+                    {
+                      component: 'reference',
+                      mime: 'text/markdown',
+                      reference: `contents.${index}.text`,
+                    },
+                  ],
+                },
+                {
+                  component: 'button',
+                  onClick: {
+                    type: 'page-updater',
+                    id: 'otm-page-updater',
+                    script: `contents/remove\t${index}`,
+                  },
+                  contents: [
+                    {
+                      component: 'text',
+                      mime: 'text/plain',
+                      text: 'コンテンツを削除する',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          key: index,
+        };
+      }),
     } as LayoutComponent;
     const contents: LayoutComponent[] = [
       rawContents,
@@ -64,7 +94,7 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
             onClick: {
               type: 'page-updater',
               id: 'otm-page-updater',
-              script: 'contents/add'
+              script: 'contents/add',
             },
             contents: [
               {
