@@ -1,6 +1,6 @@
 {
   "name": "otamashelf",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "description": "",
   "main": "index.js",
   "types": "./dist/index.d.ts",
