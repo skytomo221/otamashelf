@@ -28,7 +28,7 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
     }
     const rawContents = {
       component: 'droppable',
-      reference: 'contents',
+      droppableId: 'contents',
       type: 'content',
       contents: word.contents.map((content, index) => {
         const valid = ajv.validate(contentScheme, content);
@@ -37,7 +37,6 @@ export default class OtmLayoutBuilder extends LayoutBuilder {
         }
         return {
           component: 'draggable',
-          reference: `contents.${index}`,
           contents: [
             {
               component: 'div',

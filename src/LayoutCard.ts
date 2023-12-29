@@ -90,14 +90,13 @@ export type Chip = LayoutBaseComponent & {
 
 export type Droppable = LayoutBaseComponent & {
   component: 'droppable';
-  reference: string;
+  droppableId: string;
   type: string;
   contents: LayoutComponent[];
 };
 
 export type Draggable = LayoutBaseComponent & {
   component: 'draggable';
-  reference: string;
   contents: LayoutComponent[];
 };
 

@@ -90,13 +90,12 @@ describe('LayoutBuilderRegistry', () => {
             },
             {
               component: 'droppable',
-              reference: 'contents',
+              droppableId: 'contents',
               type: 'content',
               contents: [
                 {
                   component: 'draggable',
                   key: 0,
-                  reference: 'contents.0',
                   contents: [
                     {
                       component: 'div',
@@ -143,7 +142,6 @@ describe('LayoutBuilderRegistry', () => {
                 {
                   component: 'draggable',
                   key: 1,
-                  reference: 'contents.1',
                   contents: [
                     {
                       component: 'div',
