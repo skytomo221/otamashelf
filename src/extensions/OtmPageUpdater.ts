@@ -43,6 +43,20 @@ export default class OtmPageUpdater extends PageUpdater {
           },
         },
       });
+    } else if (/contents\/remove\t\d+/.test(script)) {
+      const index = parseInt(script.split('\t')[1]);
+      return Promise.resolve({
+        action: 'update-page',
+        status: 'resolve',
+        returns: {
+          pageCard: {
+            ...pageCard,
+            contents: (pageCard as unknown as Word).contents.filter(
+              (_, i) => i !== index,
+            ),
+          },
+        },
+      });
     }
     return Promise.resolve({
       action: 'update-page',
