@@ -51,17 +51,39 @@ describe('LayoutBuilderRegistry', () => {
               component: 'h2',
               contents: [
                 {
-                  component: 'reference',
-                  mime: 'text/plain',
-                  reference: 'entry.form',
+                  component: 'editable',
+                  element: 'span',
+                  inputs: [
+                    {
+                      component: 'label',
+                      for: 'entry.form',
+                      contents: ['見出し語'],
+                    },
+                    {
+                      component: 'input',
+                      id: 'entry.form',
+                      name: '見出し語',
+                      type: 'text',
+                      reference: 'entry.form',
+                    },
+                    {
+                      component: 'input',
+                      id: 'entry.reset',
+                      type: 'reset',
+                      value: 'キャンセル',
+                    },
+                    {
+                      component: 'input',
+                      id: 'entry.submit',
+                      type: 'submit',
+                      value: '変更する',
+                    },
+                  ],
+                  outputs: ['+', { component: 'edit-button' }],
                 },
                 {
                   component: 'chip',
-                  key: {
-                    component: 'text',
-                    mime: 'text/plain',
-                    text: '命令',
-                  },
+                  key: '命令',
                 },
               ],
             },
@@ -73,16 +95,43 @@ describe('LayoutBuilderRegistry', () => {
                   contents: [
                     {
                       component: 'chip',
-                      key: {
-                        component: 'text',
-                        mime: 'text/plain',
-                        text: '動詞',
-                      },
+                      key: '動詞',
                     },
                     {
-                      component: 'reference',
-                      mime: 'text/plain',
-                      reference: 'translations.0.forms.0',
+                      component: 'editable',
+                      element: 'span',
+                      inputs: [
+                        {
+                          component: 'label',
+                          for: 'translations.0.forms.0',
+                          contents: ['訳語'],
+                        },
+                        {
+                          component: 'input',
+                          id: 'translations.0.forms.0',
+                          name: '訳語',
+                          reference: 'translations.0.forms.0',
+                          type: 'text',
+                        },
+                        {
+                          component: 'input',
+                          id: 'translations.0.forms.0.reset',
+                          type: 'reset',
+                          value: 'キャンセル',
+                        },
+                        {
+                          component: 'input',
+                          id: 'translations.0.forms.0.submit',
+                          type: 'submit',
+                          value: '変更する',
+                        },
+                      ],
+                      outputs: [
+                        'ポインタの値をインクリメントする',
+                        {
+                          component: 'edit-button',
+                        },
+                      ],
                     },
                   ],
                 },
@@ -95,43 +144,86 @@ describe('LayoutBuilderRegistry', () => {
               contents: [
                 {
                   component: 'draggable',
-                  key: 0,
                   contents: [
                     {
-                      component: 'div',
-                      contents: [
+                      component: 'editable',
+                      element: 'div',
+                      inputs: [
                         {
-                          component: 'h3',
+                          component: 'div',
                           contents: [
                             {
-                              component: 'reference',
-                              mime: 'text/plain',
+                              component: 'label',
+                              for: 'contents.0.title',
+                              contents: ['タイトル'],
+                            },
+                            {
+                              component: 'input',
+                              type: 'text',
+                              id: 'contents.0.title',
+                              name: 'contents.0.title',
                               reference: 'contents.0.title',
                             },
                           ],
                         },
                         {
-                          component: 'p',
+                          component: 'div',
                           contents: [
                             {
-                              component: 'reference',
-                              mime: 'text/markdown',
-                              reference: 'contents.0.text',
+                              component: 'label',
+                              for: 'contents.0.text',
+                              contents: ['内容'],
+                            },
+                            {
+                              component: 'textarea',
+                              id: 'contents.0.markdown',
+                              name: 'contents.0.markdown',
+                              reference: 'contents.0.markdown',
                             },
                           ],
                         },
                         {
-                          component: 'button',
-                          onClick: {
-                            type: 'page-updater',
-                            id: 'otm-page-updater',
-                            script: `contents/remove\t0`,
-                          },
+                          component: 'input',
+                          id: 'contents.0.reset',
+                          type: 'reset',
+                          value: 'キャンセル',
+                        },
+                        {
+                          component: 'input',
+                          id: 'contents.0.submit',
+                          type: 'submit',
+                          value: '変更する',
+                        },
+                      ],
+                      outputs: [
+                        {
+                          component: 'div',
                           contents: [
                             {
-                              component: 'text',
-                              mime: 'text/plain',
-                              text: 'コンテンツを削除する',
+                              component: 'h3',
+                              contents: ['C言語'],
+                            },
+                            {
+                              component: 'p',
+                              contents: [
+                                {
+                                  component: 'mime',
+                                  mime: 'text/markdown',
+                                  text: 'C言語で (*ptr)++; に相当する。',
+                                },
+                              ],
+                            },
+                            {
+                              component: 'button',
+                              onClick: {
+                                type: 'page-updater',
+                                id: 'otm-page-updater',
+                                script: `contents/remove\t0`,
+                              },
+                              contents: ['コンテンツを削除する'],
+                            },
+                            {
+                              component: 'edit-button',
                             },
                           ],
                         },
@@ -141,43 +233,86 @@ describe('LayoutBuilderRegistry', () => {
                 },
                 {
                   component: 'draggable',
-                  key: 1,
                   contents: [
                     {
-                      component: 'div',
-                      contents: [
+                      component: 'editable',
+                      element: 'div',
+                      inputs: [
                         {
-                          component: 'h3',
+                          component: 'div',
                           contents: [
                             {
-                              component: 'reference',
-                              mime: 'text/plain',
+                              component: 'label',
+                              for: 'contents.1.title',
+                              contents: ['タイトル'],
+                            },
+                            {
+                              component: 'input',
+                              type: 'text',
+                              id: 'contents.1.title',
+                              name: 'contents.1.title',
                               reference: 'contents.1.title',
                             },
                           ],
                         },
                         {
-                          component: 'p',
+                          component: 'div',
                           contents: [
                             {
-                              component: 'reference',
-                              mime: 'text/markdown',
-                              reference: 'contents.1.text',
+                              component: 'label',
+                              for: 'contents.1.text',
+                              contents: ['内容'],
+                            },
+                            {
+                              component: 'textarea',
+                              id: 'contents.1.markdown',
+                              name: 'contents.1.markdown',
+                              reference: 'contents.1.markdown',
                             },
                           ],
                         },
                         {
-                          component: 'button',
-                          onClick: {
-                            type: 'page-updater',
-                            id: 'otm-page-updater',
-                            script: `contents/remove\t1`,
-                          },
+                          component: 'input',
+                          id: 'contents.1.reset',
+                          type: 'reset',
+                          value: 'キャンセル',
+                        },
+                        {
+                          component: 'input',
+                          id: 'contents.1.submit',
+                          type: 'submit',
+                          value: '変更する',
+                        },
+                      ],
+                      outputs: [
+                        {
+                          component: 'div',
                           contents: [
                             {
-                              component: 'text',
-                              mime: 'text/plain',
-                              text: 'コンテンツを削除する',
+                              component: 'h3',
+                              contents: ['Pronunciation'],
+                            },
+                            {
+                              component: 'p',
+                              contents: [
+                                {
+                                  component: 'mime',
+                                  mime: 'text/markdown',
+                                  text: 'plʌs',
+                                },
+                              ],
+                            },
+                            {
+                              component: 'button',
+                              onClick: {
+                                type: 'page-updater',
+                                id: 'otm-page-updater',
+                                script: `contents/remove\t1`,
+                              },
+                              contents: ['コンテンツを削除する'],
+                            },
+                            {
+                              component: 'edit-button',
                             },
                           ],
                         },
@@ -192,13 +327,7 @@ describe('LayoutBuilderRegistry', () => {
               contents: [
                 {
                   component: 'button',
-                  contents: [
-                    {
-                      component: 'text',
-                      mime: 'text/plain',
-                      text: '新しくコンテンツを追加する',
-                    },
-                  ],
+                  contents: ['新しくコンテンツを追加する'],
                   onClick: {
                     id: 'otm-page-updater',
                     script: 'contents/add',
@@ -262,9 +391,7 @@ describe('LayoutBuilderRegistry', () => {
             contents: [
               {
                 component: 'div',
-                contents: [
-                  { component: 'text', mime: 'text/plain', text: '+' },
-                ],
+                contents: ['+'],
               },
             ],
           },
