@@ -1,32 +1,22 @@
-import Extension from './Extension';
-import { BookLoaderProperties } from './ExtensionProperties';
-import Book from './Book';
+import { Book } from './Book';
+import { ExtensionBase } from './ExtensionBase';
+import { BookExtensionBaseProperties } from './ExtensionProperties';
+import { SpecialPage } from './Page';
+
+export type BookLoaderProperties = BookExtensionBaseProperties & {
+  type: 'book-loader';
+};
 
 export type LoadProps = {
-  action: 'load';
+  configuration: SpecialPage;
   path: string;
 };
 
-export type LoadResolveReturns = {
-  action: 'load';
-  status: 'resolve';
-  returns: {
-    book: Book;
-  };
+export type LoadReturns = {
+  book: Pick<Book, 'configuration' | 'description' | 'pages' | 'title'>;
 };
 
-export type LoadRejectReturns = {
-  action: 'load';
-  status: 'reject';
-  returns: {
-    reason: string;
-  };
+export type BookLoader = ExtensionBase & {
+  properties: BookLoaderProperties;
+  load(props: LoadProps): Promise<LoadReturns>;
 };
-
-export type LoadReturns = LoadResolveReturns | LoadRejectReturns;
-
-export default abstract class BookLoader extends Extension {
-  abstract readonly properties: BookLoaderProperties;
-
-  abstract load(props: LoadProps): Promise<LoadReturns>;
-}

@@ -1,44 +1,39 @@
-import Extension from './Extension';
-import { PageExplorerProperties } from './ExtensionProperties';
+import { ExtensionBase } from './ExtensionBase';
+import { ExtensionBaseProperties } from './ExtensionProperties';
+import { ConfigurationPage } from './Page';
 import { SearchCard } from './SearchCard';
 
+export type PageExplorerProperties = ExtensionBaseProperties & {
+  type: 'page-explorer';
+};
+
 export type NameProps = {
-  action: 'name';
+  configuration: ConfigurationPage;
+  language: string;
 };
 
 export type NameReturns = {
-  action: 'name';
   name: string;
 };
 
 export type SearchProps = {
-  action: 'search';
-  cards: SearchCard[];
+  configuration: ConfigurationPage;
+  searchCards: SearchCard[];
   searchWord: string;
 };
 
-export type SearchResolveReturns = {
-  action: 'search';
-  status: 'resolve';
-  returns: {
-    ids: string[];
-  };
+export type SearchResult = {
+  id: string;
+  target: string;
+  hitParts: { text: string; index: number }[];
 };
 
-export type SearchRejectReturns = {
-  action: 'search';
-  status: 'reject';
-  returns: {
-    reason: string;
-  };
+export type SearchReturns = {
+  results: SearchResult[];
 };
 
-export type SearchReturns = SearchResolveReturns | SearchRejectReturns;
-
-export default abstract class PageExplorer extends Extension {
-  abstract properties: PageExplorerProperties;
-
-  abstract name(props: NameProps): Promise<NameReturns>;
-
-  abstract search(props: SearchProps): Promise<SearchReturns>;
-}
+export type PageExplorer = ExtensionBase & {
+  properties: PageExplorerProperties;
+  name(props: NameProps): Promise<NameReturns>;
+  search(props: SearchProps): Promise<SearchReturns>;
+};

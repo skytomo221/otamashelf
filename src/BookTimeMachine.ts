@@ -1,6 +1,6 @@
-import Book from './Book';
+import { Book } from './Book';
 import { Json } from './Json';
-import { PageCard } from './PageCard';
+import { ConfigurationPage, DescriptionPage, NormalPage, Page } from './Page';
 
 export interface FirstCommit {
   type: 'first-commit';
@@ -8,52 +8,54 @@ export interface FirstCommit {
   book: Book;
 }
 
-export interface AddPageCard {
-  type: 'add-page-card';
+export interface AddPage {
+  type: 'add-page';
   comment: string;
-  afterChange: PageCard;
+  afterChange: NormalPage;
 }
 
-export interface ModifyPageCard {
-  type: 'modify-page-card';
+export interface ModifyPage {
+  type: 'modify-page';
   comment: string;
-  beforeChange: PageCard;
-  afterChange: PageCard;
+  beforeChange: NormalPage;
+  afterChange: NormalPage;
 }
 
-export interface RemovePageCard {
-  type: 'remove-page-card';
+export interface RemovePage {
+  type: 'remove-page';
   comment: string;
-  beforeChange: PageCard;
+  beforeChange: NormalPage;
 }
 
-export interface AddConfigration {
-  type: 'add-configration';
+export interface ModifyConfiguration {
+  type: 'modify-configuration';
   comment: string;
-  afterChange: Json;
+  beforeChange: ConfigurationPage;
+  afterChange: ConfigurationPage;
 }
 
-export interface ModifyConfigration {
-  type: 'modify-configration';
+export interface ModifyDescription {
+  type: 'modify-description';
   comment: string;
-  beforeChange: Json;
-  afterChange: Json;
+  beforeChange: DescriptionPage;
+  afterChange: DescriptionPage;
 }
 
-export interface RemoveConfigration {
-  type: 'remove-configration';
+export interface ModifyTitle {
+  type: 'modify-title';
   comment: string;
-  beforeChange: Json;
+  beforeChange: string;
+  afterChange: string;
 }
 
 export type BookDiff =
   | FirstCommit
-  | AddPageCard
-  | ModifyPageCard
-  | RemovePageCard
-  | AddConfigration
-  | ModifyConfigration
-  | RemoveConfigration;
+  | AddPage
+  | ModifyPage
+  | RemovePage
+  | ModifyConfiguration
+  | ModifyDescription
+  | ModifyTitle;
 
 export interface PlainBookTimeMachine {
   currentBook: Book;
@@ -97,27 +99,27 @@ export default class BookTimeMachine {
     const bookDiff = this.diffs[this.currentRevision];
     this.currentRevision -= 1;
     switch (bookDiff.type) {
-      case 'add-page-card':
-        this.currentBook.pageCards = this.currentBook.pageCards.filter(
+      case 'add-page':
+        this.currentBook.pages = this.currentBook.pages.filter(
           p => p.id !== bookDiff.afterChange.id,
         );
         break;
-      case 'modify-page-card':
-        this.currentBook.pageCards = this.currentBook.pageCards.map(p =>
+      case 'modify-page':
+        this.currentBook.pages = this.currentBook.pages.map(p =>
           p.id === bookDiff.beforeChange.id ? bookDiff.beforeChange : p,
         );
         break;
-      case 'remove-page-card':
-        this.currentBook.pageCards.push(bookDiff.beforeChange);
+      case 'remove-page':
+        this.currentBook.pages.push(bookDiff.beforeChange);
         break;
-      case 'add-configration':
-        this.currentBook.configration = {};
+      case 'modify-configuration':
+        this.currentBook.configuration = bookDiff.beforeChange;
         break;
-      case 'modify-configration':
-        this.currentBook.configration = bookDiff.beforeChange;
+      case 'modify-description':
+        this.currentBook.description = bookDiff.beforeChange;
         break;
-      case 'remove-configration':
-        this.currentBook.configration = bookDiff.beforeChange;
+      case 'modify-title':
+        this.currentBook.title = bookDiff.beforeChange;
         break;
     }
     return this.currentBook;
@@ -130,27 +132,27 @@ export default class BookTimeMachine {
     this.currentRevision += 1;
     const bookDiff = this.diffs[this.currentRevision];
     switch (bookDiff.type) {
-      case 'add-page-card':
-        this.currentBook.pageCards.push(bookDiff.afterChange);
+      case 'add-page':
+        this.currentBook.pages.push(bookDiff.afterChange);
         break;
-      case 'modify-page-card':
-        this.currentBook.pageCards = this.currentBook.pageCards.map(p =>
+      case 'modify-page':
+        this.currentBook.pages = this.currentBook.pages.map(p =>
           p.id === bookDiff.afterChange.id ? bookDiff.afterChange : p,
         );
         break;
-      case 'remove-page-card':
-        this.currentBook.pageCards = this.currentBook.pageCards.filter(
+      case 'remove-page':
+        this.currentBook.pages = this.currentBook.pages.filter(
           p => p.id !== bookDiff.beforeChange.id,
         );
         break;
-      case 'add-configration':
-        this.currentBook.configration = bookDiff.afterChange;
+      case 'modify-configuration':
+        this.currentBook.configuration = bookDiff.afterChange;
         break;
-      case 'modify-configration':
-        this.currentBook.configration = bookDiff.afterChange;
+      case 'modify-description':
+        this.currentBook.description = bookDiff.afterChange;
         break;
-      case 'remove-configration':
-        this.currentBook.configration = {};
+      case 'modify-title':
+        this.currentBook.title = bookDiff.afterChange;
         break;
     }
     return this.currentBook;
@@ -184,57 +186,61 @@ export default class BookTimeMachine {
     return this.currentBook;
   }
 
-  modifyPageCard(pageCard: PageCard, comment: string) {
+  modifyPage(page: NormalPage, comment: string) {
     return this.addDiff({
-      type: 'modify-page-card',
+      type: 'modify-page',
       comment,
-      beforeChange: this.currentBook.pageCards.find(p => p.id === pageCard.id)!,
-      afterChange: pageCard,
+      beforeChange: this.currentBook.pages.find(p => p.id === page.id)!,
+      afterChange: page,
     });
   }
 
-  addPageCard(pageCard: PageCard, comment: string) {
+  addPage(page: NormalPage, comment: string) {
     return this.addDiff({
-      type: 'add-page-card',
+      type: 'add-page',
       comment,
-      afterChange: pageCard,
+      afterChange: page,
     });
   }
 
-  removePageCard(pageCard: PageCard, comment: string) {
+  removePage(page: NormalPage, comment: string) {
     return this.addDiff({
-      type: 'remove-page-card',
+      type: 'remove-page',
       comment,
-      beforeChange: pageCard,
+      beforeChange: page,
     });
   }
 
-  commitPageCard(pageCard: PageCard, comment: string) {
-    return this.currentBook.pageCards.some(p => p.id === pageCard.id)
-      ? this.modifyPageCard(pageCard, comment)
-      : this.addPageCard(pageCard, comment);
+  commitPage(page: NormalPage, comment: string) {
+    return this.currentBook.pages.some(p => p.id === page.id)
+      ? this.modifyPage(page, comment)
+      : this.addPage(page, comment);
   }
 
-  addConfigration(configration: Json, comment: string) {
+  modifyConfiguration(configration: ConfigurationPage, comment: string) {
     return this.addDiff({
-      type: 'add-configration',
+      type: 'modify-configuration',
       comment,
+      beforeChange: this.currentBook.configuration,
       afterChange: configration,
     });
   }
 
-  modifyConfigration(configration: Json, comment: string) {
+  modifyDescription(description: DescriptionPage, comment: string) {
     return this.addDiff({
-      type: 'modify-configration',
+      type: 'modify-description',
       comment,
-      beforeChange: this.currentBook.configration,
-      afterChange: configration,
+      beforeChange: this.currentBook.description,
+      afterChange: description,
     });
   }
 
-  commitConfigration(configration: Json, comment: string) {
-    return this.currentBook.configration
-      ? this.modifyConfigration(configration, comment)
-      : this.addConfigration(configration, comment);
+  modifyTitle(title: string, comment: string) {
+    return this.addDiff({
+      type: 'modify-title',
+      comment,
+      beforeChange: this.currentBook.title,
+      afterChange: title,
+    });
   }
 }

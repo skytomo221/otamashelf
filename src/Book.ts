@@ -1,11 +1,13 @@
-import { PageCard } from './PageCard';
-import { Json } from './Json';
+import { FileFormat } from './FileFormat';
+import { ConfigurationPage, DescriptionPage, NormalPage, Page } from './Page';
+import { PageProperties } from './PageProperties';
 
-export default interface Book {
-  pageCards: PageCard[];
-  configration: Json;
-}
-
-export type BookWithPath = Book & {
-  path: string;
+export type Book = {
+  bookFormat: string;
+  configuration: ConfigurationPage;
+  description: DescriptionPage;
+  fileFormat: FileFormat;
+  indexes: PageProperties[];
+  pages: NormalPage[];
+  title: string;
 };

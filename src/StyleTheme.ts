@@ -1,9 +1,15 @@
-import Extension from './Extension';
-import { StyleThemeProperties } from './ExtensionProperties';
-import StyleThemeParameters from './StyleThemeParameters';
+import { ExtensionBase } from './ExtensionBase';
+import { ExtensionBaseProperties } from './ExtensionProperties';
 
-export default abstract class StyleTheme extends Extension {
-  static properties: StyleThemeProperties;
+export type StyleThemeProperties = ExtensionBaseProperties & {
+  type: 'style-theme';
+};
 
-  abstract readonly style: () => Promise<StyleThemeParameters>;
-}
+export type StyleReturns = {
+  style: { [key: string]: string };
+};
+
+export type StyleTheme = ExtensionBase & {
+  properties: StyleThemeProperties;
+  style(): Promise<StyleReturns>;
+};

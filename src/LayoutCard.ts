@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-export interface LayoutCard {
+export interface Layout {
   layout: LayoutComponent;
   option?: LayoutOption;
 }

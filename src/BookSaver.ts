@@ -1,30 +1,22 @@
-import Extension from './Extension';
-import { VirtualDirectory, VirtualFile } from './File';
-import { BookSaverProperties } from './ExtensionProperties';
-import { BookWithPath } from './Book';
+import { ExtensionBase } from './ExtensionBase';
+import { Book } from './Book';
+import { ConfigurationPage } from './Page';
+import { BookExtensionBaseProperties } from './ExtensionProperties';
+
+export type BookSaverProperties = BookExtensionBaseProperties & {
+  type: 'book-saver';
+};
 
 export type SaveProps = {
-  action: 'save';
-  book: BookWithPath;
+  configuration: ConfigurationPage;
+  book: Omit<Book, 'indexes'>;
 };
 
-export type SaveResolveReturns = {
-  action: 'save';
-  status: 'resolve';
+export type SaveReturns = {
+  savedTime: number;
 };
 
-export type SaveRejectReturns = {
-  action: 'save';
-  status: 'reject';
-  returns: {
-    reason: string;
-  };
+export type BookSaver = ExtensionBase & {
+  properties: BookSaverProperties;
+  save(props: SaveProps): Promise<SaveReturns>;
 };
-
-export type SaveReturns = SaveResolveReturns | SaveRejectReturns;
-
-export default abstract class BookSaver extends Extension {
-  abstract properties: BookSaverProperties;
-
-  abstract save(props: SaveProps): Promise<SaveReturns>;
-}

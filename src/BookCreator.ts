@@ -1,31 +1,36 @@
-import Extension from './Extension';
-import Book from './Book';
-import { BookCreatorProperties } from './ExtensionProperties';
+import { Book } from './Book';
+import { ConfigurationPage, TemplatePage } from './Page';
+import { ExtensionBase } from './ExtensionBase';
+import { BookExtensionBaseProperties } from './ExtensionProperties';
 
-export type TemplatesProps = {
-  action: 'templates';
-}
-
-export type TemplatesResolveReturns = {
-  action: 'templates';
-  status: 'resolve';
-  returns: {
-    book: Omit<Book, 'path'>;
-  };
+export type BookCreatorProperties = BookExtensionBaseProperties & {
+  type: 'book-creator';
 };
 
-export type TemplatesRejectReturns = {
-  action: 'templates';
-  status: 'reject';
-  returns: {
-    reason: string;
-  };
+export type TemplateProps = {
+  configuration: ConfigurationPage;
 };
 
-export type TemplatesReturns = TemplatesResolveReturns | TemplatesRejectReturns;
+export type TemplateReturns = {
+  template: TemplatePage;
+  templateFormat: string;
+};
 
-export default abstract class BookCreator extends Extension {
-  abstract readonly properties: BookCreatorProperties;
+export type CreateProps = {
+  configuration: ConfigurationPage;
+  template: TemplatePage;
+};
 
-  abstract templates(props: TemplatesProps): Promise<TemplatesReturns>;
-}
+export type CreateReturns = {
+  book: Pick<
+    Book,
+    'configuration' | 'description' | 'bookFormat' | 'pages' | 'title'
+  >;
+  path: string;
+};
+
+export type BookCreator = ExtensionBase & {
+  properties: BookCreatorProperties;
+  template(props: TemplateProps): Promise<TemplateReturns>;
+  create(props: CreateProps): Promise<CreateReturns>;
+};

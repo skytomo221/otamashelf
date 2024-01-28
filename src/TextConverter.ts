@@ -1,33 +1,22 @@
-import Extension from './Extension';
-import { TextConverterProperties } from './ExtensionProperties';
+import { ExtensionBase } from './ExtensionBase';
+import { ExtensionBaseProperties } from './ExtensionProperties';
+import { ConfigurationPage } from './Page';
+
+export type TextConverterProperties = ExtensionBaseProperties & {
+  mime: string;
+  type: 'text-converter';
+};
 
 export type ConvertProps = {
-  action: 'convert';
+  configuration: ConfigurationPage;
   text: string;
 };
 
-export type ConvertResolveReturns = {
-  action: 'convert';
-  status: 'resolve';
-  returns: {
-    html: string;
-  };
+export type ConvertReturns = {
+  html: string;
 };
 
-export type ConvertRejectReturns = {
-  action: 'convert';
-  status: 'reject';
-  returns: {
-    reason: string;
-  };
+export type TextConverter = ExtensionBase & {
+  properties: TextConverterProperties;
+  convert(props: ConvertProps): Promise<ConvertReturns>;
 };
-
-export type ConvertReturns =
-  | ConvertResolveReturns
-  | ConvertRejectReturns;
-
-export default abstract class TextConverter extends Extension {
-  abstract properties: TextConverterProperties;
-
-  abstract convert(props: ConvertProps): Promise<ConvertReturns>;
-}
