@@ -16,12 +16,11 @@ export type TemplateProps = {
 
 export type TemplateReturns = {
   template: TemplatePage;
-  templateFormat: string;
 };
 
 export type CreateProps = {
   configuration: ConfigurationPage;
-  book: Pick<Book, 'bookFormat' | 'configuration' | 'title'>;
+  book: Pick<Book, 'bookFormat' | 'configuration' | 'indexes' | 'title'>;
   template: TemplatePage;
 };
 

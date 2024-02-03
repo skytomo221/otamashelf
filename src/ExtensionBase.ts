@@ -3,7 +3,6 @@ import { ConfigurationPage } from './Page';
 
 export type ConfigurationReturns = {
   configuration: ConfigurationPage;
-  configurationFormat: string;
 };
 
 export type ExtensionBase = {

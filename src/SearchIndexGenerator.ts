@@ -5,7 +5,6 @@ import { SearchCard } from './SearchCard';
 
 export type SearchIndexGeneratorProperties = PageExtensionBaseProperties & {
   type: 'search-index-generator';
-  indexModes: string[];
 };
 
 export type NameProps = {

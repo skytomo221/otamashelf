@@ -1,29 +1,45 @@
-import { PageExplorerProperties } from '../ExtensionProperties';
-import PageExplorer, { NameReturns, SearchProps, SearchReturns } from '../PageExplorer';
+import { ConfigurationPage } from '../Page';
+import {
+  PageExplorer,
+  NameReturns,
+  SearchProps,
+  SearchReturns,
+} from '../PageExplorer';
 
-export default class IncludesPageExplorer extends PageExplorer {
-  public readonly properties: PageExplorerProperties = {
-    action: 'properties',
+const configuration: ConfigurationPage = {
+  specialPage: 'configuration',
+  pageFormat: '@skytomo221/otm-creator/configuration',
+  data: {},
+};
+
+export const IncludesPageExplorer: PageExplorer = {
+  properties: {
     name: 'Includes Page Explorer',
-    id: 'includes-page-explorer',
-    version: '0.1.0',
-    author: 'skytomo221',
+    id: '@skytomo221/includes-page-explorer',
+    version: '1.0.0',
     type: 'page-explorer',
-  };
-
-  async name(): Promise<NameReturns> {
-    return { action: 'name', name: '部分一致' };
-  }
-
-  async search({ cards, searchWord }: SearchProps): Promise<SearchReturns> {
-    return {
-      action: 'search',
-      status: 'resolve',
-      returns: {
-        ids: cards
-          .filter(card => card.targets.some(t => t.includes(searchWord)))
-          .map(card => card.id),
-      },
-    };
-  }
-}
+    author: 'skytomo221',
+  },
+  configuration() {
+    return { configuration };
+  },
+  name(): Promise<NameReturns> {
+    return Promise.resolve({ name: '部分一致' });
+  },
+  search({ searchCards, searchWord }: SearchProps): Promise<SearchReturns> {
+    return Promise.resolve({
+      results: searchCards.map(card => {
+        const { id, targets } = card;
+        const matches = targets
+          .map((target, targetIndex) => ({ target, targetIndex }))
+          .filter(({ target }) => target.includes(searchWord))
+          .map(({ target, targetIndex }) => {
+            const begin = target.indexOf(searchWord);
+            const end = begin + searchWord.length;
+            return { targetIndex, begin, end };
+          });
+        return { id, matches };
+      }),
+    });
+  },
+};

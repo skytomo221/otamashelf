@@ -13,7 +13,6 @@ export type TemplateProps = {
 
 export type TemplateReturns = {
   template: TemplatePage;
-  templateFormat: string;
 };
 
 export type CreateProps = {

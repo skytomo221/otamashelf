@@ -24,8 +24,7 @@ export type SearchProps = {
 
 export type SearchResult = {
   id: string;
-  target: string;
-  hitParts: { text: string; index: number }[];
+  matches: { targetIndex: number; begin: number; end: number }[];
 };
 
 export type SearchReturns = {

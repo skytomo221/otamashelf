@@ -2,7 +2,6 @@ import { ExtensionBase } from './ExtensionBase';
 import { PageExtensionBaseProperties } from './ExtensionProperties';
 import { Layout } from './LayoutCard';
 import { ConfigurationPage, Page } from './Page';
-import { PageProperties } from './PageProperties';
 
 export type LayoutBuilderProperties = PageExtensionBaseProperties & {
   type: 'layout-builder';
