@@ -1,47 +1,72 @@
+import { Book } from '../src/Book';
 import BookTimeMachine from '../src/BookTimeMachine';
-import { PageCard } from '../src/PageCard';
+import { NormalPage } from '../src/Page';
 
-const pageCards: PageCard[] = [];
-const configration = {};
-const samplePageCard = {
-  id: 'test',
-  title: 'test',
+const samplePage: NormalPage = {
+  id: 'sample-page',
+  pageFormat: 'sample-format',
+  data: {
+    title: 'sample-title',
+  },
 };
 
-test('bookTimeMachine.commitPageCard return Book', async () => {
-  const bookTimeMachine = new BookTimeMachine({ pageCards, configration });
-  expect(
-    bookTimeMachine.commitPageCard(samplePageCard, 'Add test page card'),
-  ).toEqual({ pageCards: [samplePageCard], configration });
+const book: Book = {
+  bookFormat: '',
+  configuration: {
+    specialPage: 'configuration',
+    pageFormat: '',
+    data: {},
+  },
+  description: {
+    specialPage: 'description',
+    pageFormat: '',
+    data: {},
+  },
+  fileFormat: {
+    path: 'test-book',
+    isDirectory: false,
+    loadedTime: 0,
+  },
+  indexes: [],
+  pages: [],
+  title: '',
+};
+
+test('bookTimeMachine.commitPage return Book', async () => {
+  const bookTimeMachine = new BookTimeMachine(book);
+  expect(bookTimeMachine.commitPage(samplePage, 'Add test page card')).toEqual({
+    ...book,
+    pages: [samplePage],
+  });
 });
 
 test('bookTimeMachine.currentRevision return 1', async () => {
-  const bookTimeMachine = new BookTimeMachine({ pageCards, configration });
-  bookTimeMachine.commitPageCard(samplePageCard, 'Add test page card');
+  const bookTimeMachine = new BookTimeMachine(book);
+  bookTimeMachine.commitPage(samplePage, 'Add test page card');
   expect(bookTimeMachine.currentRevision).toEqual(1);
 });
 
 test('bookTimeMachine.currentBook return Book', async () => {
-  const bookTimeMachine = new BookTimeMachine({ pageCards, configration });
-  bookTimeMachine.commitPageCard(samplePageCard, 'Add test page card');
+  const bookTimeMachine = new BookTimeMachine(book);
+  bookTimeMachine.commitPage(samplePage, 'Add test page card');
   expect(bookTimeMachine.currentBook).toEqual({
-    pageCards: [samplePageCard],
-    configration,
+    ...book,
+    pages: [samplePage],
   });
 });
 
 test('bookTimeMachine.revertRevision reverts revision', async () => {
-  const bookTimeMachine = new BookTimeMachine({ pageCards, configration });
-  bookTimeMachine.commitPageCard(samplePageCard, 'Add test page card');
-  expect(bookTimeMachine.revertRevision()).toEqual({ pageCards, configration });
+  const bookTimeMachine = new BookTimeMachine(book);
+  bookTimeMachine.commitPage(samplePage, 'Add test page card');
+  expect(bookTimeMachine.revertRevision()).toEqual(book);
 });
 
 test('bookTimeMachine.forwardRevision forwards revision', async () => {
-  const bookTimeMachine = new BookTimeMachine({ pageCards, configration });
-  bookTimeMachine.commitPageCard(samplePageCard, 'Add test page card');
+  const bookTimeMachine = new BookTimeMachine(book);
+  bookTimeMachine.commitPage(samplePage, 'Add test page card');
   bookTimeMachine.revertRevision();
   expect(bookTimeMachine.forwardRevision()).toEqual({
-    pageCards: [samplePageCard],
-    configration,
+    ...book,
+    pages: [samplePage],
   });
 });

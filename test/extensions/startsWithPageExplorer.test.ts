@@ -1,14 +1,14 @@
 import { SearchCard } from '../../src/SearchCard';
-import { endsWithPageExplorer } from '../../src/extensions/endsWithPageExplorer';
+import { startsWithPageExplorer } from '../../src/extensions/startsWithPageExplorer';
 
-describe('endsWithPageExplorer', () => {
+describe('startsWithPageExplorer', () => {
   describe('search', () => {
     it('returns empty ids', async () => {
-      const { configuration } = endsWithPageExplorer.configuration();
+      const { configuration } = startsWithPageExplorer.configuration();
       const searchCards: SearchCard[] = [];
       const searchWord = '';
       expect(
-        await endsWithPageExplorer.search({
+        await startsWithPageExplorer.search({
           configuration,
           searchCards,
           searchWord,
@@ -17,8 +17,8 @@ describe('endsWithPageExplorer', () => {
         results: [],
       });
     });
-    it('returns matching ends', async () => {
-      const { configuration } = endsWithPageExplorer.configuration();
+    it('returns matching starts', async () => {
+      const { configuration } = startsWithPageExplorer.configuration();
       const searchCards = [
         {
           id: '1',
@@ -40,9 +40,9 @@ describe('endsWithPageExplorer', () => {
           ],
         },
       ];
-      const searchWord = 'する。';
+      const searchWord = 'すべて';
       expect(
-        await endsWithPageExplorer.search({
+        await startsWithPageExplorer.search({
           configuration,
           searchCards,
           searchWord,
@@ -50,21 +50,21 @@ describe('endsWithPageExplorer', () => {
       ).toEqual({
         results: [
           {
-            id: '3',
+            id: '1',
             matches: [
               {
-                begin: 26,
-                end: 29,
+                begin: 0,
+                end: 3,
                 targetIndex: 0,
               },
             ],
           },
           {
-            id: '4',
+            id: '3',
             matches: [
               {
-                begin: 48,
-                end: 51,
+                begin: 0,
+                end: 3,
                 targetIndex: 0,
               },
             ],

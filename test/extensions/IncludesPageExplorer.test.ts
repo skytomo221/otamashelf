@@ -1,28 +1,25 @@
-import IncludesPageExplorer from '../../src/extensions/IncludesPageExplorer';
+import { SearchCard } from '../../src/SearchCard';
+import { includesPageExplorer } from '../../src/extensions/includesPageExplorer';
 
-test('EndsWithPageExplorer searches empty and return empty ids.', async () => {
-  const pageExplorer = new IncludesPageExplorer();
-  expect(
-    await pageExplorer.search({
-      action: 'search',
-      cards: [],
-      searchWord: '',
-    }),
-  ).toEqual({
-    action: 'search',
-    status: 'resolve',
-    returns: {
-      ids: [],
-    },
-  });
-});
-
-test('EndsWithPageExplorer searches matching includes.', async () => {
-  const pageExplorer = new IncludesPageExplorer();
-  expect(
-    await pageExplorer.search({
-      action: 'search',
-      cards: [
+describe('includesPageExplorer', () => {
+  describe('search', () => {
+    it('returns empty ids', async () => {
+      const { configuration } = includesPageExplorer.configuration();
+      const searchCards: SearchCard[] = [];
+      const searchWord = '';
+      expect(
+        await includesPageExplorer.search({
+          configuration,
+          searchCards,
+          searchWord,
+        }),
+      ).toEqual({
+        results: [],
+      });
+    });
+    it('returns matching includes', async () => {
+      const { configuration } = includesPageExplorer.configuration();
+      const searchCards = [
         {
           id: '1',
           targets: [
@@ -42,14 +39,38 @@ test('EndsWithPageExplorer searches matching includes.', async () => {
             '何人も、奴隷にされ、又は苦役に服することはない。奴隷制度及び奴隷売買は、いかなる形においても禁止する。',
           ],
         },
-      ],
-      searchWord: 'すべて',
-    }),
-  ).toEqual({
-    action: 'search',
-    status: 'resolve',
-    returns: {
-      ids: ['1', '3'],
-    },
+      ];
+      const searchWord = 'ない';
+      expect(
+        await includesPageExplorer.search({
+          configuration,
+          searchCards,
+          searchWord,
+        }),
+      ).toEqual({
+        results: [
+          {
+            id: '1',
+            matches: [
+              {
+                begin: 40,
+                end: 42,
+                targetIndex: 1,
+              },
+            ],
+          },
+          {
+            id: '4',
+            matches: [
+              {
+                begin: 21,
+                end: 23,
+                targetIndex: 0,
+              },
+            ],
+          },
+        ],
+      });
+    });
   });
 });
