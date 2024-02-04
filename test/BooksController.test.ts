@@ -25,10 +25,10 @@ const book: Book = {
 };
 
 describe('booksController', () => {
-  describe('regesterBook', () => {
-    it('regesters book', () => {
+  describe('registerBook', () => {
+    it('registers book', () => {
       const booksController = new BooksController();
-      booksController.regesterBook(book);
+      booksController.registerBook(book);
       expect(booksController.get('test-book')?.currentBook).toEqual(book);
     });
   });

@@ -6,7 +6,7 @@ export default class BooksController extends MapWithOrThrow<
   string,
   BookTimeMachine
 > {
-  public regesterBook(book: Book) {
+  public registerBook(book: Book) {
     this.set(book.fileFormat.path, new BookTimeMachine(book));
   }
 }

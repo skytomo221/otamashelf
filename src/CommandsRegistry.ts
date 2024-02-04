@@ -2,7 +2,7 @@ export default class CommandsRegistry {
   protected readonly commands: Map<string, (...props: any[]) => any> =
     new Map();
 
-  public regesterCommand(command: string, callback: (...props: any[]) => any) {
+  public registerCommand(command: string, callback: (...props: any[]) => any) {
     this.commands.set(command, callback);
   }
 

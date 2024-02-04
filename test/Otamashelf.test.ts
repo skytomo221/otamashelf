@@ -14,11 +14,11 @@ describe('Otamashelf', () => {
         'log.warning',
         'noop',
         'otamashelf.booksController.constructor',
-        'otamashelf.booksController.regesterBook',
+        'otamashelf.booksController.registerBook',
         'otamashelf.getCommands',
         'otamashelf.getContext',
-        'otamashelf.regesterCommand',
-        'otamashelf.regesterContext',
+        'otamashelf.registerCommand',
+        'otamashelf.registerContext',
       ]);
     });
     it('has noop command', async () => {
@@ -40,7 +40,7 @@ describe('Otamashelf', () => {
     it('has contextsRegistry commands', () => {
       const otamashelf = new Otamashelf();
       expect(
-        otamashelf.executeCommand('otamashelf.regesterContext', 'test', 2),
+        otamashelf.executeCommand('otamashelf.registerContext', 'test', 2),
       ).toBeUndefined();
       expect(
         otamashelf.executeCommand('otamashelf.getContext', 'test'),

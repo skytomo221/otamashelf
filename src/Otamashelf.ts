@@ -92,7 +92,7 @@ export default class Otamashelf extends EventEmitter {
       // @ts-ignore: TS7053
       .filter(item => typeof obj[item] === 'function')
       .forEach(item => {
-        this.commandsRegistry.regesterCommand(
+        this.commandsRegistry.registerCommand(
           `otamashelf.${camelize(obj.constructor.name)}.${item}`,
           // @ts-ignore: TS7053
           (...props: any[]) => obj[item](...props),
@@ -100,17 +100,17 @@ export default class Otamashelf extends EventEmitter {
       });
   }
 
-  private regesterExtensionMethodCommands(extension: Extension) {
+  private registerExtensionMethodCommands(extension: Extension) {
     for (const key in extension) {
       // @ts-ignore: TS7053
       if (typeof extension[key] === 'function') {
-        this.commandsRegistry.regesterCommand(
+        this.commandsRegistry.registerCommand(
           `otamashelf.${camelize(extension.constructor.name)}.${key}`,
           // @ts-ignore: TS7053
           (...props: any[]) => extension[key](...props),
         );
       } else {
-        this.commandsRegistry.regesterCommand(
+        this.commandsRegistry.registerCommand(
           `otamashelf.${camelize(extension.constructor.name)}.${key}`,
           // @ts-ignore: TS7053
           () => extension[key],
@@ -121,9 +121,9 @@ export default class Otamashelf extends EventEmitter {
 
   constructor() {
     super();
-    this.commandsRegistry.regesterCommand('noop', () => {});
+    this.commandsRegistry.registerCommand('noop', () => {});
     ['debug', 'info', 'notice', 'warning', 'error'].forEach(command => {
-      this.commandsRegistry.regesterCommand(
+      this.commandsRegistry.registerCommand(
         `log.${command}`,
         (...message: any[]) => this.emit(`log.${command}`, ...message),
       );
@@ -133,20 +133,20 @@ export default class Otamashelf extends EventEmitter {
       (action: string, ...props: any[]) =>
         this.executeCommand(action, ...props),
     );
-    this.commandsRegistry.regesterCommand(
-      'otamashelf.regesterCommand',
+    this.commandsRegistry.registerCommand(
+      'otamashelf.registerCommand',
       (action: string, callback: (...props: any[]) => any) =>
-        this.regesterCommand(action, callback),
+        this.registerCommand(action, callback),
     );
-    this.commandsRegistry.regesterCommand('otamashelf.getCommands', () =>
+    this.commandsRegistry.registerCommand('otamashelf.getCommands', () =>
       this.commandsRegistry.getCommands(),
     );
-    this.commandsRegistry.regesterCommand(
-      'otamashelf.regesterContext',
+    this.commandsRegistry.registerCommand(
+      'otamashelf.registerContext',
       (action: string, value: ContextTypes) =>
-        this.contextsRegistry.regesterContext(action, value),
+        this.contextsRegistry.registerContext(action, value),
     );
-    this.commandsRegistry.regesterCommand(
+    this.commandsRegistry.registerCommand(
       'otamashelf.getContext',
       (action: string) => this.contextsRegistry.get(action),
     );
@@ -157,8 +157,8 @@ export default class Otamashelf extends EventEmitter {
     return this.commandsRegistry.executeCommand(action, ...props);
   }
 
-  regesterCommand(command: string, callback: (...props: any[]) => any) {
-    this.commandsRegistry.regesterCommand(command, callback);
+  registerCommand(command: string, callback: (...props: any[]) => any) {
+    this.commandsRegistry.registerCommand(command, callback);
   }
 
   registerExtension(extension: Extension) {
@@ -191,7 +191,7 @@ export default class Otamashelf extends EventEmitter {
     }
     const { configuration } = extension.configuration();
     this.extensionConfigurations.set(extension.properties.id, configuration);
-    this.regesterExtensionMethodCommands(extension);
+    this.registerExtensionMethodCommands(extension);
   }
 
   async requestNewBook(bookCreatorId: string): Promise<TemplatePage> {
@@ -247,7 +247,7 @@ export default class Otamashelf extends EventEmitter {
     const fileFormat = this.setFileFormat(path);
     const indexes = await this.setIndexes(pages, path);
     const book = { fileFormat, indexes, ...bookBase };
-    this.booksController.regesterBook(book);
+    this.booksController.registerBook(book);
     return book;
   }
 
@@ -269,7 +269,7 @@ export default class Otamashelf extends EventEmitter {
     const fileFormat = this.setFileFormat(path);
     const indexes = await this.setIndexes(pages, path);
     const book = { bookFormat, fileFormat, indexes, ...bookBase };
-    this.booksController.regesterBook(book);
+    this.booksController.registerBook(book);
     return book;
   }
 
