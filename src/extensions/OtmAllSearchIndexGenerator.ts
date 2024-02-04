@@ -1,11 +1,11 @@
-import { ConfigurationPage, NormalPage } from '../Page';
+import { ConfigurationPage } from '../Page';
 import {
   SearchIndexGenerator,
   GenerateProps,
   GenerateReturns,
 } from '../SearchIndexGenerator';
-import { Word } from '../otm/Word';
 import { ConfigurationReturns } from '../ExtensionBase';
+import { toOtmPage } from './OtmPage';
 
 const configuration: ConfigurationPage = {
   specialPage: 'configuration',
@@ -13,7 +13,7 @@ const configuration: ConfigurationPage = {
   data: {},
 };
 
-export const OtmTranslationSearchIndexGenerator: SearchIndexGenerator = {
+export const otmAllSearchIndexGenerator: SearchIndexGenerator = {
   properties: {
     name: 'OTM All Search Index Generator',
     id: '@skytomo221/otm-all-search-index-generator',
@@ -30,10 +30,16 @@ export const OtmTranslationSearchIndexGenerator: SearchIndexGenerator = {
   },
   generate(props: GenerateProps): Promise<GenerateReturns> {
     const { pages } = props;
-    const words = pages as (NormalPage & Word)[];
     return Promise.resolve({
-      searchCards: words.map(
-        ({ id, contents, entry: { form }, translations }) => ({
+      searchCards: pages.map(toOtmPage).map(
+        ({
+          id,
+          data: {
+            contents,
+            entry: { form },
+            translations,
+          },
+        }) => ({
           id,
           targets: [
             form,

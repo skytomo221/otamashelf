@@ -123,7 +123,7 @@ const template: TemplatePage = {
   data: templateData,
 };
 
-export const OtmCreator: BookCreator = {
+export const otmCreator: BookCreator = {
   properties: {
     name: 'OTM Creator',
     id: '@skytomo221/otm-creator',

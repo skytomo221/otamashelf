@@ -9,7 +9,7 @@ const configuration: ConfigurationPage = {
   data: {},
 };
 
-export const OtmAddContentPageModifier: PageModifier = {
+export const otmAddContentPageModifier: PageModifier = {
   properties: {
     name: 'OTM Add Content Page Modifier',
     id: '@skytomo221/otm-add-content-page-modifier',
@@ -22,13 +22,18 @@ export const OtmAddContentPageModifier: PageModifier = {
     return { configuration };
   },
   modify<P extends Page>({ page }: ModifyProps<P>): Promise<ModifyReturns<P>> {
+    const { data } = page;
+    const { contents } = data as unknown as Word;
     return Promise.resolve({
       page: {
         ...page,
-        contents: [
-          ...(page as unknown as Word).contents,
-          { title: '無題のコンテンツ', text: '', markdown: '' },
-        ],
+        data: {
+          ...data,
+          contents: [
+            ...contents,
+            { title: '無題のコンテンツ', text: '', markdown: '' },
+          ],
+        },
       },
     });
   },

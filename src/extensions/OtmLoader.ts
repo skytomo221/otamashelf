@@ -22,7 +22,7 @@ function toWordCard(word: Word): NormalPage {
   };
 }
 
-export const OtmLoader: BookLoader = {
+export const otmLoader: BookLoader = {
   properties: {
     name: 'OTM Loader',
     id: '@skytomo221/otm-loader',

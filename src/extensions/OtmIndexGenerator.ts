@@ -11,7 +11,7 @@ const configuration: ConfigurationPage = {
   data: {},
 };
 
-export const OtmIndexGenerator: IndexGenerator = {
+export const otmIndexGenerator: IndexGenerator = {
   properties: {
     name: 'OTM Index Generator',
     id: '@skytomo221/otm-index-generator',
@@ -31,7 +31,9 @@ export const OtmIndexGenerator: IndexGenerator = {
         const word = data as Word;
         const { entry, translations } = word;
         const { form: title } = entry;
-        const preview = translations.join(' ');
+        const preview = translations
+          .map(({ forms }) => forms.join(' '))
+          .join(' ');
         return { id, title, preview };
       }),
     });

@@ -12,7 +12,7 @@ const configuration: ConfigurationPage = {
   data: {},
 };
 
-export const OtmSaver: BookSaver = {
+export const otmSaver: BookSaver = {
   properties: {
     name: 'OTM Saver',
     id: '@skytomo221/otm-saver',

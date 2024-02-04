@@ -262,7 +262,7 @@ function contents(word: Word): LayoutComponent[] {
   ];
 }
 
-export const OtmLayoutBuilder: LayoutBuilder = {
+export const otmLayoutBuilder: LayoutBuilder = {
   properties: {
     name: 'OTM Layout Builder',
     id: '@skytomo221/otm-layout-builder',
@@ -277,14 +277,15 @@ export const OtmLayoutBuilder: LayoutBuilder = {
   },
   layout({ page }: LayoutProps): Promise<LayoutReturns> {
     const ajv = new Ajv();
-    const valid = ajv.validate(wordScheme, page);
+    const { data } = page;
+    const valid = ajv.validate(wordScheme, data);
     if (!valid) {
       throw new Error(ajv.errorsText());
     }
     return Promise.resolve({
       layout: {
         component: 'section',
-        contents: [entry(page), ...translations(page), ...contents(page)],
+        contents: [entry(data), ...translations(data), ...contents(data)],
       },
     });
   },

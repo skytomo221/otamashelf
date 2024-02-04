@@ -12,7 +12,7 @@ const configuration: ConfigurationPage = {
   data: {},
 };
 
-export const EndsWithPageExplorer: PageExplorer = {
+export const endsWithPageExplorer: PageExplorer = {
   properties: {
     name: 'Ends With Page Explorer',
     id: '@skytomo221/ends-with-page-explorer',
@@ -28,18 +28,20 @@ export const EndsWithPageExplorer: PageExplorer = {
   },
   search({ searchCards, searchWord }: SearchProps): Promise<SearchReturns> {
     return Promise.resolve({
-      results: searchCards.map(card => {
-        const { id, targets } = card;
-        const matches = targets
-          .map((target, targetIndex) => ({ target, targetIndex }))
-          .filter(({ target }) => target.endsWith(searchWord))
-          .map(({ target, targetIndex }) => {
-            const begin = target.lastIndexOf(searchWord);
-            const end = begin + searchWord.length;
-            return { targetIndex, begin, end };
-          });
-        return { id, matches };
-      }),
+      results: searchCards
+        .map(card => {
+          const { id, targets } = card;
+          const matches = targets
+            .map((target, targetIndex) => ({ target, targetIndex }))
+            .filter(({ target }) => target.endsWith(searchWord))
+            .map(({ target, targetIndex }) => {
+              const begin = target.lastIndexOf(searchWord);
+              const end = begin + searchWord.length;
+              return { targetIndex, begin, end };
+            });
+          return { id, matches };
+        })
+        .filter(({ matches }) => matches.length > 0),
     });
   },
 };

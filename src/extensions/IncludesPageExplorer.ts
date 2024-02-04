@@ -12,7 +12,7 @@ const configuration: ConfigurationPage = {
   data: {},
 };
 
-export const IncludesPageExplorer: PageExplorer = {
+export const includesPageExplorer: PageExplorer = {
   properties: {
     name: 'Includes Page Explorer',
     id: '@skytomo221/includes-page-explorer',
@@ -28,18 +28,20 @@ export const IncludesPageExplorer: PageExplorer = {
   },
   search({ searchCards, searchWord }: SearchProps): Promise<SearchReturns> {
     return Promise.resolve({
-      results: searchCards.map(card => {
-        const { id, targets } = card;
-        const matches = targets
-          .map((target, targetIndex) => ({ target, targetIndex }))
-          .filter(({ target }) => target.includes(searchWord))
-          .map(({ target, targetIndex }) => {
-            const begin = target.indexOf(searchWord);
-            const end = begin + searchWord.length;
-            return { targetIndex, begin, end };
-          });
-        return { id, matches };
-      }),
+      results: searchCards
+        .map(card => {
+          const { id, targets } = card;
+          const matches = targets
+            .map((target, targetIndex) => ({ target, targetIndex }))
+            .filter(({ target }) => target.includes(searchWord))
+            .map(({ target, targetIndex }) => {
+              const begin = target.indexOf(searchWord);
+              const end = begin + searchWord.length;
+              return { targetIndex, begin, end };
+            });
+          return { id, matches };
+        })
+        .filter(({ matches }) => matches.length > 0),
     });
   },
 };

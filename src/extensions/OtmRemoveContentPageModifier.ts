@@ -13,7 +13,7 @@ export type Script = {
   removeIndex: number;
 };
 
-export const OtmRemoveContentPageModifier: PageModifier = {
+export const otmRemoveContentPageModifier: PageModifier = {
   properties: {
     name: 'OTM Remove Content Page Modifier',
     id: '@skytomo221/otm-remove-content-page-modifier',
@@ -30,14 +30,15 @@ export const OtmRemoveContentPageModifier: PageModifier = {
     script,
   }: ModifyProps<P>): Promise<ModifyReturns<P>> {
     const { removeIndex } = script as Script;
+    const { data } = page;
+    const { contents } = data as unknown as Word;
     return Promise.resolve({
       page: {
         ...page,
-        contents: [
-          ...(page as unknown as Word).contents.filter(
-            (_, i) => i !== removeIndex,
-          ),
-        ],
+        data: {
+          ...data,
+          contents: [...contents.filter((_, i) => i !== removeIndex)],
+        },
       },
     });
   },

@@ -60,7 +60,7 @@ function nextId(ids: number[]): number {
   return ids.reduce((a, b) => Math.max(a, b)) + 1;
 }
 
-export const OtmPageCreator: PageCreator = {
+export const otmPageCreator: PageCreator = {
   properties: {
     name: 'OTM Page Creator',
     id: '@skytomo221/otm-page-creator',

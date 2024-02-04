@@ -8,7 +8,7 @@ const configuration: ConfigurationPage = {
   data: {},
 };
 
-export const OtmRenumberModifier: BookModifier = {
+export const otmRenumberModifier: BookModifier = {
   properties: {
     name: 'OTM Renumber Modifier',
     id: '@skytomo221/otm-renumber-modifier',
@@ -25,7 +25,7 @@ export const OtmRenumberModifier: BookModifier = {
       book: {
         ...book,
         pages: book.pages.map((page, index) => {
-          page.id = index.toString();
+          page.id = (index + 1).toString();
           return page;
         }),
       },
