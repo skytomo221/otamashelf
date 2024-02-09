@@ -1,19 +1,28 @@
-import Ajv, { JSONSchemaType } from 'ajv';
+import Ajv from 'ajv';
 
-import { LayoutBuilderProperties } from '../ExtensionProperties';
-import LayoutBuilder from '../LayoutBuilder';
 import {
-  LayoutCard,
+  LayoutBuilder,
+  LayoutProps,
+  LayoutReturns,
+} from '../LayoutBuilder';
+import {
   Chip,
   LayoutComponent,
   EditableSpan,
   FormDivComponent,
 } from '../LayoutCard';
-import { PageCard } from '../PageCard';
 import { Translation } from '../otm/Translation';
 import { Word, wordScheme } from '../otm/Word';
 import { Content } from '../otm/Content';
 import { Entry } from '../otm/Entry';
+import { ConfigurationPage } from '../Page';
+import { ConfigurationReturns } from '../ExtensionBase';
+
+const configuration: ConfigurationPage = {
+  specialPage: 'configuration',
+  pageFormat: '@skytomo221/otm-creator/configuration',
+  data: {},
+};
 
 function rawEntry(entry: Entry): EditableSpan {
   const { form } = entry;
@@ -253,55 +262,31 @@ function contents(word: Word): LayoutComponent[] {
   ];
 }
 
-export default class OtmLayoutBuilder extends LayoutBuilder {
-  public properties: LayoutBuilderProperties = {
-    action: 'properties',
+export const otmLayoutBuilder: LayoutBuilder = {
+  properties: {
     name: 'OTM Layout Builder',
-    id: 'otm-layout-builder',
-    version: '0.1.0',
+    id: '@skytomo221/otm-layout-builder',
+    version: '1.0.0',
     type: 'layout-builder',
     author: 'skytomo221',
-    bookFormat: ['otm'],
-    dependentPageUpdaters: ['otm-page-updater'],
-  };
-
-  public readonly layout = async (word: PageCard): Promise<LayoutCard> => {
+    pageFormatPattern: '^otm$',
+    dependentPageUpdaters: ['@skytomo221/otm-page-updater'],
+  },
+  configuration(): ConfigurationReturns {
+    return { configuration };
+  },
+  layout({ page }: LayoutProps): Promise<LayoutReturns> {
     const ajv = new Ajv();
-    const valid = ajv.validate(wordScheme, word);
+    const { data } = page;
+    const valid = ajv.validate(wordScheme, data);
     if (!valid) {
       throw new Error(ajv.errorsText());
     }
-    return {
+    return Promise.resolve({
       layout: {
-        component: 'recursion',
-        contents: [entry(word), ...translations(word), ...contents(word)],
+        component: 'section',
+        contents: [entry(data), ...translations(data), ...contents(data)],
       },
-    };
-  };
-
-  private wordsScheme: JSONSchemaType<Word[]> = {
-    type: 'array',
-    items: wordScheme,
-  };
-
-  public readonly indexes = async (
-    words: PageCard[],
-  ): Promise<LayoutCard[]> => {
-    const ajv = new Ajv();
-    const valid = ajv.validate(this.wordsScheme, words);
-    if (!valid) {
-      throw new Error(ajv.errorsText());
-    }
-    return words.map(word => ({
-      layout: {
-        component: 'recursion',
-        contents: [
-          {
-            component: 'div',
-            contents: [(word as unknown as Word).entry.form],
-          },
-        ],
-      },
-    }));
-  };
-}
+    });
+  },
+};

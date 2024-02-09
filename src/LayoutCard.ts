@@ -1,8 +1,5 @@
 /* eslint-disable no-use-before-define */
-export interface LayoutCard {
-  layout: LayoutComponent;
-  option?: LayoutOption;
-}
+export type Layout = LayoutComponent;
 
 export type LayoutComponent =
   | Button
@@ -21,7 +18,7 @@ export type LayoutComponent =
   | Droppable
   | Draggable
   | Mime
-  | Recursion
+  | Section
   | Text
   | EditableDiv
   | EditableSpan;
@@ -119,8 +116,8 @@ export type Draggable = LayoutBaseComponent & {
   contents: LayoutComponent[];
 };
 
-export type Recursion = LayoutBaseComponent & {
-  component: 'recursion';
+export type Section = LayoutBaseComponent & {
+  component: 'section';
   contents: LayoutComponent[];
 };
 

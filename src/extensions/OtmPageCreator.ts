@@ -1,65 +1,95 @@
-import { PageCreatorProperties } from '../ExtensionProperties';
-import { Word } from '../otm/Word';
-import PageCreator, {
-  CreateProps,
-  CreateReturns,
-  TemplatesReturns,
-} from '../PageCreator';
+import { ConfigurationPage, TemplatePage } from '../Page';
+import { PageCreator, CreateReturns, TemplateReturns } from '../PageCreator';
+import {
+  NumberValue,
+  SimpleConfigurationFormatV1,
+  StringValue,
+} from './SimpleConfigurationFormatV1';
 
-export default class OtmPageCreator extends PageCreator {
-  public readonly properties: PageCreatorProperties = {
-    action: 'properties',
+const configuration: ConfigurationPage = {
+  specialPage: 'configuration',
+  pageFormat: '@skytomo221/otm-creator/configuration',
+  data: {},
+};
+
+type TemplateValues = {
+  id: number;
+  title: string;
+};
+
+type TemplateProperties = {
+  id: NumberValue;
+  title: StringValue;
+};
+
+type TemplateData = SimpleConfigurationFormatV1 & {
+  title: string;
+  values: TemplateValues;
+  properties: TemplateProperties;
+};
+
+const templateData: TemplateData = {
+  title: '新しい単語',
+  values: {
+    id: -1,
+    title: '',
+  },
+  properties: {
+    id: {
+      title: 'ID',
+      description: '単語のIDを指定します。',
+      type: 'number',
+      default: -1,
+    },
+    title: {
+      title: '見出し語',
+      description: '単語の見出し語を指定します。',
+      type: 'string',
+      default: '',
+    },
+  },
+};
+
+const template: TemplatePage = {
+  specialPage: 'template',
+  pageFormat: 'simple-configuration-format-v1',
+  data: templateData,
+};
+
+function nextId(ids: number[]): number {
+  return ids.reduce((a, b) => Math.max(a, b)) + 1;
+}
+
+export const otmPageCreator: PageCreator = {
+  properties: {
     name: 'OTM Page Creator',
-    id: 'otm-page-creator',
-    version: '0.1.0',
+    id: '@skytomo221/otm-page-creator',
+    version: '1.0.0',
     type: 'page-creator',
     author: 'skytomo221',
-    bookFormat: ['otm'],
-  };
-
-  public async templates(): Promise<TemplatesReturns> {
-    return {
-      action: 'templates',
-      status: 'resolve',
-      returns: {
-        templates: ['word'],
-      },
-    };
-  }
-
-  public static newId(excludes: string[]): string {
-    let id = Math.random().toString(36).slice(-8);
-    while (excludes.includes(id)) {
-      id = Math.random().toString(36).slice(-8);
-    }
-    return id;
-  }
-
-  public static nextId(excludes: number[]): number {
-    let id = 1;
-    while (excludes.includes(id)) {
-      id += 1;
-    }
-    return id;
-  }
-
-  public async create(props: CreateProps): Promise<CreateReturns> {
-    const { book } = props;
-    const { pageCards } = book;
-    return {
-      action: 'create',
-      status: 'resolve',
-      returns: {
-        pageCard: {
-          id: OtmPageCreator.newId(pageCards.map(pageCard => pageCard.id)),
-          title: 'Word',
+    bookFormatPattern: '^otm$',
+  },
+  configuration() {
+    return { configuration };
+  },
+  template(): Promise<TemplateReturns> {
+    return Promise.resolve({ template });
+  },
+  create({ book, template }): Promise<CreateReturns> {
+    const templateData = template.data as TemplateData;
+    const { id, title } = templateData.values;
+    const { indexes } = book;
+    const newId = indexes.some(index => index.id === id.toString())
+      ? nextId(indexes.map(({ id }) => Number(id)))
+      : id;
+    return Promise.resolve({
+      page: {
+        id: newId.toString(),
+        pageFormat: 'otm',
+        data: {
           entry: {
-            id: OtmPageCreator.nextId(
-              (pageCards as unknown as Word[]).map(
-                pageCard => pageCard.entry.id,
-              ),
-            ),
-            form: 'New Word',
+            id: newId,
+            form: title,
           },
           translations: [],
           tags: [],
@@ -68,6 +98,6 @@ export default class OtmPageCreator extends PageCreator {
           relations: [],
         },
       },
-    };
-  }
-}
+    });
+  },
+};

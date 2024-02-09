@@ -1,12 +1,23 @@
-import Extension from './Extension';
-import { LayoutBuilderProperties } from './ExtensionProperties';
-import { LayoutCard } from './LayoutCard';
-import { PageCard } from './PageCard';
+import { ExtensionBase } from './ExtensionBase';
+import { PageExtensionBaseProperties } from './ExtensionProperties';
+import { Layout } from './LayoutCard';
+import { ConfigurationPage, Page } from './Page';
 
-export default abstract class LayoutBuilder extends Extension {
-  static properties: LayoutBuilderProperties;
+export type LayoutBuilderProperties = PageExtensionBaseProperties & {
+  type: 'layout-builder';
+  dependentPageUpdaters: string[];
+};
 
-  abstract readonly layout: (word: PageCard) => Promise<LayoutCard>;
+export type LayoutProps = {
+  configuration: ConfigurationPage;
+  page: Page;
+};
 
-  abstract readonly indexes: (words: PageCard[]) => Promise<LayoutCard[]>;
-}
+export type LayoutReturns = {
+  layout: Layout;
+};
+
+export type LayoutBuilder = ExtensionBase & {
+  properties: LayoutBuilderProperties;
+  layout(props: LayoutProps): Promise<LayoutReturns>;
+};
