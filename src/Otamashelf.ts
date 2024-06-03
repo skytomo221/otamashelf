@@ -176,8 +176,12 @@ export default class Otamashelf extends EventEmitter {
       this.layoutBuilders.register(extension);
     } else if (isExtensionType(extension, 'layout-decorator')) {
       this.layoutDecorators.register(extension);
+    } else if (isExtensionType(extension, 'index-generator')) {
+      this.indexGenerators.register(extension);
     } else if (isExtensionType(extension, 'page-creator')) {
       this.pageCreators.register(extension);
+    } else if (isExtensionType(extension, 'page-explorer')) {
+      this.pageExplorers.register(extension);
     } else if (isExtensionType(extension, 'page-modifier')) {
       this.pageModifiers.register(extension);
     } else if (isExtensionType(extension, 'page-decorator')) {
@@ -211,6 +215,7 @@ export default class Otamashelf extends EventEmitter {
     };
   }
 
+  // FIXME: ここでエラーが発生する
   async setIndexes(pages: Page[], path: string): Promise<PageProperties[]> {
     const pageFormats = Array.from(new Set(pages.map(page => page.pageFormat)));
     return (
@@ -257,7 +262,7 @@ export default class Otamashelf extends EventEmitter {
       type,
     );
     if (!bookFormat) throw new Error('Book format not found');
-    const bookLoader = this.bookLoaders.findByIdOrThrow(bookFormat);
+    const bookLoader = this.bookLoaders.findByBookFormatOrThrow(bookFormat);
     const configuration = this.extensionConfigurations.getOrThrow(
       bookLoader.properties.id,
     );
