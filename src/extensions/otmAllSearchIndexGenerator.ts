@@ -5,7 +5,7 @@ import {
   GenerateReturns,
 } from '../SearchIndexGenerator';
 import { ConfigurationReturns } from '../ExtensionBase';
-import { toOtmPage } from './OtmPage';
+import { toOtmPage } from './toOtmPage';
 
 const configuration: ConfigurationPage = {
   specialPage: 'configuration',
