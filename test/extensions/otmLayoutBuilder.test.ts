@@ -9,38 +9,40 @@ describe('otmLayoutBuilder', () => {
         id: '3',
         pageFormat: 'otm',
         data: {
-          entry: {
-            id: 3,
-            form: '+',
-          },
-          translations: [
-            {
-              title: '動詞',
-              forms: ['ポインタの値をインクリメントする'],
+          word: {
+            entry: {
+              id: 3,
+              form: '+',
             },
-          ],
-          tags: ['命令'],
-          contents: [
-            {
-              title: 'C言語',
-              text: 'C言語で (*ptr)++; に相当する。',
-              markdown: 'C言語で `(*ptr)++;` に相当する。',
-            },
-            {
-              title: 'Pronunciation',
-              text: 'plʌs',
-            },
-          ],
-          variations: [],
-          relations: [
-            {
-              title: '対義語',
-              entry: {
-                id: 4,
-                form: '-',
+            translations: [
+              {
+                title: '動詞',
+                forms: ['ポインタの値をインクリメントする'],
               },
-            },
-          ],
+            ],
+            tags: ['命令'],
+            contents: [
+              {
+                title: 'C言語',
+                text: 'C言語で (*ptr)++; に相当する。',
+                markdown: 'C言語で `(*ptr)++;` に相当する。',
+              },
+              {
+                title: 'Pronunciation',
+                text: 'plʌs',
+              },
+            ],
+            variations: [],
+            relations: [
+              {
+                title: '対義語',
+                entry: {
+                  id: 4,
+                  form: '-',
+                },
+              },
+            ],
+          },
         },
       };
       otmLayoutBuilder.layout({ configuration, page }).then(layout => {
