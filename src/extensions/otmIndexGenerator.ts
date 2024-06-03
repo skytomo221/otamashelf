@@ -28,7 +28,7 @@ export const otmIndexGenerator: IndexGenerator = {
     return Promise.resolve({
       indexs: pages.map((page): Omit<PageProperties, 'path'> => {
         const { data, id } = page;
-        const word = data as Word;
+        const { word } = data as { word: Word };
         const { entry, translations } = word;
         const { form: title } = entry;
         const preview = translations

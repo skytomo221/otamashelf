@@ -277,15 +277,15 @@ export const otmLayoutBuilder: LayoutBuilder = {
   },
   layout({ page }: LayoutProps): Promise<LayoutReturns> {
     const ajv = new Ajv();
-    const { data } = page;
-    const valid = ajv.validate(wordScheme, data);
+    const { data: { word } } = page;
+    const valid = ajv.validate(wordScheme, word);
     if (!valid) {
       throw new Error(ajv.errorsText());
     }
     return Promise.resolve({
       layout: {
         component: 'section',
-        contents: [entry(data), ...translations(data), ...contents(data)],
+        contents: [entry(word), ...translations(word), ...contents(word)],
       },
     });
   },
