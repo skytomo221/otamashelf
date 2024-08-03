@@ -31,13 +31,17 @@ export const otmRemoveContentPageModifier: PageModifier = {
   }: ModifyProps<P>): Promise<ModifyReturns<P>> {
     const { removeIndex } = script as Script;
     const { data } = page;
-    const { contents } = data as unknown as Word;
+    const { word } = data;
+    const { contents } = word as unknown as Word;
     return Promise.resolve({
       page: {
         ...page,
         data: {
           ...data,
-          contents: [...contents.filter((_, i) => i !== removeIndex)],
+          word: {
+            ...(word as unknown as Word),
+            contents: [...contents.filter((_, i) => i !== removeIndex)],
+          },
         },
       },
     });
