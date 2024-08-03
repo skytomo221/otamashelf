@@ -23,16 +23,20 @@ export const otmAddContentPageModifier: PageModifier = {
   },
   modify<P extends Page>({ page }: ModifyProps<P>): Promise<ModifyReturns<P>> {
     const { data } = page;
-    const { contents } = data as unknown as Word;
+    const { word } = data;
+    const { contents } = word as unknown as Word;
     return Promise.resolve({
       page: {
         ...page,
         data: {
           ...data,
-          contents: [
-            ...contents,
-            { title: '無題のコンテンツ', text: '', markdown: '' },
-          ],
+          word: {
+            ...(word as unknown as Word),
+            contents: [
+              ...contents,
+              { title: '無題のコンテンツ', text: '', markdown: '' },
+            ],
+          },
         },
       },
     });

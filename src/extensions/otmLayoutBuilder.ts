@@ -32,25 +32,25 @@ function rawEntry(entry: Entry): EditableSpan {
     inputs: [
       {
         component: 'label',
-        for: 'entry.form',
+        for: 'word.entry.form',
         contents: ['見出し語'],
       },
       {
         component: 'input',
-        id: 'entry.form',
+        id: 'word.entry.form',
         name: '見出し語',
         type: 'text',
-        reference: 'entry.form',
+        reference: 'word.entry.form',
       },
       {
         component: 'input',
-        id: `entry.reset`,
+        id: `word.entry.reset`,
         type: 'reset',
         value: 'キャンセル',
       },
       {
         component: 'input',
-        id: `entry.submit`,
+        id: `word.entry.submit`,
         type: 'submit',
         value: '変更する',
       },
@@ -83,25 +83,25 @@ function form(translationIndex: number) {
       inputs: [
         {
           component: 'label',
-          for: `translations.${translationIndex}.forms.${index}`,
+          for: `word.translations.${translationIndex}.forms.${index}`,
           contents: ['訳語'],
         },
         {
           component: 'input',
-          id: `translations.${translationIndex}.forms.${index}`,
+          id: `word.translations.${translationIndex}.forms.${index}`,
           name: '訳語',
           type: 'text',
-          reference: `translations.${translationIndex}.forms.${index}`,
+          reference: `word.translations.${translationIndex}.forms.${index}`,
         },
         {
           component: 'input',
-          id: `translations.${translationIndex}.forms.${index}.reset`,
+          id: `word.translations.${translationIndex}.forms.${index}.reset`,
           type: 'reset',
           value: 'キャンセル',
         },
         {
           component: 'input',
-          id: `translations.${translationIndex}.forms.${index}.submit`,
+          id: `word.translations.${translationIndex}.forms.${index}.submit`,
           type: 'submit',
           value: '変更する',
         },
@@ -137,15 +137,15 @@ function rawContentsInputs(index: number): FormDivComponent[] {
       contents: [
         {
           component: 'label',
-          for: `contents.${index}.title`,
+          for: `word.contents.${index}.title`,
           contents: ['タイトル'],
         },
         {
           component: 'input',
           type: 'text',
-          id: `contents.${index}.title`,
-          name: `contents.${index}.title`,
-          reference: `contents.${index}.title`,
+          id: `word.contents.${index}.title`,
+          name: `word.contents.${index}.title`,
+          reference: `word.contents.${index}.title`,
         },
       ],
     },
@@ -154,26 +154,26 @@ function rawContentsInputs(index: number): FormDivComponent[] {
       contents: [
         {
           component: 'label',
-          for: `contents.${index}.text`,
+          for: `word.contents.${index}.text`,
           contents: ['内容'],
         },
         {
           component: 'textarea',
-          id: `contents.${index}.markdown`,
-          name: `contents.${index}.markdown`,
-          reference: `contents.${index}.markdown`,
+          id: `word.contents.${index}.markdown`,
+          name: `word.contents.${index}.markdown`,
+          reference: `word.contents.${index}.markdown`,
         },
       ],
     },
     {
       component: 'input',
-      id: `contents.${index}.reset`,
+      id: `word.contents.${index}.reset`,
       type: 'reset',
       value: 'キャンセル',
     },
     {
       component: 'input',
-      id: `contents.${index}.submit`,
+      id: `word.contents.${index}.submit`,
       type: 'submit',
       value: '変更する',
     },
@@ -236,7 +236,7 @@ function rawContent(content: Content, index: number): LayoutComponent {
 function rawContents(word: Word): LayoutComponent {
   return {
     component: 'droppable',
-    droppableId: 'contents',
+    droppableId: 'word.contents',
     type: 'content',
     contents: word.contents.map(rawContent),
   };
