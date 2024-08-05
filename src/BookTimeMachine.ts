@@ -14,6 +14,13 @@ export interface AddPage {
   afterChange: NormalPage;
 }
 
+export interface ModifyBook {
+  type: 'modify-book';
+  comment: string;
+  beforeChange: NormalPage[];
+  afterChange: NormalPage[];
+}
+
 export interface ModifyPage {
   type: 'modify-page';
   comment: string;
@@ -51,6 +58,7 @@ export interface ModifyTitle {
 export type BookDiff =
   | FirstCommit
   | AddPage
+  | ModifyBook
   | ModifyPage
   | RemovePage
   | ModifyConfiguration
@@ -104,6 +112,9 @@ export default class BookTimeMachine {
           p => p.id !== bookDiff.afterChange.id,
         );
         break;
+      case 'modify-book':
+        this.currentBook.pages = bookDiff.beforeChange;
+        break;
       case 'modify-page':
         this.currentBook.pages = this.currentBook.pages.map(p =>
           p.id === bookDiff.beforeChange.id ? bookDiff.beforeChange : p,
@@ -134,6 +145,9 @@ export default class BookTimeMachine {
     switch (bookDiff.type) {
       case 'add-page':
         this.currentBook.pages.push(bookDiff.afterChange);
+        break;
+      case 'modify-book':
+        this.currentBook.pages = bookDiff.afterChange;
         break;
       case 'modify-page':
         this.currentBook.pages = this.currentBook.pages.map(p =>
@@ -184,6 +198,15 @@ export default class BookTimeMachine {
     this.diffs.push(bookDiff);
     this.currentBook = this.forwardRevision();
     return this.currentBook;
+  }
+
+  modifyBook(pages: NormalPage[], comment: string) {
+    return this.addDiff({
+      type: 'modify-book',
+      comment,
+      beforeChange: this.currentBook.pages,
+      afterChange: pages,
+    });
   }
 
   modifyPage(page: NormalPage, comment: string) {

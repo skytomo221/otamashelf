@@ -203,11 +203,10 @@ function rawContentsOutputs(
           ],
         },
         {
-          component: 'button',
+          component: 'modify-page-button',
           onClick: {
-            type: 'page-updater',
-            id: 'otm-page-updater',
-            script: `contents/remove\t${index}`,
+            id: '@skytomo221/otm-remove-content-page-modifier',
+            script: { removeIndex: index },
           },
           contents: ['コンテンツを削除する'],
         },
@@ -249,11 +248,10 @@ function contents(word: Word): LayoutComponent[] {
       component: 'div',
       contents: [
         {
-          component: 'button',
+          component: 'modify-page-button',
           onClick: {
-            type: 'page-updater',
-            id: 'otm-page-updater',
-            script: 'contents/add',
+            id: '@skytomo221/otm-add-content-page-modifier',
+            script: {},
           },
           contents: ['新しくコンテンツを追加する'],
         },
