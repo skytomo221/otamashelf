@@ -28,6 +28,13 @@ export interface ModifyPage {
   afterChange: NormalPage;
 }
 
+export interface ModifyPages {
+  type: 'modify-pages';
+  comment: string;
+  beforeChange: NormalPage[];
+  afterChange: NormalPage[];
+}
+
 export interface RemovePage {
   type: 'remove-page';
   comment: string;
@@ -60,6 +67,7 @@ export type BookDiff =
   | AddPage
   | ModifyBook
   | ModifyPage
+  | ModifyPages
   | RemovePage
   | ModifyConfiguration
   | ModifyDescription
@@ -120,6 +128,9 @@ export default class BookTimeMachine {
           p.id === bookDiff.beforeChange.id ? bookDiff.beforeChange : p,
         );
         break;
+      case 'modify-pages':
+        this.currentBook.pages = bookDiff.beforeChange;
+        break;
       case 'remove-page':
         this.currentBook.pages.push(bookDiff.beforeChange);
         break;
@@ -153,6 +164,9 @@ export default class BookTimeMachine {
         this.currentBook.pages = this.currentBook.pages.map(p =>
           p.id === bookDiff.afterChange.id ? bookDiff.afterChange : p,
         );
+        break;
+      case 'modify-pages':
+        this.currentBook.pages = bookDiff.afterChange;
         break;
       case 'remove-page':
         this.currentBook.pages = this.currentBook.pages.filter(
@@ -215,6 +229,15 @@ export default class BookTimeMachine {
       comment,
       beforeChange: this.currentBook.pages.find(p => p.id === page.id)!,
       afterChange: page,
+    });
+  }
+
+  modifyPages(pages: NormalPage[], comment: string) {
+    return this.addDiff({
+      type: 'modify-pages',
+      comment,
+      beforeChange: this.currentBook.pages,
+      afterChange: pages,
     });
   }
 

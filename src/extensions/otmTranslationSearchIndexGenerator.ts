@@ -33,7 +33,7 @@ export const otmTranslationSearchIndexGenerator: SearchIndexGenerator = {
     return Promise.resolve({
       searchCards: pages
         .map(toOtmPage)
-        .map(({ id, data: { translations } }) => ({
+        .map(({ id, data: { word: { translations } } }) => ({
           id,
           targets: translations.map(t => t.forms).flat(),
         })),

@@ -35,7 +35,9 @@ export const otmFormSearchIndexGenerator: SearchIndexGenerator = {
         ({
           id,
           data: {
-            entry: { form },
+            word: {
+              entry: { form },
+            },
           },
         }) => ({
           id,

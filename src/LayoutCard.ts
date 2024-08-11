@@ -14,7 +14,7 @@ export type LayoutComponent =
   | H5
   | H6
   | ModifyPageButton
-  | ModifyBookButton
+  | ModifyPagesButton
   | P
   | Span
   | Chip
@@ -89,8 +89,8 @@ export type ModifyPageButton = LayoutBaseComponent & {
   contents: LayoutComponent[];
 };
 
-export type ModifyBookButton = LayoutBaseComponent & {
-  component: 'modify-book-button';
+export type ModifyPagesButton = LayoutBaseComponent & {
+  component: 'modify-pages-button';
   onClick: {
     id: string;
     script: Json;

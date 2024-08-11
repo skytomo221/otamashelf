@@ -10,6 +10,7 @@ import { PageCreator } from "./PageCreator";
 import { PageDecorator } from "./PageDecorator";
 import { PageExplorer } from "./PageExplorer";
 import { PageModifier } from "./PageModifier";
+import { PagesModifier } from "./PagesModifier";
 import { SearchIndexGenerator } from "./SearchIndexGenerator";
 import { StyleTheme } from "./StyleTheme";
 import { TextConverter } from "./TextConverter";
@@ -25,6 +26,7 @@ export type PageExtension =
   | LayoutBuilder
   | IndexGenerator
   | PageModifier
+  | PagesModifier
   | PageDecorator
   | SearchIndexGenerator;
 
