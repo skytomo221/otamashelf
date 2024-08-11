@@ -1,4 +1,7 @@
 import Otamashelf from '../src/Otamashelf';
+import { otmDiscriminator } from '../src/extensions/otmDiscriminator';
+import { otmIndexGenerator } from '../src/extensions/otmIndexGenerator';
+import { otmLoader } from '../src/extensions/otmLoader';
 
 describe('Otamashelf', () => {
   describe('search', () => {
@@ -45,6 +48,15 @@ describe('Otamashelf', () => {
       expect(
         otamashelf.executeCommand('otamashelf.getContext', 'test'),
       ).toEqual(2);
+    });
+    it('has open book', async () => {
+      const otamashelf = new Otamashelf();
+      otamashelf.registerExtension(otmDiscriminator);
+      otamashelf.registerExtension(otmIndexGenerator);
+      otamashelf.registerExtension(otmLoader);
+      expect(
+        await otamashelf.openBook('./data/sample.json', 'file'),
+      ).toBeDefined();
     });
   });
 });

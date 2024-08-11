@@ -59,25 +59,25 @@ describe('otmLayoutBuilder', () => {
                     inputs: [
                       {
                         component: 'label',
-                        for: 'entry.form',
+                        for: 'word.entry.form',
                         contents: ['見出し語'],
                       },
                       {
                         component: 'input',
-                        id: 'entry.form',
+                        id: 'word.entry.form',
                         name: '見出し語',
                         type: 'text',
-                        reference: 'entry.form',
+                        reference: 'word.entry.form',
                       },
                       {
                         component: 'input',
-                        id: 'entry.reset',
+                        id: 'word.entry.reset',
                         type: 'reset',
                         value: 'キャンセル',
                       },
                       {
                         component: 'input',
-                        id: 'entry.submit',
+                        id: 'word.entry.submit',
                         type: 'submit',
                         value: '変更する',
                       },
@@ -106,25 +106,25 @@ describe('otmLayoutBuilder', () => {
                         inputs: [
                           {
                             component: 'label',
-                            for: 'translations.0.forms.0',
+                            for: 'word.translations.0.forms.0',
                             contents: ['訳語'],
                           },
                           {
                             component: 'input',
-                            id: 'translations.0.forms.0',
+                            id: 'word.translations.0.forms.0',
                             name: '訳語',
-                            reference: 'translations.0.forms.0',
+                            reference: 'word.translations.0.forms.0',
                             type: 'text',
                           },
                           {
                             component: 'input',
-                            id: 'translations.0.forms.0.reset',
+                            id: 'word.translations.0.forms.0.reset',
                             type: 'reset',
                             value: 'キャンセル',
                           },
                           {
                             component: 'input',
-                            id: 'translations.0.forms.0.submit',
+                            id: 'word.translations.0.forms.0.submit',
                             type: 'submit',
                             value: '変更する',
                           },
@@ -142,7 +142,7 @@ describe('otmLayoutBuilder', () => {
               },
               {
                 component: 'droppable',
-                droppableId: 'contents',
+                droppableId: 'word.contents',
                 type: 'content',
                 contents: [
                   {
@@ -157,15 +157,15 @@ describe('otmLayoutBuilder', () => {
                             contents: [
                               {
                                 component: 'label',
-                                for: 'contents.0.title',
+                                for: 'word.contents.0.title',
                                 contents: ['タイトル'],
                               },
                               {
                                 component: 'input',
                                 type: 'text',
-                                id: 'contents.0.title',
-                                name: 'contents.0.title',
-                                reference: 'contents.0.title',
+                                id: 'word.contents.0.title',
+                                name: 'word.contents.0.title',
+                                reference: 'word.contents.0.title',
                               },
                             ],
                           },
@@ -174,26 +174,26 @@ describe('otmLayoutBuilder', () => {
                             contents: [
                               {
                                 component: 'label',
-                                for: 'contents.0.text',
+                                for: 'word.contents.0.text',
                                 contents: ['内容'],
                               },
                               {
                                 component: 'textarea',
-                                id: 'contents.0.markdown',
-                                name: 'contents.0.markdown',
-                                reference: 'contents.0.markdown',
+                                id: 'word.contents.0.markdown',
+                                name: 'word.contents.0.markdown',
+                                reference: 'word.contents.0.markdown',
                               },
                             ],
                           },
                           {
                             component: 'input',
-                            id: 'contents.0.reset',
+                            id: 'word.contents.0.reset',
                             type: 'reset',
                             value: 'キャンセル',
                           },
                           {
                             component: 'input',
-                            id: 'contents.0.submit',
+                            id: 'word.contents.0.submit',
                             type: 'submit',
                             value: '変更する',
                           },
@@ -217,11 +217,12 @@ describe('otmLayoutBuilder', () => {
                                 ],
                               },
                               {
-                                component: 'button',
+                                component: 'modify-page-button',
                                 onClick: {
-                                  type: 'page-updater',
-                                  id: 'otm-page-updater',
-                                  script: `contents/remove\t0`,
+                                  id: '@skytomo221/otm-remove-content-page-modifier',
+                                  script: {
+                                    removeIndex: 0,
+                                  },
                                 },
                                 contents: ['コンテンツを削除する'],
                               },
@@ -246,15 +247,15 @@ describe('otmLayoutBuilder', () => {
                             contents: [
                               {
                                 component: 'label',
-                                for: 'contents.1.title',
+                                for: 'word.contents.1.title',
                                 contents: ['タイトル'],
                               },
                               {
                                 component: 'input',
                                 type: 'text',
-                                id: 'contents.1.title',
-                                name: 'contents.1.title',
-                                reference: 'contents.1.title',
+                                id: 'word.contents.1.title',
+                                name: 'word.contents.1.title',
+                                reference: 'word.contents.1.title',
                               },
                             ],
                           },
@@ -263,26 +264,26 @@ describe('otmLayoutBuilder', () => {
                             contents: [
                               {
                                 component: 'label',
-                                for: 'contents.1.text',
+                                for: 'word.contents.1.text',
                                 contents: ['内容'],
                               },
                               {
                                 component: 'textarea',
-                                id: 'contents.1.markdown',
-                                name: 'contents.1.markdown',
-                                reference: 'contents.1.markdown',
+                                id: 'word.contents.1.markdown',
+                                name: 'word.contents.1.markdown',
+                                reference: 'word.contents.1.markdown',
                               },
                             ],
                           },
                           {
                             component: 'input',
-                            id: 'contents.1.reset',
+                            id: 'word.contents.1.reset',
                             type: 'reset',
                             value: 'キャンセル',
                           },
                           {
                             component: 'input',
-                            id: 'contents.1.submit',
+                            id: 'word.contents.1.submit',
                             type: 'submit',
                             value: '変更する',
                           },
@@ -306,11 +307,12 @@ describe('otmLayoutBuilder', () => {
                                 ],
                               },
                               {
-                                component: 'button',
+                                component: 'modify-page-button',
                                 onClick: {
-                                  type: 'page-updater',
-                                  id: 'otm-page-updater',
-                                  script: `contents/remove\t1`,
+                                  id: '@skytomo221/otm-remove-content-page-modifier',
+                                  script: {
+                                    removeIndex: 1,
+                                  },
                                 },
                                 contents: ['コンテンツを削除する'],
                               },
@@ -329,12 +331,11 @@ describe('otmLayoutBuilder', () => {
                 component: 'div',
                 contents: [
                   {
-                    component: 'button',
+                    component: 'modify-page-button',
                     contents: ['新しくコンテンツを追加する'],
                     onClick: {
-                      id: 'otm-page-updater',
-                      script: 'contents/add',
-                      type: 'page-updater',
+                      id: '@skytomo221/otm-add-content-page-modifier',
+                      script: {},
                     },
                   },
                 ],

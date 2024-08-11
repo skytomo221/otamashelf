@@ -40,25 +40,27 @@ describe('otmRemoveContentPageModifier', () => {
         id: '1',
         pageFormat: 'otmIndex',
         data: {
-          entry: {
-            id: 1,
-            form: 'word',
+          word: {
+            entry: {
+              id: 1,
+              form: 'word',
+            },
+            translations: [
+              {
+                title: '名詞',
+                forms: ['単語', '言葉'],
+              },
+            ],
+            tags: ['基本'],
+            contents: [
+              {
+                title: 'Pronunciation',
+                text: 'wərd',
+              },
+            ],
+            variations: [],
+            relations: [],
           },
-          translations: [
-            {
-              title: '名詞',
-              forms: ['単語', '言葉'],
-            },
-          ],
-          tags: ['基本'],
-          contents: [
-            {
-              title: 'Pronunciation',
-              text: 'wərd',
-            },
-          ],
-          variations: [],
-          relations: [],
         },
       };
       const script: Script = { removeIndex: 0 };
@@ -69,20 +71,22 @@ describe('otmRemoveContentPageModifier', () => {
             id: '1',
             pageFormat: 'otmIndex',
             data: {
-              entry: {
-                id: 1,
-                form: 'word',
-              },
-              translations: [
-                {
-                  title: '名詞',
-                  forms: ['単語', '言葉'],
+              word: {
+                entry: {
+                  id: 1,
+                  form: 'word',
                 },
-              ],
-              tags: ['基本'],
-              contents: [],
-              variations: [],
-              relations: [],
+                translations: [
+                  {
+                    title: '名詞',
+                    forms: ['単語', '言葉'],
+                  },
+                ],
+                tags: ['基本'],
+                contents: [],
+                variations: [],
+                relations: [],
+              },
             },
           });
         });

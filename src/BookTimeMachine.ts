@@ -14,11 +14,25 @@ export interface AddPage {
   afterChange: NormalPage;
 }
 
+export interface ModifyBook {
+  type: 'modify-book';
+  comment: string;
+  beforeChange: NormalPage[];
+  afterChange: NormalPage[];
+}
+
 export interface ModifyPage {
   type: 'modify-page';
   comment: string;
   beforeChange: NormalPage;
   afterChange: NormalPage;
+}
+
+export interface ModifyPages {
+  type: 'modify-pages';
+  comment: string;
+  beforeChange: NormalPage[];
+  afterChange: NormalPage[];
 }
 
 export interface RemovePage {
@@ -51,7 +65,9 @@ export interface ModifyTitle {
 export type BookDiff =
   | FirstCommit
   | AddPage
+  | ModifyBook
   | ModifyPage
+  | ModifyPages
   | RemovePage
   | ModifyConfiguration
   | ModifyDescription
@@ -104,10 +120,16 @@ export default class BookTimeMachine {
           p => p.id !== bookDiff.afterChange.id,
         );
         break;
+      case 'modify-book':
+        this.currentBook.pages = bookDiff.beforeChange;
+        break;
       case 'modify-page':
         this.currentBook.pages = this.currentBook.pages.map(p =>
           p.id === bookDiff.beforeChange.id ? bookDiff.beforeChange : p,
         );
+        break;
+      case 'modify-pages':
+        this.currentBook.pages = bookDiff.beforeChange;
         break;
       case 'remove-page':
         this.currentBook.pages.push(bookDiff.beforeChange);
@@ -135,10 +157,16 @@ export default class BookTimeMachine {
       case 'add-page':
         this.currentBook.pages.push(bookDiff.afterChange);
         break;
+      case 'modify-book':
+        this.currentBook.pages = bookDiff.afterChange;
+        break;
       case 'modify-page':
         this.currentBook.pages = this.currentBook.pages.map(p =>
           p.id === bookDiff.afterChange.id ? bookDiff.afterChange : p,
         );
+        break;
+      case 'modify-pages':
+        this.currentBook.pages = bookDiff.afterChange;
         break;
       case 'remove-page':
         this.currentBook.pages = this.currentBook.pages.filter(
@@ -186,12 +214,30 @@ export default class BookTimeMachine {
     return this.currentBook;
   }
 
+  modifyBook(pages: NormalPage[], comment: string) {
+    return this.addDiff({
+      type: 'modify-book',
+      comment,
+      beforeChange: this.currentBook.pages,
+      afterChange: pages,
+    });
+  }
+
   modifyPage(page: NormalPage, comment: string) {
     return this.addDiff({
       type: 'modify-page',
       comment,
       beforeChange: this.currentBook.pages.find(p => p.id === page.id)!,
       afterChange: page,
+    });
+  }
+
+  modifyPages(pages: NormalPage[], comment: string) {
+    return this.addDiff({
+      type: 'modify-pages',
+      comment,
+      beforeChange: this.currentBook.pages,
+      afterChange: pages,
     });
   }
 

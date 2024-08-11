@@ -10,6 +10,7 @@ import { PageCreatorProperties } from './PageCreator';
 import { PageDecoratorProperties } from './PageDecorator';
 import { PageExplorerProperties } from './PageExplorer';
 import { PageModifierProperties } from './PageModifier';
+import { PagesModifierProperties } from './PagesModifier';
 import { SearchIndexGeneratorProperties } from './SearchIndexGenerator';
 import { StyleThemeProperties } from './StyleTheme';
 import { TextConverterProperties } from './TextConverter';
@@ -27,6 +28,7 @@ export type ExtensionProperties =
   | PageExplorerProperties
   | PageModifierProperties
   | PageDecoratorProperties
+  | PagesModifierProperties
   | SearchIndexGeneratorProperties
   | StyleThemeProperties
   | TextConverterProperties;

@@ -22,6 +22,7 @@ import PageExtensionsRegistry from './PageExtensionsRegistry';
 import { LayoutBuilder } from './LayoutBuilder';
 import { PageCreator } from './PageCreator';
 import { PageModifier } from './PageModifier';
+import { PagesModifier } from './PagesModifier';
 import { PageDecorator } from './PageDecorator';
 import { SearchIndexGenerator } from './SearchIndexGenerator';
 import { TextConverter } from './TextConverter';
@@ -78,6 +79,7 @@ export default class Otamashelf extends EventEmitter {
   readonly pageExplorers = new ExtensionsRegistry<PageExplorer>();
   readonly pageModifiers = new PageExtensionsRegistry<PageModifier>();
   readonly pageDecorators = new PageExtensionsRegistry<PageDecorator>();
+  readonly pagesModifiers = new PageExtensionsRegistry<PagesModifier>();
   readonly searchIndexGenerators =
     new PageExtensionsRegistry<SearchIndexGenerator>();
   readonly styleThemes = new ExtensionsRegistry<StyleTheme>();
@@ -186,6 +188,8 @@ export default class Otamashelf extends EventEmitter {
       this.pageModifiers.register(extension);
     } else if (isExtensionType(extension, 'page-decorator')) {
       this.pageDecorators.register(extension);
+    } else if (isExtensionType(extension, 'pages-modifier')) {
+      this.pagesModifiers.register(extension);
     } else if (isExtensionType(extension, 'search-index-generator')) {
       this.searchIndexGenerators.register(extension);
     } else if (isExtensionType(extension, 'style-theme')) {
@@ -419,23 +423,74 @@ export default class Otamashelf extends EventEmitter {
     return new Date().getTime();
   }
 
-  async modifyPage(path: string, page: NormalPage, script: Json) {
+  async modifyBook(path: string, bookModifierId: string, script: Json) {
     const bookTimeMachine = this.booksController.getOrThrow(path);
     const { currentBook } = bookTimeMachine;
     const { pages } = currentBook;
     const { bookFormat, configuration: bookConfiguration, title } = currentBook;
-    const index = pages.findIndex(p => p.id === page.id);
-    if (index === -1) throw new Error('Page not found');
-    const pageModifier = this.pageModifiers.findByPageFormatOrThrow(
-      page.pageFormat,
+    const bookModifier = this.bookModifiers.findByIdOrThrow(bookModifierId);
+    const configuration = this.extensionConfigurations.getOrThrow(
+      bookModifier.properties.id,
     );
+    const { book: modifiedBook } = await bookModifier.modify({
+      configuration,
+      book: { bookFormat, configuration: bookConfiguration, pages, title },
+      script,
+    });
+    const { pages: modifiedPages } = modifiedBook;
+    bookTimeMachine.modifyBook(modifiedPages, 'Modify book');
+    return modifiedBook;
+  }
+
+  async modifyPages(
+    path: string,
+    pageId: string,
+    pagesModifierId: string,
+    script: Json,
+  ) {
+    const bookTimeMachine = this.booksController.getOrThrow(path);
+    const { currentBook } = bookTimeMachine;
+    const { pages } = currentBook;
+    const { bookFormat, configuration: bookConfiguration, title } = currentBook;
+    const index = pages.findIndex(p => p.id === pageId);
+    if (index === -1) throw new Error('Page not found');
+    const pagesModifier = this.pagesModifiers.findByIdOrThrow(pagesModifierId);
+    const configuration = this.extensionConfigurations.getOrThrow(
+      pagesModifier.properties.id,
+    );
+    const {
+      book: { pages: modifiedPages },
+      page: modifiedPage,
+    } = await pagesModifier.modify({
+      configuration,
+      book: { bookFormat, configuration: bookConfiguration, pages },
+      page: pages[index],
+      script,
+    });
+    bookTimeMachine.modifyPages(modifiedPages, 'Modify page');
+    return { page: modifiedPage, layout: await this.layout(modifiedPage) };
+  }
+
+  async modifyPage(
+    path: string,
+    pageId: string,
+    pageModifierId: string,
+    script: Json,
+  ) {
+    const bookTimeMachine = this.booksController.getOrThrow(path);
+    const { currentBook } = bookTimeMachine;
+    const { pages } = currentBook;
+    const { bookFormat, configuration: bookConfiguration, title } = currentBook;
+    const index = pages.findIndex(p => p.id === pageId);
+    if (index === -1) throw new Error('Page not found');
+    const pageModifier = this.pageModifiers.findByIdOrThrow(pageModifierId);
     const configuration = this.extensionConfigurations.getOrThrow(
       pageModifier.properties.id,
     );
     const { page: modifiedPage } = await pageModifier.modify({
       configuration,
       book: { bookFormat, configuration: bookConfiguration, title },
-      page,
+      page: pages[index],
       script,
     });
     bookTimeMachine.modifyPage(modifiedPage, 'Modify page');

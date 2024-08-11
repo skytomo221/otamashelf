@@ -1,8 +1,9 @@
+import { Json } from "./Json";
+
 /* eslint-disable no-use-before-define */
 export type Layout = LayoutComponent;
 
 export type LayoutComponent =
-  | Button
   | Div
   | Divider
   | DeleteButton
@@ -12,6 +13,8 @@ export type LayoutComponent =
   | H4
   | H5
   | H6
+  | ModifyPageButton
+  | ModifyPagesButton
   | P
   | Span
   | Chip
@@ -22,22 +25,11 @@ export type LayoutComponent =
   | Text
   | EditableDiv
   | EditableSpan;
-
 export interface LayoutBaseComponent {
   component: string;
   class?: string;
   option?: LayoutOption;
 }
-
-export type Button = LayoutBaseComponent & {
-  component: 'button';
-  onClick: {
-    type: string;
-    id: string;
-    script: string;
-  };
-  contents: LayoutComponent[];
-};
 
 export type DeleteButton = LayoutBaseComponent & {
   component: 'delete-button';
@@ -86,6 +78,24 @@ export type Mime = LayoutBaseComponent & {
   component: 'mime';
   mime: string;
   text: string;
+};
+
+export type ModifyPageButton = LayoutBaseComponent & {
+  component: 'modify-page-button';
+  onClick: {
+    id: string;
+    script: Json;
+  };
+  contents: LayoutComponent[];
+};
+
+export type ModifyPagesButton = LayoutBaseComponent & {
+  component: 'modify-pages-button';
+  onClick: {
+    id: string;
+    script: Json;
+  };
+  contents: LayoutComponent[];
 };
 
 export type P = LayoutBaseComponent & {

@@ -35,9 +35,11 @@ export const otmAllSearchIndexGenerator: SearchIndexGenerator = {
         ({
           id,
           data: {
-            contents,
-            entry: { form },
-            translations,
+            word: {
+              contents,
+              entry: { form },
+              translations,
+            },
           },
         }) => ({
           id,
