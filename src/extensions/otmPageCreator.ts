@@ -56,10 +56,6 @@ const template: TemplatePage = {
   data: templateData,
 };
 
-function nextId(ids: number[]): number {
-  return ids.reduce((a, b) => Math.max(a, b)) + 1;
-}
-
 export const otmPageCreator: PageCreator = {
   properties: {
     name: 'OTM Page Creator',
@@ -75,20 +71,15 @@ export const otmPageCreator: PageCreator = {
   template(): Promise<TemplateReturns> {
     return Promise.resolve({ template });
   },
-  create({ book, template }): Promise<CreateReturns> {
+  create({ template }): Promise<CreateReturns> {
     const templateData = template.data as TemplateData;
     const { id, title } = templateData.values;
-    const { indexes } = book;
-    const newId = indexes.some(index => index.id === id.toString())
-      ? nextId(indexes.map(({ id }) => Number(id)))
-      : id;
     return Promise.resolve({
       page: {
-        id: newId.toString(),
         pageFormat: 'otm',
         data: {
           entry: {
-            id: newId,
+            id,
             form: title,
           },
           translations: [],
