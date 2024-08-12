@@ -12,6 +12,21 @@ const configuration: ConfigurationPage = {
   data: {},
 };
 
+function toSafeIdPages(pages: Word[]): Word[] {
+  let maxId =
+    pages.length === 0
+      ? 1
+      : pages.map(page => page.entry.id).reduce((a, b) => Math.max(a, b));
+  return pages.map(page =>
+    page.entry.id >= 0
+      ? page
+      : {
+          ...page,
+          entry: { ...page.entry, id: maxId++ + 1 },
+        },
+  );
+}
+
 export const otmSaver: BookSaver = {
   properties: {
     name: 'OTM Saver',
@@ -39,7 +54,7 @@ export const otmSaver: BookSaver = {
       enableMarkdown: configrationData.zpdicOnline.enableMarkdown,
     };
     const otm: PlainOtm = {
-      words: pages.map(card => card.data as Word),
+      words: toSafeIdPages(pages.map(page => page.data as Word)),
       zpdicOnline,
       ...configuration,
     };
