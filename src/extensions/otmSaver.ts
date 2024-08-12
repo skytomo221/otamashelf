@@ -1,3 +1,5 @@
+import removeMd from 'remove-markdown';
+
 import { ConfigurationPage } from '../Page';
 import { Word } from '../otm/Word';
 import { BookSaver, SaveProps, SaveReturns } from '../BookSaver';
@@ -27,6 +29,20 @@ function toSafeIdPages(pages: Word[]): Word[] {
   );
 }
 
+function toMarkdownContentsPages(pages: Word[]): Word[] {
+  return pages.map(page => ({
+    ...page,
+    contents: page.contents.map(content =>
+      content.markdown
+        ? {
+            ...content,
+            text: removeMd(content.markdown),
+          }
+        : content,
+    ),
+  }));
+}
+
 export const otmSaver: BookSaver = {
   properties: {
     name: 'OTM Saver',
@@ -54,7 +70,9 @@ export const otmSaver: BookSaver = {
       enableMarkdown: configrationData.zpdicOnline.enableMarkdown,
     };
     const otm: PlainOtm = {
-      words: toSafeIdPages(pages.map(page => page.data as Word)),
+      words: toMarkdownContentsPages(
+        toSafeIdPages(pages.map(page => page.data as Word)),
+      ),
       zpdicOnline,
       ...configuration,
     };
