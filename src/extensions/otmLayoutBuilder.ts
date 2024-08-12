@@ -154,7 +154,7 @@ function rawContentsInputs(index: number): FormDivComponent[] {
       contents: [
         {
           component: 'label',
-          for: `word.contents.${index}.text`,
+          for: `word.contents.${index}.markdown`,
           contents: ['内容'],
         },
         {
@@ -198,7 +198,7 @@ function rawContentsOutputs(
             {
               component: 'mime',
               mime: 'text/markdown',
-              text: content.text,
+              text: content.markdown ?? content.text,
             },
           ],
         },
