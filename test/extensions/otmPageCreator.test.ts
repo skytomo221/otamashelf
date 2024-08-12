@@ -49,7 +49,6 @@ describe('otmPageCreator', () => {
         .create({ book, configuration, template })
         .then(({ page }) => {
           expect(page).toEqual({
-            id: '-1',
             pageFormat: 'otm',
             data: {
               entry: {

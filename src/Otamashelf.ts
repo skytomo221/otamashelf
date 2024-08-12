@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { EventEmitter } from 'node:events';
+import { v4 } from 'uuid';
 
 import BooksController from './BooksController';
 import ContextsRegistry, { ContextTypes } from './ContextsRegistry';
@@ -252,10 +253,11 @@ export default class Otamashelf extends EventEmitter {
       configuration,
       template,
     });
-    const { pages } = bookBase;
+    const { pages: pagesWithoutId } = bookBase;
+    const pages = pagesWithoutId.map(page => ({ id: v4(), ...page }));
     const fileFormat = this.setFileFormat(path);
     const indexes = await this.setIndexes(pages, path);
-    const book = { fileFormat, indexes, ...bookBase };
+    const book = { ...bookBase, fileFormat, indexes, pages };
     this.booksController.registerBook(book);
     return book;
   }
@@ -274,10 +276,11 @@ export default class Otamashelf extends EventEmitter {
       path,
       configuration,
     });
-    const { pages } = bookBase;
+    const { pages: pagesWithoutId } = bookBase;
+    const pages = pagesWithoutId.map(page => ({ id: v4(), ...page }));
     const fileFormat = this.setFileFormat(path);
     const indexes = await this.setIndexes(pages, path);
-    const book = { bookFormat, fileFormat, indexes, ...bookBase };
+    const book = { ...bookBase, bookFormat, fileFormat, indexes, pages };
     this.booksController.registerBook(book);
     return book;
   }
@@ -319,18 +322,18 @@ export default class Otamashelf extends EventEmitter {
     const {
       bookFormat,
       configuration: bookConfiguration,
-      indexes,
       title,
     } = currentBook;
     const pageCreator = this.pageCreators.findByBookFormatOrThrow(bookFormat);
     const configuration = this.extensionConfigurations.getOrThrow(
       pageCreator.properties.id,
     );
-    const { page } = await pageCreator.create({
+    const { page: pagesWithoutId } = await pageCreator.create({
       configuration,
-      book: { bookFormat, configuration: bookConfiguration, indexes, title },
+      book: { bookFormat, configuration: bookConfiguration, title },
       template,
     });
+    const page = { id: v4(), ...pagesWithoutId };
     return page;
   }
 

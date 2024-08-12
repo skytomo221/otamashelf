@@ -1,5 +1,5 @@
 import { Book } from './Book';
-import { ConfigurationPage, TemplatePage } from './Page';
+import { ConfigurationPage, NormalPage, TemplatePage } from './Page';
 import { ExtensionBase } from './ExtensionBase';
 import { BookExtensionBaseProperties } from './ExtensionProperties';
 
@@ -23,8 +23,10 @@ export type CreateProps = {
 export type CreateReturns = {
   book: Pick<
     Book,
-    'configuration' | 'description' | 'bookFormat' | 'pages' | 'title'
-  >;
+    'configuration' | 'description' | 'bookFormat' | 'title'
+  > & {
+    pages: Omit<NormalPage, 'id'>[];
+  };
   path: string;
 };
 

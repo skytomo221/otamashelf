@@ -1,7 +1,7 @@
 import { Book } from './Book';
 import { ExtensionBase } from './ExtensionBase';
 import { BookExtensionBaseProperties } from './ExtensionProperties';
-import { SpecialPage } from './Page';
+import { NormalPage, SpecialPage } from './Page';
 
 export type BookLoaderProperties = BookExtensionBaseProperties & {
   type: 'book-loader';
@@ -13,7 +13,9 @@ export type LoadProps = {
 };
 
 export type LoadReturns = {
-  book: Pick<Book, 'configuration' | 'description' | 'pages' | 'title'>;
+  book: Pick<Book, 'configuration' | 'description' | 'title'> & {
+    pages: Omit<NormalPage, 'id'>[];
+  };
 };
 
 export type BookLoader = ExtensionBase & {
