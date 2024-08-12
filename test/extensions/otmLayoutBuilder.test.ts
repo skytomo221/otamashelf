@@ -174,7 +174,7 @@ describe('otmLayoutBuilder', () => {
                             contents: [
                               {
                                 component: 'label',
-                                for: 'word.contents.0.text',
+                                for: 'word.contents.0.markdown',
                                 contents: ['内容'],
                               },
                               {
@@ -212,7 +212,7 @@ describe('otmLayoutBuilder', () => {
                                   {
                                     component: 'mime',
                                     mime: 'text/markdown',
-                                    text: 'C言語で (*ptr)++; に相当する。',
+                                    text: 'C言語で `(*ptr)++;` に相当する。',
                                   },
                                 ],
                               },
@@ -264,7 +264,7 @@ describe('otmLayoutBuilder', () => {
                             contents: [
                               {
                                 component: 'label',
-                                for: 'word.contents.1.text',
+                                for: 'word.contents.1.markdown',
                                 contents: ['内容'],
                               },
                               {
