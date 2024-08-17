@@ -15,14 +15,7 @@ import { Translation } from '../otm/Translation';
 import { Word, wordScheme } from '../otm/Word';
 import { Content } from '../otm/Content';
 import { Entry } from '../otm/Entry';
-import { ConfigurationPage } from '../Page';
 import { ConfigurationReturns } from '../ExtensionBase';
-
-const configuration: ConfigurationPage = {
-  specialPage: 'configuration',
-  pageFormat: '@skytomo221/otm-creator/configuration',
-  data: {},
-};
 
 function rawEntry(entry: Entry): EditableSpan {
   const { form } = entry;
@@ -270,8 +263,8 @@ export const otmLayoutBuilder: LayoutBuilder = {
     pageFormatPattern: '^otm$',
     dependentPageUpdaters: ['@skytomo221/otm-page-updater'],
   },
-  configuration(): ConfigurationReturns {
-    return { configuration };
+  defaultConfiguration(): ConfigurationReturns {
+    return { configuration: {}, configurationsSchema: {} };
   },
   layout({ page }: LayoutProps): Promise<LayoutReturns> {
     const ajv = new Ajv();

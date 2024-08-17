@@ -5,13 +5,6 @@ import Ajv from 'ajv';
 import { BookDiscriminator } from '../BookDiscriminator';
 
 import { plainOtmScheme } from '../otm/Otm';
-import { ConfigurationPage } from '../Page';
-
-const configuration: ConfigurationPage = {
-  specialPage: 'configuration',
-  pageFormat: '@skytomo221/otm-creator/configuration',
-  data: {},
-};
 
 export const otmDiscriminator: BookDiscriminator = {
   properties: {
@@ -23,8 +16,8 @@ export const otmDiscriminator: BookDiscriminator = {
     directoryDiscriminatable: false,
     fileDiscriminatable: true,
   },
-  configuration() {
-    return { configuration };
+  defaultConfiguration() {
+    return { configuration: {}, configurationsSchema: {} };
   },
   discriminate({ path }) {
     const buff = readFileSync(path);

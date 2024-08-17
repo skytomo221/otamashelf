@@ -8,8 +8,8 @@ const book: Book = {
     pageFormat: 'otm.description',
     data: { explanation: '' },
   },
-  configuration: {
-    specialPage: 'configuration',
+  bookParameters: {
+    specialPage: 'book-parameters',
     pageFormat: 'otm.configuration',
     data: {
       snoj: ',、',
@@ -31,7 +31,7 @@ const book: Book = {
 describe('otmPageCreator', () => {
   describe('template', () => {
     it('returns template', () => {
-      const { configuration } = otmPageCreator.configuration();
+      const { configuration } = otmPageCreator.defaultConfiguration();
       otmPageCreator.template({ book, configuration }).then(({ template }) => {
         const { specialPage, data } = template;
         expect(specialPage).toEqual('template');
@@ -40,7 +40,7 @@ describe('otmPageCreator', () => {
       });
     });
     it('returns otm page', async () => {
-      const { configuration } = otmPageCreator.configuration();
+      const { configuration } = otmPageCreator.defaultConfiguration();
       const { template } = await otmPageCreator.template({
         book,
         configuration,

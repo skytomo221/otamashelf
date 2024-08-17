@@ -38,7 +38,7 @@ const book: Pick<Book, 'title' | 'bookFormat' | 'pages'> = {
 describe('otmRenumberModifier', () => {
   describe('modify', () => {
     it('renumbers otm book', () => {
-      const { configuration } = otmRenumberModifier.configuration();
+      const { configuration } = otmRenumberModifier.defaultConfiguration();
       const script = {};
       otmRenumberModifier
         .modify({ book: book as Book, configuration, script })

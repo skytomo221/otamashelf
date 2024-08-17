@@ -1,11 +1,13 @@
+import { Configuration } from './Configuration';
+import { ConfigurationScheme } from './ConfigurationScheme';
 import { ExtensionProperties } from './ExtensionProperties';
-import { ConfigurationPage } from './Page';
 
 export type ConfigurationReturns = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
+  configurationsSchema: ConfigurationScheme;
 };
 
 export type ExtensionBase = {
   properties: ExtensionProperties;
-  configuration(): ConfigurationReturns;
+  defaultConfiguration(): ConfigurationReturns;
 };

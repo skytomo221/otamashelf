@@ -1,4 +1,3 @@
-import { ConfigurationPage } from '../Page';
 import {
   SearchIndexGenerator,
   GenerateProps,
@@ -6,12 +5,6 @@ import {
 } from '../SearchIndexGenerator';
 import { ConfigurationReturns } from '../ExtensionBase';
 import { toOtmPage } from './toOtmPage';
-
-const configuration: ConfigurationPage = {
-  specialPage: 'configuration',
-  pageFormat: '@skytomo221/otm-creator/configuration',
-  data: {},
-};
 
 export const otmAllSearchIndexGenerator: SearchIndexGenerator = {
   properties: {
@@ -22,8 +15,8 @@ export const otmAllSearchIndexGenerator: SearchIndexGenerator = {
     author: 'skytomo221',
     pageFormatPattern: '^otm$',
   },
-  configuration(): ConfigurationReturns {
-    return { configuration };
+  defaultConfiguration(): ConfigurationReturns {
+    return { configuration: {}, configurationsSchema: {} };
   },
   name(): Promise<{ name: string }> {
     return Promise.resolve({ name: '全部' });

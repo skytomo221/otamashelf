@@ -1,7 +1,7 @@
 import { Book } from '../Book';
 import { BookCreator, CreateReturns, TemplateReturns } from '../BookCreator';
 import { ConfigurationReturns } from '../ExtensionBase';
-import { ConfigurationPage, TemplatePage } from '../Page';
+import { TemplatePage } from '../Page';
 import {
   BooleanValue,
   FileValue,
@@ -9,12 +9,6 @@ import {
   SimpleConfigurationFormatV1,
   StringValue,
 } from './SimpleConfigurationFormatV1';
-
-const configuration: ConfigurationPage = {
-  specialPage: 'configuration',
-  pageFormat: '@skytomo221/otm-creator/configuration',
-  data: {},
-};
 
 type TemplateValues = {
   path: string;
@@ -132,8 +126,8 @@ export const otmCreator: BookCreator = {
     author: 'skytomo221',
     bookFormatPattern: '^otm$',
   },
-  configuration(): ConfigurationReturns {
-    return { configuration };
+  defaultConfiguration(): ConfigurationReturns {
+    return { configuration: {}, configurationsSchema: {} };
   },
   template(): Promise<TemplateReturns> {
     return Promise.resolve({ template });
@@ -157,7 +151,7 @@ export const otmCreator: BookCreator = {
     const zpdicOnline = { enableMarkdown, explanation };
     const book: Pick<
       Book,
-      'configuration' | 'description' | 'bookFormat' | 'pages' | 'title'
+      'description' | 'bookFormat' | 'bookParameters' | 'pages' | 'title'
     > = {
       pages: [],
       description: {
@@ -165,8 +159,8 @@ export const otmCreator: BookCreator = {
         pageFormat: 'otm.description',
         data: { explanation },
       },
-      configuration: {
-        specialPage: 'configuration',
+      bookParameters: {
+        specialPage: 'book-parameters',
         pageFormat: 'otm.configuration',
         data: {
           snoj,

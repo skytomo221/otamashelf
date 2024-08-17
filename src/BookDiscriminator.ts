@@ -1,6 +1,6 @@
+import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { ExtensionBaseProperties } from './ExtensionProperties';
-import { SpecialPage } from './Page';
 
 export type BookDiscriminatorProperties = ExtensionBaseProperties & {
   type: 'book-discriminator';
@@ -10,7 +10,7 @@ export type BookDiscriminatorProperties = ExtensionBaseProperties & {
 
 export type DiscriminateProps = {
   path: string;
-  configuration: SpecialPage;
+  configuration: Configuration;
 };
 
 export type DiscriminateReturns = {

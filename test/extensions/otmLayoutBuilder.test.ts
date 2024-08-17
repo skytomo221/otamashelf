@@ -4,7 +4,7 @@ import { otmLayoutBuilder } from '../../src/extensions/otmLayoutBuilder';
 describe('otmLayoutBuilder', () => {
   describe('layout', () => {
     it('returns layout', async () => {
-      const { configuration } = otmLayoutBuilder.configuration();
+      const { configuration } = otmLayoutBuilder.defaultConfiguration();
       const page: NormalPage = {
         id: '3',
         pageFormat: 'otm',

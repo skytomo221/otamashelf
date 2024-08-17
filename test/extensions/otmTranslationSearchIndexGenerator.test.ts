@@ -5,7 +5,7 @@ describe('otmTranslationSearchIndexGenerator', () => {
   describe('generate', () => {
     it('generates search cards', () => {
       const { configuration } =
-        otmTranslationSearchIndexGenerator.configuration();
+        otmTranslationSearchIndexGenerator.defaultConfiguration();
       const page: NormalPage = {
         id: '1',
         pageFormat: 'otmIndex',

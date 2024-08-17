@@ -1,5 +1,5 @@
 import { Book } from './Book';
-import { ConfigurationPage, Page } from './Page';
+import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { BookExtensionBaseProperties } from './ExtensionProperties';
 import { Json } from './Json';
@@ -9,8 +9,8 @@ export type BookModifierProperties = BookExtensionBaseProperties & {
 };
 
 export type ModifyProps = {
-  configuration: ConfigurationPage;
-  book: Pick<Book, 'bookFormat' | 'configuration' | 'pages' | 'title'>;
+  configuration: Configuration;
+  book: Pick<Book, 'bookFormat' | 'bookParameters' | 'pages' | 'title'>;
   script: Json;
 };
 

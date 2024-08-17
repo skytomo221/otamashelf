@@ -4,7 +4,8 @@ import { otmAllSearchIndexGenerator } from '../../src/extensions/otmAllSearchInd
 describe('otmAllSearchIndexGenerator', () => {
   describe('generate', () => {
     it('generates search cards', () => {
-      const { configuration } = otmAllSearchIndexGenerator.configuration();
+      const { configuration } =
+        otmAllSearchIndexGenerator.defaultConfiguration();
       const page: NormalPage = {
         id: '1',
         pageFormat: 'otmIndex',

@@ -9,8 +9,8 @@ export type NormalPage = PageBase & {
   id: string;
 };
 
-export type ConfigurationPage = PageBase & {
-  specialPage: 'configuration';
+export type BookParametersPage = PageBase & {
+  specialPage: 'book-parameters';
 };
 
 export type DescriptionPage = PageBase & {
@@ -21,6 +21,14 @@ export type TemplatePage = PageBase & {
   specialPage: 'template';
 };
 
-export type SpecialPage = ConfigurationPage | DescriptionPage | TemplatePage;
+export type ViewPage = PageBase & {
+  specialPage: 'view';
+};
+
+export type SpecialPage =
+  | BookParametersPage
+  | DescriptionPage
+  | TemplatePage
+  | ViewPage;
 
 export type Page = NormalPage | SpecialPage;

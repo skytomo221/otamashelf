@@ -4,7 +4,7 @@ import { includesPageExplorer } from '../../src/extensions/includesPageExplorer'
 describe('includesPageExplorer', () => {
   describe('search', () => {
     it('returns empty ids', async () => {
-      const { configuration } = includesPageExplorer.configuration();
+      const { configuration } = includesPageExplorer.defaultConfiguration();
       const searchCards: SearchCard[] = [];
       const searchWord = '';
       expect(
@@ -18,7 +18,7 @@ describe('includesPageExplorer', () => {
       });
     });
     it('returns matching includes', async () => {
-      const { configuration } = includesPageExplorer.configuration();
+      const { configuration } = includesPageExplorer.defaultConfiguration();
       const searchCards = [
         {
           id: '1',

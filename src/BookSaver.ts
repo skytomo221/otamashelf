@@ -1,14 +1,14 @@
 import { ExtensionBase } from './ExtensionBase';
 import { Book } from './Book';
-import { ConfigurationPage } from './Page';
 import { BookExtensionBaseProperties } from './ExtensionProperties';
+import { Configuration } from './Configuration';
 
 export type BookSaverProperties = BookExtensionBaseProperties & {
   type: 'book-saver';
 };
 
 export type SaveProps = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
   book: Omit<Book, 'indexes'>;
 };
 

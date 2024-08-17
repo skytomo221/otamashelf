@@ -1,12 +1,5 @@
 import { BookModifier } from '../BookModifier';
 import { ConfigurationReturns } from '../ExtensionBase';
-import { ConfigurationPage } from '../Page';
-
-const configuration: ConfigurationPage = {
-  specialPage: 'configuration',
-  pageFormat: '@skytomo221/otm-creator/configuration',
-  data: {},
-};
 
 export const otmRenumberModifier: BookModifier = {
   properties: {
@@ -17,8 +10,8 @@ export const otmRenumberModifier: BookModifier = {
     author: 'skytomo221',
     bookFormatPattern: '^otm$',
   },
-  configuration(): ConfigurationReturns {
-    return { configuration };
+  defaultConfiguration(): ConfigurationReturns {
+    return { configuration: {}, configurationsSchema: {} };
   },
   modify({ book }) {
     return Promise.resolve({

@@ -4,7 +4,7 @@ import { otmIndexGenerator } from '../../src/extensions/otmIndexGenerator';
 describe('otmIndexGenerator', () => {
   describe('indexes', () => {
     it('return indexes', () => {
-      const { configuration } = otmIndexGenerator.configuration();
+      const { configuration } = otmIndexGenerator.defaultConfiguration();
       const page: NormalPage = {
         id: '1',
         pageFormat: 'otmIndex',

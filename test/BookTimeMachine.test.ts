@@ -12,8 +12,8 @@ const samplePage: NormalPage = {
 
 const book: Book = {
   bookFormat: '',
-  configuration: {
-    specialPage: 'configuration',
+  bookParameters: {
+    specialPage: 'book-parameters',
     pageFormat: '',
     data: {},
   },

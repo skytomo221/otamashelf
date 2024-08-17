@@ -1,11 +1,4 @@
-import { ConfigurationPage } from '../src/Page';
 import { ConvertProps, TextConverter } from '../src/TextConverter';
-
-const configuration: ConfigurationPage = {
-  specialPage: 'configuration',
-  pageFormat: 'simple-configuration-format-v1',
-  data: {},
-};
 
 const testTextConverter: TextConverter = {
   properties: {
@@ -16,8 +9,8 @@ const testTextConverter: TextConverter = {
     mime: 'text/html',
     type: 'text-converter',
   },
-  configuration: () => {
-    return { configuration };
+  defaultConfiguration: () => {
+    return { configuration: {}, configurationsSchema: {} };
   },
   convert: async ({ text }: ConvertProps) => {
     return { html: `<div>${text}</div>` };
@@ -27,7 +20,7 @@ const testTextConverter: TextConverter = {
 describe('otmCreator', () => {
   describe('template', () => {
     it('returns html', () => {
-      const { configuration } = testTextConverter.configuration();
+      const { configuration } = testTextConverter.defaultConfiguration();
       testTextConverter
         .convert({ configuration, text: 'Hello, world!' })
         .then(({ html }) => {
