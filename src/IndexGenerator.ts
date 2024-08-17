@@ -1,19 +1,20 @@
+import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { PageExtensionBaseProperties } from './ExtensionProperties';
-import { ConfigurationPage, NormalPage } from './Page';
-import { PageProperties } from './PageProperties';
+import { NormalPage } from './Page';
+import { PageDisplayInformation } from './PageDisplayInformation';
 
 export type IndexGeneratorProperties = PageExtensionBaseProperties & {
   type: 'index-generator';
 };
 
 export type GenerateProps = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
   pages: NormalPage[];
 };
 
 export type GenerateReturns = {
-  indexs: Omit<PageProperties, 'path'>[];
+  indexs: (PageDisplayInformation & { id: string })[];
 };
 
 export type IndexGenerator = ExtensionBase & {

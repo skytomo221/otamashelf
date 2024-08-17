@@ -1,16 +1,9 @@
-import { ConfigurationPage } from '../Page';
 import {
   PageExplorer,
   NameReturns,
   SearchProps,
   SearchReturns,
 } from '../PageExplorer';
-
-const configuration: ConfigurationPage = {
-  specialPage: 'configuration',
-  pageFormat: '@skytomo221/otm-creator/configuration',
-  data: {},
-};
 
 export const startsWithPageExplorer: PageExplorer = {
   properties: {
@@ -20,8 +13,8 @@ export const startsWithPageExplorer: PageExplorer = {
     type: 'page-explorer',
     author: 'skytomo221',
   },
-  configuration() {
-    return { configuration };
+  defaultConfiguration() {
+    return { configuration: {}, configurationsSchema: {} };
   },
   name(): Promise<NameReturns> {
     return Promise.resolve({ name: '語頭一致' });

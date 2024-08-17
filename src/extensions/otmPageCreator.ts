@@ -1,16 +1,10 @@
-import { ConfigurationPage, TemplatePage } from '../Page';
+import { TemplatePage } from '../Page';
 import { PageCreator, CreateReturns, TemplateReturns } from '../PageCreator';
 import {
   NumberValue,
   SimpleConfigurationFormatV1,
   StringValue,
 } from './SimpleConfigurationFormatV1';
-
-const configuration: ConfigurationPage = {
-  specialPage: 'configuration',
-  pageFormat: '@skytomo221/otm-creator/configuration',
-  data: {},
-};
 
 type TemplateValues = {
   id: number;
@@ -65,8 +59,8 @@ export const otmPageCreator: PageCreator = {
     author: 'skytomo221',
     bookFormatPattern: '^otm$',
   },
-  configuration() {
-    return { configuration };
+  defaultConfiguration() {
+    return { configuration: {}, configurationsSchema: {} };
   },
   template(): Promise<TemplateReturns> {
     return Promise.resolve({ template });

@@ -1,6 +1,6 @@
+import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { ExtensionBaseProperties } from './ExtensionProperties';
-import { ConfigurationPage } from './Page';
 
 export type TextConverterProperties = ExtensionBaseProperties & {
   mime: string;
@@ -8,7 +8,7 @@ export type TextConverterProperties = ExtensionBaseProperties & {
 };
 
 export type ConvertProps = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
   text: string;
 };
 

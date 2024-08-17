@@ -1,17 +1,18 @@
 import { ExtensionBase } from './ExtensionBase';
-import { ConfigurationPage, NormalPage, Page, TemplatePage } from './Page';
+import { NormalPage, TemplatePage } from './Page';
 import { Book } from './Book';
 import {
   BookExtensionBaseProperties,
 } from './ExtensionProperties';
+import { Configuration } from './Configuration';
 
 export type PageCreatorProperties = BookExtensionBaseProperties & {
   type: 'page-creator';
 };
 
 export type TemplateProps = {
-  configuration: ConfigurationPage;
-  book: Pick<Book, 'bookFormat' | 'configuration' | 'title'>;
+  configuration: Configuration;
+  book: Pick<Book, 'bookFormat' | 'bookParameters' | 'title'>;
 };
 
 export type TemplateReturns = {
@@ -19,8 +20,8 @@ export type TemplateReturns = {
 };
 
 export type CreateProps = {
-  configuration: ConfigurationPage;
-  book: Pick<Book, 'bookFormat' | 'configuration' | 'title'>;
+  configuration: Configuration;
+  book: Pick<Book, 'bookFormat' | 'bookParameters' | 'title'>;
   template: TemplatePage;
 };
 

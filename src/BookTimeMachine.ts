@@ -1,6 +1,7 @@
 import { Book } from './Book';
+import { Configuration } from './Configuration';
 import { Json } from './Json';
-import { ConfigurationPage, DescriptionPage, NormalPage, Page } from './Page';
+import { BookParametersPage, DescriptionPage, NormalPage, Page } from './Page';
 
 export interface FirstCommit {
   type: 'first-commit';
@@ -41,11 +42,11 @@ export interface RemovePage {
   beforeChange: NormalPage;
 }
 
-export interface ModifyConfiguration {
-  type: 'modify-configuration';
+export interface ModifyBookParameters {
+  type: 'modify-book-parameters';
   comment: string;
-  beforeChange: ConfigurationPage;
-  afterChange: ConfigurationPage;
+  beforeChange: BookParametersPage;
+  afterChange: BookParametersPage;
 }
 
 export interface ModifyDescription {
@@ -69,7 +70,7 @@ export type BookDiff =
   | ModifyPage
   | ModifyPages
   | RemovePage
-  | ModifyConfiguration
+  | ModifyBookParameters
   | ModifyDescription
   | ModifyTitle;
 
@@ -134,8 +135,8 @@ export default class BookTimeMachine {
       case 'remove-page':
         this.currentBook.pages.push(bookDiff.beforeChange);
         break;
-      case 'modify-configuration':
-        this.currentBook.configuration = bookDiff.beforeChange;
+      case 'modify-book-parameters':
+        this.currentBook.bookParameters = bookDiff.beforeChange;
         break;
       case 'modify-description':
         this.currentBook.description = bookDiff.beforeChange;
@@ -173,8 +174,8 @@ export default class BookTimeMachine {
           p => p.id !== bookDiff.beforeChange.id,
         );
         break;
-      case 'modify-configuration':
-        this.currentBook.configuration = bookDiff.afterChange;
+      case 'modify-book-parameters':
+        this.currentBook.bookParameters = bookDiff.afterChange;
         break;
       case 'modify-description':
         this.currentBook.description = bookDiff.afterChange;
@@ -263,12 +264,12 @@ export default class BookTimeMachine {
       : this.addPage(page, comment);
   }
 
-  modifyConfiguration(configration: ConfigurationPage, comment: string) {
+  modifyBookParameters(bookParameters: BookParametersPage, comment: string) {
     return this.addDiff({
-      type: 'modify-configuration',
+      type: 'modify-book-parameters',
       comment,
-      beforeChange: this.currentBook.configuration,
-      afterChange: configration,
+      beforeChange: this.currentBook.bookParameters,
+      afterChange: bookParameters,
     });
   }
 

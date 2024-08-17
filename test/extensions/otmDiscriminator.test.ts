@@ -3,7 +3,7 @@ import { otmDiscriminator } from '../../src/extensions/otmDiscriminator';
 describe('otmDiscriminator', () => {
   describe('discriminate', () => {
     it('return book format', () => {
-      const { configuration } = otmDiscriminator.configuration();
+      const { configuration } = otmDiscriminator.defaultConfiguration();
       otmDiscriminator
         .discriminate({ configuration, path: 'data/sample.json' })
         .then(({ bookFormat }) => {

@@ -9,8 +9,8 @@ const book: Book = {
     pageFormat: 'otm.description',
     data: { explanation: '' },
   },
-  configuration: {
-    specialPage: 'configuration',
+  bookParameters: {
+    specialPage: 'book-parameters',
     pageFormat: 'otm.configuration',
     data: {
       snoj: ',、',
@@ -32,7 +32,8 @@ const book: Book = {
 describe('otmAddContentPageModifier', () => {
   describe('generate', () => {
     it('generates search cards', () => {
-      const { configuration } = otmAddContentPageModifier.configuration();
+      const { configuration } =
+        otmAddContentPageModifier.defaultConfiguration();
       const page: NormalPage = {
         id: '1',
         pageFormat: 'otmIndex',

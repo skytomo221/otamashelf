@@ -1,7 +1,8 @@
+import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { PageExtensionBaseProperties } from './ExtensionProperties';
 import { Layout } from './LayoutCard';
-import { ConfigurationPage, Page } from './Page';
+import { Page } from './Page';
 
 export type LayoutBuilderProperties = PageExtensionBaseProperties & {
   type: 'layout-builder';
@@ -9,7 +10,7 @@ export type LayoutBuilderProperties = PageExtensionBaseProperties & {
 };
 
 export type LayoutProps = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
   page: Page;
 };
 

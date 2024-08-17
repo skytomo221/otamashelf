@@ -1,14 +1,15 @@
 import { Book } from './Book';
-import { ConfigurationPage, NormalPage, TemplatePage } from './Page';
+import { NormalPage, TemplatePage } from './Page';
 import { ExtensionBase } from './ExtensionBase';
 import { BookExtensionBaseProperties } from './ExtensionProperties';
+import { Configuration } from './Configuration';
 
 export type BookCreatorProperties = BookExtensionBaseProperties & {
   type: 'book-creator';
 };
 
 export type TemplateProps = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
 };
 
 export type TemplateReturns = {
@@ -16,14 +17,14 @@ export type TemplateReturns = {
 };
 
 export type CreateProps = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
   template: TemplatePage;
 };
 
 export type CreateReturns = {
   book: Pick<
     Book,
-    'configuration' | 'description' | 'bookFormat' | 'title'
+    'description' | 'bookFormat' | 'bookParameters' | 'title'
   > & {
     pages: Omit<NormalPage, 'id'>[];
   };

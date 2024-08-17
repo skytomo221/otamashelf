@@ -4,8 +4,8 @@ import { Page } from '../src/Page';
 
 const book: Book = {
   bookFormat: '',
-  configuration: {
-    specialPage: 'configuration',
+  bookParameters: {
+    specialPage: 'book-parameters',
     pageFormat: '',
     data: {},
   },

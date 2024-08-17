@@ -1,6 +1,6 @@
+import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { ExtensionBaseProperties } from './ExtensionProperties';
-import { ConfigurationPage } from './Page';
 import { SearchCard } from './SearchCard';
 
 export type PageExplorerProperties = ExtensionBaseProperties & {
@@ -8,7 +8,7 @@ export type PageExplorerProperties = ExtensionBaseProperties & {
 };
 
 export type NameProps = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
   language: string;
 };
 
@@ -17,7 +17,7 @@ export type NameReturns = {
 };
 
 export type SearchProps = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
   searchCards: SearchCard[];
   searchWord: string;
 };

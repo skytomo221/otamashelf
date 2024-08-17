@@ -3,7 +3,7 @@ import { otmCreator } from '../../src/extensions/otmCreator';
 describe('otmCreator', () => {
   describe('template', () => {
     it('returns template', () => {
-      const { configuration } = otmCreator.configuration();
+      const { configuration } = otmCreator.defaultConfiguration();
       otmCreator.template({ configuration }).then(({ template }) => {
         const { specialPage, data } = template;
         expect(specialPage).toEqual('template');
@@ -21,7 +21,7 @@ describe('otmCreator', () => {
       });
     });
     it('returns otm book', async () => {
-      const { configuration } = otmCreator.configuration();
+      const { configuration } = otmCreator.defaultConfiguration();
       const { template } = await otmCreator.template({ configuration });
       const expectedBook = {
         pages: [],
@@ -30,8 +30,8 @@ describe('otmCreator', () => {
           pageFormat: 'otm.description',
           data: { explanation: '' },
         },
-        configuration: {
-          specialPage: 'configuration',
+        bookParameters: {
+          specialPage: 'book-parameters',
           pageFormat: 'otm.configuration',
           data: {
             snoj: ',、',

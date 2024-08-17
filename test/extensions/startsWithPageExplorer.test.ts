@@ -4,7 +4,7 @@ import { startsWithPageExplorer } from '../../src/extensions/startsWithPageExplo
 describe('startsWithPageExplorer', () => {
   describe('search', () => {
     it('returns empty ids', async () => {
-      const { configuration } = startsWithPageExplorer.configuration();
+      const { configuration } = startsWithPageExplorer.defaultConfiguration();
       const searchCards: SearchCard[] = [];
       const searchWord = '';
       expect(
@@ -18,7 +18,7 @@ describe('startsWithPageExplorer', () => {
       });
     });
     it('returns matching starts', async () => {
-      const { configuration } = startsWithPageExplorer.configuration();
+      const { configuration } = startsWithPageExplorer.defaultConfiguration();
       const searchCards = [
         {
           id: '1',

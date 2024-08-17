@@ -3,7 +3,7 @@ import { otmSaver } from '../../src/extensions/otmSaver';
 describe('otmSaver', () => {
   describe('search', () => {
     it('returns empty ids', async () => {
-      const { configuration } = otmSaver.configuration();
+      const { configuration } = otmSaver.defaultConfiguration();
       otmSaver
         .save({
           configuration,
@@ -13,8 +13,8 @@ describe('otmSaver', () => {
               isDirectory: false,
               loadedTime: 0,
             },
-            configuration: {
-              specialPage: 'configuration',
+            bookParameters: {
+              specialPage: 'book-parameters',
               pageFormat: 'otm.configuration',
               data: {
                 snoj: ',、',

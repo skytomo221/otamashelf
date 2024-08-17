@@ -1,18 +1,11 @@
 import removeMd from 'remove-markdown';
 
-import { ConfigurationPage } from '../Page';
 import { Word } from '../otm/Word';
 import { BookSaver, SaveProps, SaveReturns } from '../BookSaver';
 import BareOtmSaver from '../otm/OtmSaver';
 import { Otm, PlainOtm } from '../otm/Otm';
 import { ConfigurationReturns } from '../ExtensionBase';
 import { ZpdicOnline } from '../otm/ZpdicOnline';
-
-const configuration: ConfigurationPage = {
-  specialPage: 'configuration',
-  pageFormat: '@skytomo221/otm-creator/configuration',
-  data: {},
-};
 
 function toSafeIdPages(pages: Word[]): Word[] {
   let maxId =
@@ -52,11 +45,11 @@ export const otmSaver: BookSaver = {
     author: 'skytomo221',
     bookFormatPattern: '^otm$',
   },
-  configuration(): ConfigurationReturns {
-    return { configuration };
+  defaultConfiguration(): ConfigurationReturns {
+    return { configuration: {}, configurationsSchema: {} };
   },
   async save({ book }: SaveProps): Promise<SaveReturns> {
-    const { configuration, description, fileFormat, pages } = book;
+    const { bookParameters: configuration, description, fileFormat, pages } = book;
     const descriptionData = description.data as { explanation: string };
     const configrationData = configuration.data as {
       version: number;

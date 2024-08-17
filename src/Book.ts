@@ -1,13 +1,13 @@
 import { FileFormat } from './FileFormat';
-import { ConfigurationPage, DescriptionPage, NormalPage, Page } from './Page';
-import { PageProperties } from './PageProperties';
+import { BookParametersPage, DescriptionPage, NormalPage, Page } from './Page';
+import { PageDisplayInformation } from './PageDisplayInformation';
 
 export type Book = {
   bookFormat: string;
-  configuration: ConfigurationPage;
+  bookParameters: BookParametersPage;
   description: DescriptionPage;
   fileFormat: FileFormat;
-  indexes: PageProperties[];
+  indexes: PageDisplayInformation[];
   pages: NormalPage[];
   title: string;
 };

@@ -3,14 +3,14 @@ import { otmLoader } from '../../src/extensions/otmLoader';
 describe('otmLoader', () => {
   describe('load', () => {
     it('returns empty ids', async () => {
-      const { configuration } = otmLoader.configuration();
+      const { configuration } = otmLoader.defaultConfiguration();
       otmLoader
         .load({
           configuration,
           path: 'data/sample.json',
         })
         .then(({ book }) => {
-          const { description, configuration, title } = book;
+          const { description, bookParameters, title } = book;
           expect(description).toEqual({
             specialPage: 'description',
             pageFormat: 'otm.description',
@@ -23,8 +23,8 @@ describe('otmLoader', () => {
 `,
             },
           });
-          expect(configuration).toEqual({
-            specialPage: 'configuration',
+          expect(bookParameters).toEqual({
+            specialPage: 'book-parameters',
             pageFormat: 'otm.configuration',
             data: {
               humanLanguage: false,

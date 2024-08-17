@@ -1,6 +1,7 @@
+import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { PageExtensionBaseProperties } from './ExtensionProperties';
-import { ConfigurationPage, NormalPage, Page } from './Page';
+import { NormalPage } from './Page';
 import { SearchCard } from './SearchCard';
 
 export type SearchIndexGeneratorProperties = PageExtensionBaseProperties & {
@@ -8,7 +9,7 @@ export type SearchIndexGeneratorProperties = PageExtensionBaseProperties & {
 };
 
 export type NameProps = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
   language: string;
 };
 
@@ -17,7 +18,7 @@ export type NameReturns = {
 };
 
 export type GenerateProps = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
   pages: NormalPage[];
 };
 

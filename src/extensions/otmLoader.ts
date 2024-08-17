@@ -2,17 +2,10 @@ import {
   BookLoader,
   LoadProps,
   LoadReturns,
-  BookLoaderProperties,
 } from '../BookLoader';
-import { ConfigurationPage, NormalPage, Page } from '../Page';
+import { NormalPage } from '../Page';
 import { Word } from '../otm/Word';
 import BareOtmLoader from '../otm/OtmLoader';
-
-const configuration: ConfigurationPage = {
-  specialPage: 'configuration',
-  pageFormat: '@skytomo221/otm-creator/configuration',
-  data: {},
-};
 
 function toWordCard(word: Word): NormalPage {
   return {
@@ -31,8 +24,8 @@ export const otmLoader: BookLoader = {
     author: 'skytomo221',
     bookFormatPattern: '^otm$',
   },
-  configuration() {
-    return { configuration };
+  defaultConfiguration() {
+    return { configuration: {}, configurationsSchema: {} };
   },
   async load(props: LoadProps): Promise<LoadReturns> {
     const { path } = props;
@@ -48,8 +41,8 @@ export const otmLoader: BookLoader = {
             pageFormat: 'otm.description',
             data: { explanation: zpdicOnline?.explanation || '' },
           },
-          configuration: {
-            specialPage: 'configuration',
+          bookParameters: {
+            specialPage: 'book-parameters',
             pageFormat: 'otm.configuration',
             data: {
               version: version || 2,

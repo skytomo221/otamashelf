@@ -1,13 +1,14 @@
-import { ConfigurationPage, Page } from './Page';
+import { Page } from './Page';
 import { ExtensionBase } from './ExtensionBase';
 import { PageExtensionBaseProperties } from './ExtensionProperties';
+import { Configuration } from './Configuration';
 
 export type PageDecoratorProperties = PageExtensionBaseProperties & {
   type: 'page-decorator';
 };
 
 export type DecoratorPageProps<P extends Page> = {
-  configuration: ConfigurationPage;
+  configuration: Configuration;
   page: P;
 };
 
