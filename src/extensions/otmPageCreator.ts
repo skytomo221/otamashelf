@@ -1,52 +1,22 @@
-import { TemplatePage } from '../Page';
+import { PageTemplatePage } from '../Page';
 import { PageCreator, CreateReturns, TemplateReturns } from '../PageCreator';
-import {
-  NumberValue,
-  SimpleConfigurationFormatV1,
-  StringValue,
-} from './SimpleConfigurationFormatV1';
+import { Word } from '../otm/Word';
 
-type TemplateValues = {
-  id: number;
-  title: string;
-};
-
-type TemplateProperties = {
-  id: NumberValue;
-  title: StringValue;
-};
-
-type TemplateData = SimpleConfigurationFormatV1 & {
-  title: string;
-  values: TemplateValues;
-  properties: TemplateProperties;
-};
-
-const templateData: TemplateData = {
-  title: '新しい単語',
-  values: {
+const templateData: Word = {
+  entry: {
     id: -1,
-    title: '',
+    form: '新規の単語',
   },
-  properties: {
-    id: {
-      title: 'ID',
-      description: '単語のIDを指定します。',
-      type: 'number',
-      default: -1,
-    },
-    title: {
-      title: '見出し語',
-      description: '単語の見出し語を指定します。',
-      type: 'string',
-      default: '',
-    },
-  },
+  translations: [],
+  tags: [],
+  contents: [],
+  variations: [],
+  relations: [],
 };
 
-const template: TemplatePage = {
-  specialPage: 'template',
-  pageFormat: 'simple-configuration-format-v1',
+const template: PageTemplatePage = {
+  specialPage: 'page-template',
+  pageFormat: 'otm',
   data: templateData,
 };
 
@@ -66,22 +36,11 @@ export const otmPageCreator: PageCreator = {
     return Promise.resolve({ template });
   },
   create({ template }): Promise<CreateReturns> {
-    const templateData = template.data as TemplateData;
-    const { id, title } = templateData.values;
+    const { data } = template;
     return Promise.resolve({
       page: {
         pageFormat: 'otm',
-        data: {
-          entry: {
-            id,
-            form: title,
-          },
-          translations: [],
-          tags: [],
-          contents: [],
-          variations: [],
-          relations: [],
-        },
+        data,
       },
     });
   },

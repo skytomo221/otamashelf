@@ -25,16 +25,25 @@ describe('otmLoader', () => {
           });
           expect(bookParameters).toEqual({
             specialPage: 'book-parameters',
-            pageFormat: 'otm.configuration',
+            pageFormat: 'otm.book-parameters',
             data: {
-              humanLanguage: false,
-              version: 2,
+              snoj: '',
+              version: '2',
               zpdic: {
-                pronunciationTitle: 'Pronunciation',
-                punctuations: [',', '、'],
+                alphabetOrder: '',
+                defaultWord: null,
+                informationTitleOrder: [],
+                plainInformationTitles: [],
               },
               zpdicOnline: {
                 enableMarkdown: true,
+                explanation:
+                  `OTM-JSON辞書のサンプル辞書です。  
+[Unlicense](http://unlicense.org/)で公開されています。  
+テストコードを書くときとかにご自由にお使いください。
+
+たまたま256番目の辞書になってしまいました。
+`,
               },
             },
           });

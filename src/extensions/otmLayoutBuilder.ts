@@ -261,14 +261,19 @@ export const otmLayoutBuilder: LayoutBuilder = {
     type: 'layout-builder',
     author: 'skytomo221',
     pageFormatPattern: '^otm$',
-    dependentPageUpdaters: ['@skytomo221/otm-page-updater'],
+    dependentPageUpdaters: [
+      '@skytomo221/otm-add-content-page-modifier',
+      '@skytomo221/otm-remove-content-page-modifier',
+    ],
   },
   defaultConfiguration(): ConfigurationReturns {
     return { configuration: {}, configurationsSchema: {} };
   },
   layout({ page }: LayoutProps): Promise<LayoutReturns> {
     const ajv = new Ajv();
-    const { data: { word } } = page;
+    const {
+      data: { word },
+    } = page;
     const valid = ajv.validate(wordScheme, word);
     if (!valid) {
       throw new Error(ajv.errorsText());

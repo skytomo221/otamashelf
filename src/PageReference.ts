@@ -9,11 +9,6 @@ export type ExtensionConfigurationPageReference = {
   extensionId: string;
 };
 
-export type BookConfigurationPageReference = {
-  type: 'book-configuration';
-  bookPath: string;
-};
-
 export type BookDescriptionPageReference = {
   type: 'book-description';
   bookPath: string;
@@ -36,7 +31,6 @@ export type ViewPageReference = {
 export type PageReference =
   | NormalPageReference
   | ExtensionConfigurationPageReference
-  | BookConfigurationPageReference
   | BookDescriptionPageReference
   | PageTemplatePageReference
   | BookTemplatePageReference
