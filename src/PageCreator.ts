@@ -1,5 +1,5 @@
 import { ExtensionBase } from './ExtensionBase';
-import { NormalPage, TemplatePage } from './Page';
+import { NormalPage, PageTemplatePage } from './Page';
 import { Book } from './Book';
 import {
   BookExtensionBaseProperties,
@@ -16,13 +16,13 @@ export type TemplateProps = {
 };
 
 export type TemplateReturns = {
-  template: TemplatePage;
+  template: PageTemplatePage;
 };
 
 export type CreateProps = {
   configuration: Configuration;
   book: Pick<Book, 'bookFormat' | 'bookParameters' | 'title'>;
-  template: TemplatePage;
+  template: PageTemplatePage;
 };
 
 export type CreateReturns = {

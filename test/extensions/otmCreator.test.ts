@@ -6,17 +6,22 @@ describe('otmCreator', () => {
       const { configuration } = otmCreator.defaultConfiguration();
       otmCreator.template({ configuration }).then(({ template }) => {
         const { specialPage, data } = template;
-        expect(specialPage).toEqual('template');
-        const { values } = data;
-        expect(values).toEqual({
+        expect(specialPage).toEqual('book-template');
+        expect(data).toEqual({
           path: '',
           title: '',
-          version: 2,
-          enableMarkdown: true,
-          explanation: '',
-          pronunciationTitle: 'Pronunciation',
-          snoj: ',、',
-          'zpdic.punctuations': ',、',
+          snoj: '',
+          version: '2',
+          zpdic: {
+            alphabetOrder: '',
+            plainInformationTitles: [],
+            informationTitleOrder: [],
+            defaultWord: null,
+          },
+          zpdicOnline: {
+            enableMarkdown: true,
+            explanation: '',
+          },
         });
       });
     });
@@ -32,13 +37,15 @@ describe('otmCreator', () => {
         },
         bookParameters: {
           specialPage: 'book-parameters',
-          pageFormat: 'otm.configuration',
+          pageFormat: 'otm.book-parameters',
           data: {
-            snoj: ',、',
-            version: 2,
+            snoj: '',
+            version: '2',
             zpdic: {
-              pronunciationTitle: 'Pronunciation',
-              punctuations: [',', '、'],
+              alphabetOrder: '',
+              defaultWord: null,
+              informationTitleOrder: [],
+              plainInformationTitles: [],
             },
             zpdicOnline: {
               enableMarkdown: true,

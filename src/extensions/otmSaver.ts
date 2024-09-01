@@ -6,6 +6,7 @@ import BareOtmSaver from '../otm/OtmSaver';
 import { Otm, PlainOtm } from '../otm/Otm';
 import { ConfigurationReturns } from '../ExtensionBase';
 import { ZpdicOnline } from '../otm/ZpdicOnline';
+import { OtmBookParameters } from './otmBookParameters';
 
 function toSafeIdPages(pages: Word[]): Word[] {
   let maxId =
@@ -49,25 +50,21 @@ export const otmSaver: BookSaver = {
     return { configuration: {}, configurationsSchema: {} };
   },
   async save({ book }: SaveProps): Promise<SaveReturns> {
-    const { bookParameters: configuration, description, fileFormat, pages } = book;
+    const { bookParameters, description, fileFormat, pages } = book;
     const descriptionData = description.data as { explanation: string };
-    const configrationData = configuration.data as {
-      version: number;
-      zpdicOnline: {
-        enableMarkdown: boolean;
-      };
-    };
+    const { data: bookParametersData } = bookParameters as OtmBookParameters;
     const { path } = fileFormat;
     const zpdicOnline: ZpdicOnline = {
       explanation: descriptionData.explanation,
-      enableMarkdown: configrationData.zpdicOnline.enableMarkdown,
+      enableMarkdown: bookParametersData.zpdicOnline.enableMarkdown,
     };
     const otm: PlainOtm = {
       words: toMarkdownContentsPages(
         toSafeIdPages(pages.map(page => page.data as Word)),
       ),
+      ...bookParametersData,
+      version: parseInt(bookParametersData.version),
       zpdicOnline,
-      ...configuration,
     };
     const saver = new BareOtmSaver(Otm.fromPlain(otm), path);
     await saver.asPromise();

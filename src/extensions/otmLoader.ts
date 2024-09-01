@@ -6,6 +6,7 @@ import {
 import { NormalPage } from '../Page';
 import { Word } from '../otm/Word';
 import BareOtmLoader from '../otm/OtmLoader';
+import { OtmBookParameters } from './otmBookParameters';
 
 function toWordCard(word: Word): NormalPage {
   return {
@@ -32,7 +33,25 @@ export const otmLoader: BookLoader = {
     const loader = new BareOtmLoader(path);
     try {
       const otm = await loader.asPromise();
-      const { words, version, zpdicOnline, ...configuration } = otm.toPlain();
+      const { words, version, zpdic, zpdicOnline } = otm.toPlain();
+      const bookParameters: OtmBookParameters = {
+        specialPage: 'book-parameters',
+        pageFormat: 'otm.book-parameters',
+        data: {
+          snoj: '',
+          version: (version || 2).toString(),
+          zpdic: {
+            alphabetOrder: zpdic?.alphabetOrder || '',
+            plainInformationTitles: zpdic?.plainInformationTitles || [],
+            informationTitleOrder: zpdic?.informationTitleOrder || [],
+            defaultWord: zpdic?.defaultWord || null,
+          },
+          zpdicOnline: {
+            enableMarkdown: zpdicOnline?.enableMarkdown || false,
+            explanation: zpdicOnline?.explanation || '',
+          },
+        },
+      };
       return {
         book: {
           title: path,
@@ -41,17 +60,7 @@ export const otmLoader: BookLoader = {
             pageFormat: 'otm.description',
             data: { explanation: zpdicOnline?.explanation || '' },
           },
-          bookParameters: {
-            specialPage: 'book-parameters',
-            pageFormat: 'otm.configuration',
-            data: {
-              version: version || 2,
-              zpdicOnline: {
-                enableMarkdown: zpdicOnline?.enableMarkdown || false,
-              },
-              ...configuration,
-            },
-          },
+          bookParameters,
           pages: words.map(toWordCard),
         },
       };

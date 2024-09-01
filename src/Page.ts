@@ -17,8 +17,12 @@ export type DescriptionPage = PageBase & {
   specialPage: 'description';
 };
 
-export type TemplatePage = PageBase & {
-  specialPage: 'template';
+export type BookTemplatePage = PageBase & {
+  specialPage: 'book-template';
+};
+
+export type PageTemplatePage = PageBase & {
+  specialPage: 'page-template';
 };
 
 export type ViewPage = PageBase & {
@@ -28,7 +32,8 @@ export type ViewPage = PageBase & {
 export type SpecialPage =
   | BookParametersPage
   | DescriptionPage
-  | TemplatePage
+  | BookTemplatePage
+  | PageTemplatePage
   | ViewPage;
 
 export type Page = NormalPage | SpecialPage;

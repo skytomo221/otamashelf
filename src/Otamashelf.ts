@@ -15,7 +15,8 @@ import {
   DescriptionPage,
   NormalPage,
   Page,
-  TemplatePage,
+  BookTemplatePage,
+  PageTemplatePage,
 } from './Page';
 import BookExtensionsRegistry from './BookExtensionsRegistry';
 import { BookDiscriminator } from './BookDiscriminator';
@@ -211,7 +212,7 @@ export default class Otamashelf extends EventEmitter {
     this.registerExtensionMethodCommands(extension);
   }
 
-  async requestNewBook(bookCreatorId: string): Promise<TemplatePage> {
+  async requestNewBook(bookCreatorId: string): Promise<BookTemplatePage> {
     const bookCreator = this.bookCreators.findByIdOrThrow(bookCreatorId);
     const { configuration } = this.configurationsRegistry.get();
     const { template } = await bookCreator.template({ configuration });
@@ -251,7 +252,7 @@ export default class Otamashelf extends EventEmitter {
 
   async createBook(
     bookCreatorId: string,
-    template: TemplatePage,
+    template: BookTemplatePage,
   ): Promise<Book> {
     const bookCreator = this.bookCreators.findByIdOrThrow(bookCreatorId);
     const { configuration } = this.configurationsRegistry.get();
@@ -319,7 +320,7 @@ export default class Otamashelf extends EventEmitter {
     return savedTime;
   }
 
-  async requestNewPage(path: string): Promise<TemplatePage> {
+  async requestNewPage(path: string): Promise<PageTemplatePage> {
     const bookTimeMachine = this.booksController.getOrThrow(path);
     const { currentBook } = bookTimeMachine;
     const { bookFormat, bookParameters, title } = currentBook;
@@ -332,7 +333,7 @@ export default class Otamashelf extends EventEmitter {
     return template;
   }
 
-  async createPage(path: string, template: TemplatePage): Promise<Page> {
+  async createPage(path: string, template: PageTemplatePage): Promise<Page> {
     const bookTimeMachine = this.booksController.getOrThrow(path);
     const { currentBook } = bookTimeMachine;
     const { bookFormat, bookParameters, title } = currentBook;
