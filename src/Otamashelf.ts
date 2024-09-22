@@ -33,19 +33,17 @@ import { FileFormat } from './FileFormat';
 import { BookLoader } from './BookLoader';
 import { BookModifier } from './BookModifier';
 import { BookSaver } from './BookSaver';
-import { IndexGenerator } from './IndexGenerator';
 import { PageDisplayInformation } from './PageDisplayInformation';
 import { Layout } from './LayoutCard';
 import { Json } from './Json';
 import { LayoutDecorator } from './LayoutDecorator';
 import { isExtensionType } from './isExtensionType';
-import { ConfigurationReturns } from './ExtensionBase';
-import MapWithOrThrow from './MapWithOrThrow';
 import { PageExplorer } from './PageExplorer';
 import { SearchCard } from './SearchCard';
-import { NormalPageReference, PageReference } from './PageReference';
+import { NormalPageReference } from './PageReference';
 import ConfigurationsRegistry from './ConfigurationsRegistry';
 import { Configuration } from './Configuration';
+import { PagesIndexer } from './PagesIndexer';
 
 function camelize(str: string) {
   return str
@@ -75,13 +73,13 @@ export default class Otamashelf extends EventEmitter {
   readonly bookLoaders = new BookExtensionsRegistry<BookLoader>();
   readonly bookModifiers = new BookExtensionsRegistry<BookModifier>();
   readonly bookSavers = new BookExtensionsRegistry<BookSaver>();
-  readonly indexGenerators = new PageExtensionsRegistry<IndexGenerator>();
   readonly layoutBuilders = new PageExtensionsRegistry<LayoutBuilder>();
   readonly layoutDecorators = new ExtensionsRegistry<LayoutDecorator>();
   readonly pageCreators = new BookExtensionsRegistry<PageCreator>();
   readonly pageExplorers = new ExtensionsRegistry<PageExplorer>();
   readonly pageModifiers = new PageExtensionsRegistry<PageModifier>();
   readonly pageDecorators = new PageExtensionsRegistry<PageDecorator>();
+  readonly pagesIndexers = new PageExtensionsRegistry<PagesIndexer>();
   readonly pagesModifiers = new PageExtensionsRegistry<PagesModifier>();
   readonly searchIndexGenerators =
     new PageExtensionsRegistry<SearchIndexGenerator>();
@@ -178,8 +176,6 @@ export default class Otamashelf extends EventEmitter {
       this.layoutBuilders.register(extension);
     } else if (isExtensionType(extension, 'layout-decorator')) {
       this.layoutDecorators.register(extension);
-    } else if (isExtensionType(extension, 'index-generator')) {
-      this.indexGenerators.register(extension);
     } else if (isExtensionType(extension, 'page-creator')) {
       this.pageCreators.register(extension);
     } else if (isExtensionType(extension, 'page-explorer')) {
@@ -188,6 +184,8 @@ export default class Otamashelf extends EventEmitter {
       this.pageModifiers.register(extension);
     } else if (isExtensionType(extension, 'page-decorator')) {
       this.pageDecorators.register(extension);
+    } else if (isExtensionType(extension, 'pages-indexer')) {
+      this.pagesIndexers.register(extension);
     } else if (isExtensionType(extension, 'pages-modifier')) {
       this.pagesModifiers.register(extension);
     } else if (isExtensionType(extension, 'search-index-generator')) {
@@ -228,23 +226,29 @@ export default class Otamashelf extends EventEmitter {
     };
   }
 
-  // FIXME: ここでエラーが発生する
-  async setIndexes(
+  async indexPages(
     pages: Page[],
-    path: string,
-  ): Promise<PageDisplayInformation[]> {
+    bookPath: string,
+  ): Promise<(NormalPageReference & PageDisplayInformation)[]> {
     const pageFormats = Array.from(new Set(pages.map(page => page.pageFormat)));
     return (
       await Promise.all(
         pageFormats.map(async pageFormat => {
-          const indexGenerator =
-            this.indexGenerators.findByPageFormatOrThrow(pageFormat);
+          const pagesIndexer =
+            this.pagesIndexers.findByPageFormatOrThrow(pageFormat);
           const { configuration } = this.configurationsRegistry.get();
-          const { indexs } = await indexGenerator.generate({
+          const { indexes } = await pagesIndexer.index({
             configuration,
             pages: pages.filter((page): page is NormalPage => 'id' in page),
           });
-          return indexs.map(index => ({ path, ...index }));
+          return indexes.map<NormalPageReference & PageDisplayInformation>(
+            ({ pageId, ...props }) => ({
+              type: 'normal',
+              bookPath,
+              pageId,
+              ...props,
+            }),
+          );
         }),
       )
     ).flat();
@@ -263,7 +267,7 @@ export default class Otamashelf extends EventEmitter {
     const { pages: pagesWithoutId } = bookBase;
     const pages = pagesWithoutId.map(page => ({ id: v4(), ...page }));
     const fileFormat = this.setFileFormat(path);
-    const indexes = await this.setIndexes(pages, path);
+    const indexes = await this.indexPages(pages, path);
     const book = { ...bookBase, fileFormat, indexes, pages };
     this.booksController.registerBook(book);
     return book;
@@ -300,7 +304,7 @@ export default class Otamashelf extends EventEmitter {
     const { pages: pagesWithoutId } = bookBase;
     const pages = pagesWithoutId.map(page => ({ id: v4(), ...page }));
     const fileFormat = this.setFileFormat(path);
-    const indexes = await this.setIndexes(pages, path);
+    const indexes = await this.indexPages(pages, path);
     const book = { ...bookBase, bookFormat, fileFormat, indexes, pages };
     this.booksController.registerBook(book);
     return book;
@@ -357,13 +361,6 @@ export default class Otamashelf extends EventEmitter {
     return { page, layout: await this.layout(page) };
   }
 
-  async readConfiguration(path: string) {
-    const bookTimeMachine = this.booksController.getOrThrow(path);
-    const { currentBook } = bookTimeMachine;
-    const { bookParameters: configuration } = currentBook;
-    return { page: configuration, layout: await this.layout(configuration) };
-  }
-
   async readDescription(path: string) {
     const bookTimeMachine = this.booksController.getOrThrow(path);
     const { currentBook } = bookTimeMachine;
@@ -418,9 +415,19 @@ export default class Otamashelf extends EventEmitter {
     return new Date().getTime();
   }
 
-  updateBookParameters(path: string, configuration: BookParametersPage) {
+  async readBookParameters(path: string) {
     const bookTimeMachine = this.booksController.getOrThrow(path);
-    bookTimeMachine.modifyBookParameters(configuration, 'Update configuration');
+    const { currentBook } = bookTimeMachine;
+    const { bookParameters } = currentBook;
+    return { page: bookParameters, layout: await this.layout(bookParameters) };
+  }
+
+  updateBookParameters(path: string, bookParameters: BookParametersPage) {
+    const bookTimeMachine = this.booksController.getOrThrow(path);
+    bookTimeMachine.modifyBookParameters(
+      bookParameters,
+      'Update configuration',
+    );
     return new Date().getTime();
   }
 
@@ -428,6 +435,14 @@ export default class Otamashelf extends EventEmitter {
     const bookTimeMachine = this.booksController.getOrThrow(path);
     bookTimeMachine.modifyDescription(description, 'Update description');
     return new Date().getTime();
+  }
+
+  readConfiguration() {
+    return this.configurationsRegistry.get().configuration;
+  }
+
+  readConfigurationWithSchema() {
+    return this.configurationsRegistry.get();
   }
 
   updateConfiguration(configuration: Configuration) {
@@ -555,24 +570,27 @@ export default class Otamashelf extends EventEmitter {
     };
   }
 
-  async generateIndex(
-    path: string,
+  async indexAllPages(
+    bookPath: string,
     pageFormat: string,
-  ): Promise<PageDisplayInformation[]> {
-    const bookTimeMachine = this.booksController.getOrThrow(path);
+  ): Promise<(NormalPageReference & PageDisplayInformation)[]> {
+    const bookTimeMachine = this.booksController.getOrThrow(bookPath);
     const { currentBook } = bookTimeMachine;
     const pages = currentBook.pages
       .filter((page): page is NormalPage => typeof page.id !== 'undefined')
       .filter(page => page.pageFormat === pageFormat);
-    const indexGenerator =
-      this.indexGenerators.findByPageFormatOrThrow(pageFormat);
+    const pagesIndexer =
+      this.pagesIndexers.findByPageFormatOrThrow(pageFormat);
     const { configuration } = this.configurationsRegistry.get();
-    return (
-      await indexGenerator.generate({
-        configuration,
-        pages,
-      })
-    ).indexs.map(index => ({ path, ...index }));
+    const { indexes } = await pagesIndexer.index({
+      configuration,
+      pages,
+    });
+    return indexes.map(props => ({
+      type: 'normal',
+      bookPath,
+      ...props,
+    }));
   }
 
   async generateSearchIndex(

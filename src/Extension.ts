@@ -3,7 +3,6 @@ import { BookDiscriminator } from "./BookDiscriminator";
 import { BookLoader } from "./BookLoader";
 import { BookModifier } from "./BookModifier";
 import { BookSaver } from "./BookSaver";
-import { IndexGenerator } from "./IndexGenerator";
 import { LayoutBuilder } from "./LayoutBuilder";
 import { LayoutDecorator } from "./LayoutDecorator";
 import { PageCreator } from "./PageCreator";
@@ -14,6 +13,7 @@ import { PagesModifier } from "./PagesModifier";
 import { SearchIndexGenerator } from "./SearchIndexGenerator";
 import { StyleTheme } from "./StyleTheme";
 import { TextConverter } from "./TextConverter";
+import { PagesIndexer } from "./PagesIndexer";
 
 export type BookExtension =
   | BookCreator
@@ -24,8 +24,8 @@ export type BookExtension =
 
 export type PageExtension =
   | LayoutBuilder
-  | IndexGenerator
   | PageModifier
+  | PagesIndexer
   | PagesModifier
   | PageDecorator
   | SearchIndexGenerator;

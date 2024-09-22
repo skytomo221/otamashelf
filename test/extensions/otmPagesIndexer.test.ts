@@ -1,10 +1,10 @@
 import { NormalPage } from '../../src/Page';
-import { otmIndexGenerator } from '../../src/extensions/otmIndexGenerator';
+import { otmPagesIndexer } from '../../src/extensions/otmPagesIndexer';
 
 describe('otmIndexGenerator', () => {
   describe('indexes', () => {
     it('return indexes', () => {
-      const { configuration } = otmIndexGenerator.defaultConfiguration();
+      const { configuration } = otmPagesIndexer.defaultConfiguration();
       const page: NormalPage = {
         id: '1',
         pageFormat: 'otmIndex',
@@ -33,12 +33,12 @@ describe('otmIndexGenerator', () => {
         },
       };
       const pages = [page];
-      otmIndexGenerator
-        .generate({ configuration, pages })
-        .then(({ indexs }) => {
-          expect(indexs).toEqual([
+      otmPagesIndexer
+        .index({ configuration, pages })
+        .then(({ indexes }) => {
+          expect(indexes).toEqual([
             {
-              id: '1',
+              pageId: '1',
               preview: '単語 言葉',
               title: 'word',
             },
