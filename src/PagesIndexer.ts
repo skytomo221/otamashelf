@@ -16,7 +16,7 @@ export type IndexProps = {
 };
 
 export type IndexReturns = {
-  pageDisplayInformations: (PageDisplayInformation & Pick<NormalPageReference, 'pageId'>)[];
+  indexes: (PageDisplayInformation & Pick<NormalPageReference, 'pageId'>)[];
 };
 
 export type PagesIndexer = ExtensionBase & {

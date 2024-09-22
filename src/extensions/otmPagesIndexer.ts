@@ -22,7 +22,7 @@ export const otmPagesIndexer: PagesIndexer =
     index(props: IndexProps): Promise<IndexReturns> {
       const { pages } = props;
       return Promise.resolve({
-        pageDisplayInformations: pages.map(page => {
+        indexes: pages.map(page => {
           const { data, id } = page;
           const { word } = data as { word: Word };
           const { entry, translations } = word;

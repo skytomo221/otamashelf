@@ -234,24 +234,21 @@ export default class Otamashelf extends EventEmitter {
     return (
       await Promise.all(
         pageFormats.map(async pageFormat => {
-          const pageDisplayInformationsIndexer =
-            this.pagesIndexers.findByPageFormatOrThrow(
-              pageFormat,
-            );
+          const pagesIndexer =
+            this.pagesIndexers.findByPageFormatOrThrow(pageFormat);
           const { configuration } = this.configurationsRegistry.get();
-          const { pageDisplayInformations } =
-            await pageDisplayInformationsIndexer.index({
-              configuration,
-              pages: pages.filter((page): page is NormalPage => 'id' in page),
-            });
-          return pageDisplayInformations.map<
-            NormalPageReference & PageDisplayInformation
-          >(({ pageId, ...props }) => ({
-            type: 'normal',
-            bookPath,
-            pageId,
-            ...props,
-          }));
+          const { indexes } = await pagesIndexer.index({
+            configuration,
+            pages: pages.filter((page): page is NormalPage => 'id' in page),
+          });
+          return indexes.map<NormalPageReference & PageDisplayInformation>(
+            ({ pageId, ...props }) => ({
+              type: 'normal',
+              bookPath,
+              pageId,
+              ...props,
+            }),
+          );
         }),
       )
     ).flat();
@@ -582,15 +579,14 @@ export default class Otamashelf extends EventEmitter {
     const pages = currentBook.pages
       .filter((page): page is NormalPage => typeof page.id !== 'undefined')
       .filter(page => page.pageFormat === pageFormat);
-    const pageDisplayInformationsIndexer =
+    const pagesIndexer =
       this.pagesIndexers.findByPageFormatOrThrow(pageFormat);
     const { configuration } = this.configurationsRegistry.get();
-    const { pageDisplayInformations } =
-      await pageDisplayInformationsIndexer.index({
-        configuration,
-        pages,
-      });
-    return pageDisplayInformations.map(props => ({
+    const { indexes } = await pagesIndexer.index({
+      configuration,
+      pages,
+    });
+    return indexes.map(props => ({
       type: 'normal',
       bookPath,
       ...props,

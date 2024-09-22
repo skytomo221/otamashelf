@@ -35,8 +35,8 @@ describe('otmIndexGenerator', () => {
       const pages = [page];
       otmPagesIndexer
         .index({ configuration, pages })
-        .then(({ pageDisplayInformations }) => {
-          expect(pageDisplayInformations).toEqual([
+        .then(({ indexes }) => {
+          expect(indexes).toEqual([
             {
               pageId: '1',
               preview: '単語 言葉',
