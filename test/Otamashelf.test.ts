@@ -1,6 +1,6 @@
 import Otamashelf from '../src/Otamashelf';
 import { otmDiscriminator } from '../src/extensions/otmDiscriminator';
-import { otmIndexGenerator } from '../src/extensions/otmIndexGenerator';
+import { otmPagesIndexer } from '../src/extensions/otmPagesIndexer';
 import { otmLoader } from '../src/extensions/otmLoader';
 
 describe('Otamashelf', () => {
@@ -52,7 +52,7 @@ describe('Otamashelf', () => {
     it('has open book', async () => {
       const otamashelf = new Otamashelf();
       otamashelf.registerExtension(otmDiscriminator);
-      otamashelf.registerExtension(otmIndexGenerator);
+      otamashelf.registerExtension(otmPagesIndexer);
       otamashelf.registerExtension(otmLoader);
       expect(
         await otamashelf.openBook('./data/sample.json', 'file'),

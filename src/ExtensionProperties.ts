@@ -3,11 +3,11 @@ import { BookDiscriminatorProperties } from './BookDiscriminator';
 import { BookLoaderProperties } from './BookLoader';
 import { BookModifierProperties } from './BookModifier';
 import { BookSaverProperties } from './BookSaver';
-import { IndexGeneratorProperties } from './IndexGenerator';
 import { LayoutBuilderProperties } from './LayoutBuilder';
 import { LayoutDecoratorProperties } from './LayoutDecorator';
 import { PageCreatorProperties } from './PageCreator';
 import { PageDecoratorProperties } from './PageDecorator';
+import { PagesIndexerProperties } from './PagesIndexer';
 import { PageExplorerProperties } from './PageExplorer';
 import { PageModifierProperties } from './PageModifier';
 import { PagesModifierProperties } from './PagesModifier';
@@ -21,13 +21,13 @@ export type ExtensionProperties =
   | BookLoaderProperties
   | BookModifierProperties
   | BookSaverProperties
-  | IndexGeneratorProperties
   | LayoutBuilderProperties
   | LayoutDecoratorProperties
   | PageCreatorProperties
   | PageExplorerProperties
   | PageModifierProperties
   | PageDecoratorProperties
+  | PagesIndexerProperties
   | PagesModifierProperties
   | SearchIndexGeneratorProperties
   | StyleThemeProperties
