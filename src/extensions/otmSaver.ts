@@ -60,7 +60,7 @@ export const otmSaver: BookSaver = {
     };
     const otm: PlainOtm = {
       words: toMarkdownContentsPages(
-        toSafeIdPages(pages.map(page => page.data as Word)),
+        toSafeIdPages(pages.map(page => page.data.word as Word)),
       ),
       ...bookParametersData,
       version: parseInt(bookParametersData.version),
