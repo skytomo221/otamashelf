@@ -673,4 +673,14 @@ export default class Otamashelf extends EventEmitter {
       };
     });
   }
+
+  async deletePage(normalPageReference: NormalPageReference) {
+    const { bookPath, pageId } = normalPageReference;
+    const bookTimeMachine = this.booksController.getOrThrow(bookPath);
+    const { currentBook } = bookTimeMachine;
+    const page = currentBook.pages.find(page => page.id === pageId);
+    if (!page) throw new Error('Page not found');
+    bookTimeMachine.removePage(page, 'Remove page');
+    return new Date().getTime();
+  }
 }
