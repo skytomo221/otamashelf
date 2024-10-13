@@ -38,7 +38,7 @@ import { Layout } from './LayoutCard';
 import { Json } from './Json';
 import { LayoutDecorator } from './LayoutDecorator';
 import { isExtensionType } from './isExtensionType';
-import { PageExplorer } from './PageExplorer';
+import { PageExplorer, SearchResult } from './PageExplorer';
 import { SearchCard } from './SearchCard';
 import { NormalPageReference } from './PageReference';
 import ConfigurationsRegistry from './ConfigurationsRegistry';
@@ -579,8 +579,7 @@ export default class Otamashelf extends EventEmitter {
     const pages = currentBook.pages
       .filter((page): page is NormalPage => typeof page.id !== 'undefined')
       .filter(page => page.pageFormat === pageFormat);
-    const pagesIndexer =
-      this.pagesIndexers.findByPageFormatOrThrow(pageFormat);
+    const pagesIndexer = this.pagesIndexers.findByPageFormatOrThrow(pageFormat);
     const { configuration } = this.configurationsRegistry.get();
     const { indexes } = await pagesIndexer.index({
       configuration,
@@ -650,7 +649,7 @@ export default class Otamashelf extends EventEmitter {
     searchIndexGeneratorId: string,
     pageExplorerId: string,
     searchWord: string,
-  ) {
+  ): Promise<(SearchCard & SearchResult)[]> {
     const searchCards = await this.generateSearchIndex(
       path,
       pageFormat,
@@ -663,6 +662,15 @@ export default class Otamashelf extends EventEmitter {
       searchCards,
       searchWord,
     });
-    return results;
+    return results.map(({ id, matches }) => {
+      const searchCard = searchCards.find(card => card.id === id);
+      if (!searchCard) throw new Error('Search card not found');
+      const { targets } = searchCard;
+      return {
+        id,
+        matches,
+        targets,
+      };
+    });
   }
 }
