@@ -16,12 +16,13 @@ export type BookDescriptionPageReference = {
 
 export type PageTemplatePageReference = {
   type: 'page-template';
-  extensionId: string;
+  bookPath: string;
+  pageCreatorId: string;
 };
 
 export type BookTemplatePageReference = {
   type: 'book-template';
-  extensionId: string;
+  bookCreatorId: string;
 };
 
 export type ViewPageReference = {

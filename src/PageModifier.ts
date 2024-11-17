@@ -11,7 +11,7 @@ export type PageModifierProperties = PageExtensionBaseProperties & {
 
 export type ModifyProps<P extends Page> = {
   configuration: Configuration;
-  book: Pick<Book, 'bookFormat' | 'bookParameters' | 'title'>;
+  book?: Pick<Book, 'bookFormat' | 'bookParameters' | 'title'>;
   page: P;
   script: Json;
 };

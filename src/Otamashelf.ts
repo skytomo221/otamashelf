@@ -40,7 +40,11 @@ import { LayoutDecorator } from './LayoutDecorator';
 import { isExtensionType } from './isExtensionType';
 import { PageExplorer, SearchResult } from './PageExplorer';
 import { SearchCard } from './SearchCard';
-import { NormalPageReference } from './PageReference';
+import {
+  BookTemplatePageReference,
+  NormalPageReference,
+  PageTemplatePageReference,
+} from './PageReference';
 import ConfigurationsRegistry from './ConfigurationsRegistry';
 import { Configuration } from './Configuration';
 import { PagesIndexer } from './PagesIndexer';
@@ -210,11 +214,16 @@ export default class Otamashelf extends EventEmitter {
     this.registerExtensionMethodCommands(extension);
   }
 
-  async requestNewBook(bookCreatorId: string): Promise<BookTemplatePage> {
+  async requestNewBook(bookCreatorId: string) {
     const bookCreator = this.bookCreators.findByIdOrThrow(bookCreatorId);
     const { configuration } = this.configurationsRegistry.get();
     const { template } = await bookCreator.template({ configuration });
-    return template;
+    const layout = await this.layout(template);
+    const index: BookTemplatePageReference = {
+      type: 'book-template',
+      bookCreatorId: bookCreator.properties.id,
+    };
+    return { page: template, layout, index };
   }
 
   setFileFormat(path: string): FileFormat {
@@ -255,21 +264,27 @@ export default class Otamashelf extends EventEmitter {
   }
 
   async createBook(
-    bookCreatorId: string,
+    { bookCreatorId }: BookTemplatePageReference,
     template: BookTemplatePage,
+    path: string,
   ): Promise<Book> {
     const bookCreator = this.bookCreators.findByIdOrThrow(bookCreatorId);
     const { configuration } = this.configurationsRegistry.get();
-    const { book: bookBase, path } = await bookCreator.create({
+    const { book: bookBase } = await bookCreator.create({
       configuration,
       template,
     });
     const { pages: pagesWithoutId } = bookBase;
     const pages = pagesWithoutId.map(page => ({ id: v4(), ...page }));
-    const fileFormat = this.setFileFormat(path);
+    const fileFormat = {
+      path,
+      isDirectory: bookBase.fileFormat.isDirectory,
+      loadedTime: new Date().getTime(),
+    };
     const indexes = await this.indexPages(pages, path);
     const book = { ...bookBase, fileFormat, indexes, pages };
     this.booksController.registerBook(book);
+    await this.saveBook(path);
     return book;
   }
 
@@ -295,6 +310,7 @@ export default class Otamashelf extends EventEmitter {
   async openBook(path: string, type: 'directory' | 'file'): Promise<Book> {
     const bookFormat = await this.discriminateBookFormat(path, type);
     if (!bookFormat) throw new Error('Book format not found');
+    console.log(bookFormat);
     const bookLoader = this.bookLoaders.findByBookFormatOrThrow(bookFormat);
     const { configuration } = this.configurationsRegistry.get();
     const { book: bookBase } = await bookLoader.load({
@@ -324,7 +340,7 @@ export default class Otamashelf extends EventEmitter {
     return savedTime;
   }
 
-  async requestNewPage(path: string): Promise<PageTemplatePage> {
+  async requestNewPage(path: string) {
     const bookTimeMachine = this.booksController.getOrThrow(path);
     const { currentBook } = bookTimeMachine;
     const { bookFormat, bookParameters, title } = currentBook;
@@ -334,22 +350,44 @@ export default class Otamashelf extends EventEmitter {
       configuration,
       book: { bookFormat, bookParameters, title },
     });
-    return template;
+    const layout = await this.layout(template);
+    const index: PageTemplatePageReference = {
+      type: 'page-template',
+      bookPath: path,
+      pageCreatorId: pageCreator.properties.id,
+    };
+    return { page: template, layout, index };
   }
 
-  async createPage(path: string, template: PageTemplatePage): Promise<Page> {
-    const bookTimeMachine = this.booksController.getOrThrow(path);
+  async createPage(
+    { bookPath, pageCreatorId }: PageTemplatePageReference,
+    template: PageTemplatePage,
+  ) {
+    const bookTimeMachine = this.booksController.getOrThrow(bookPath);
     const { currentBook } = bookTimeMachine;
     const { bookFormat, bookParameters, title } = currentBook;
-    const pageCreator = this.pageCreators.findByBookFormatOrThrow(bookFormat);
+    const pageCreator = this.pageCreators.findByIdOrThrow(pageCreatorId);
     const { configuration } = this.configurationsRegistry.get();
     const { page: pagesWithoutId } = await pageCreator.create({
       configuration,
       book: { bookFormat, bookParameters, title },
       template,
     });
-    const page = { id: v4(), ...pagesWithoutId };
-    return page;
+    const page: NormalPage = { id: v4(), ...pagesWithoutId };
+    const { pageFormat } = page;
+    bookTimeMachine.addPage(page, 'Create page');
+    const pagesIndexer = this.pagesIndexers.findByPageFormatOrThrow(pageFormat);
+    const { indexes } = await pagesIndexer.index({
+      configuration,
+      pages: [page],
+    });
+    const layout = await this.layout(page);
+    const index: NormalPageReference & PageDisplayInformation = {
+      type: 'normal',
+      bookPath,
+      ...indexes[0],
+    };
+    return { index, page, layout };
   }
 
   async readPage(pageReference: NormalPageReference) {
@@ -467,13 +505,12 @@ export default class Otamashelf extends EventEmitter {
     return modifiedBook;
   }
 
-  async modifyPages(
-    path: string,
-    pageId: string,
+  async modifyPagesFromNormalPage(
+    { bookPath, pageId }: NormalPageReference,
     pagesModifierId: string,
     script: Json,
   ) {
-    const bookTimeMachine = this.booksController.getOrThrow(path);
+    const bookTimeMachine = this.booksController.getOrThrow(bookPath);
     const { currentBook } = bookTimeMachine;
     const { pages } = currentBook;
     const { bookFormat, bookParameters, title } = currentBook;
@@ -494,13 +531,37 @@ export default class Otamashelf extends EventEmitter {
     return { page: modifiedPage, layout: await this.layout(modifiedPage) };
   }
 
-  async modifyPage(
-    path: string,
-    pageId: string,
+  async modifyPagesFromPageTemplatePage(
+    { bookPath }: PageTemplatePageReference,
+    page: PageTemplatePage,
+    pagesModifierId: string,
+    script: Json,
+  ) {
+    const bookTimeMachine = this.booksController.getOrThrow(bookPath);
+    const { currentBook } = bookTimeMachine;
+    const { pages } = currentBook;
+    const { bookFormat, bookParameters, title } = currentBook;
+    const pagesModifier = this.pagesModifiers.findByIdOrThrow(pagesModifierId);
+    const { configuration } = this.configurationsRegistry.get();
+    const {
+      book: { pages: modifiedPages },
+      page: modifiedPage,
+    } = await pagesModifier.modify({
+      configuration,
+      book: { bookFormat, bookParameters, pages },
+      page,
+      script,
+    });
+    bookTimeMachine.modifyPages(modifiedPages, 'Modify page');
+    return { page: modifiedPage, layout: await this.layout(modifiedPage) };
+  }
+
+  async modifyNormalPage(
+    { bookPath, pageId }: NormalPageReference,
     pageModifierId: string,
     script: Json,
   ) {
-    const bookTimeMachine = this.booksController.getOrThrow(path);
+    const bookTimeMachine = this.booksController.getOrThrow(bookPath);
     const { currentBook } = bookTimeMachine;
     const { pages } = currentBook;
     const { bookFormat, bookParameters, title } = currentBook;
@@ -515,6 +576,41 @@ export default class Otamashelf extends EventEmitter {
       script,
     });
     bookTimeMachine.modifyPage(modifiedPage, 'Modify page');
+    return { page: modifiedPage, layout: await this.layout(modifiedPage) };
+  }
+
+  async modifyPageTemplatePage(
+    { bookPath }: PageTemplatePageReference,
+    page: PageTemplatePage,
+    pageModifierId: string,
+    script: Json,
+  ) {
+    const bookTimeMachine = this.booksController.getOrThrow(bookPath);
+    const { currentBook } = bookTimeMachine;
+    const { bookFormat, bookParameters, title } = currentBook;
+    const pageModifier = this.pageModifiers.findByIdOrThrow(pageModifierId);
+    const { configuration } = this.configurationsRegistry.get();
+    const { page: modifiedPage } = await pageModifier.modify({
+      configuration,
+      book: { bookFormat, bookParameters, title },
+      page,
+      script,
+    });
+    return { page: modifiedPage, layout: await this.layout(modifiedPage) };
+  }
+
+  async modifyBookTemplatePage(
+    page: BookTemplatePage,
+    pageModifierId: string,
+    script: Json,
+  ) {
+    const pageModifier = this.pageModifiers.findByIdOrThrow(pageModifierId);
+    const { configuration } = this.configurationsRegistry.get();
+    const { page: modifiedPage } = await pageModifier.modify({
+      configuration,
+      page,
+      script,
+    });
     return { page: modifiedPage, layout: await this.layout(modifiedPage) };
   }
 

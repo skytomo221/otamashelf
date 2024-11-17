@@ -3,6 +3,7 @@ import { BookTemplatePage, NormalPage } from './Page';
 import { ExtensionBase } from './ExtensionBase';
 import { BookExtensionBaseProperties } from './ExtensionProperties';
 import { Configuration } from './Configuration';
+import { FileFormat } from './FileFormat';
 
 export type BookCreatorProperties = BookExtensionBaseProperties & {
   type: 'book-creator';
@@ -27,8 +28,8 @@ export type CreateReturns = {
     'description' | 'bookFormat' | 'bookParameters' | 'title'
   > & {
     pages: Omit<NormalPage, 'id'>[];
+    fileFormat: Pick<FileFormat, 'isDirectory'>;
   };
-  path: string;
 };
 
 export type BookCreator = ExtensionBase & {

@@ -1,6 +1,7 @@
 import { Book } from '../Book';
 import { BookCreator, CreateReturns, TemplateReturns } from '../BookCreator';
 import { ConfigurationReturns } from '../ExtensionBase';
+import { FileFormat } from '../FileFormat';
 import { BookTemplatePage } from '../Page';
 import { OtmBookParameters } from './otmBookParameters';
 import { OtmCreatorTemplateFormat } from './otmCreatorTemplateFormat';
@@ -24,7 +25,7 @@ const data: OtmCreatorTemplateFormat = {
 
 const template: BookTemplatePage = {
   specialPage: 'book-template',
-  pageFormat: 'otm-book-parameters-format-v1',
+  pageFormat: 'otm.book-parameters',
   data,
 };
 
@@ -45,7 +46,7 @@ export const otmCreator: BookCreator = {
   },
   create({ template }): Promise<CreateReturns> {
     const templateData = template.data as OtmCreatorTemplateFormat;
-    const { path, title, snoj, version, zpdic, zpdicOnline } = templateData;
+    const { title, snoj, version, zpdic, zpdicOnline } = templateData;
     const { explanation } = zpdicOnline;
     const bookParameters: OtmBookParameters = {
       specialPage: 'book-parameters',
@@ -60,7 +61,9 @@ export const otmCreator: BookCreator = {
     const book: Pick<
       Book,
       'description' | 'bookFormat' | 'bookParameters' | 'pages' | 'title'
-    > = {
+    > & {
+      fileFormat: Pick<FileFormat, 'isDirectory'>;
+    } = {
       pages: [],
       description: {
         specialPage: 'description',
@@ -70,7 +73,8 @@ export const otmCreator: BookCreator = {
       bookParameters,
       title,
       bookFormat: 'otm',
+      fileFormat: { isDirectory: false },
     };
-    return Promise.resolve({ book, path });
+    return Promise.resolve({ book });
   },
 };

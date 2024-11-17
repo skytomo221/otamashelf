@@ -5,40 +5,6 @@ import {
 import { ConfigurationReturns } from '../ExtensionBase';
 import { OtmCreatorTemplateFormat } from './otmCreatorTemplateFormat';
 
-function path({ path }: OtmCreatorTemplateFormat): EditableSpan {
-  return {
-    component: 'editable',
-    element: 'span',
-    inputs: [
-      {
-        component: 'label',
-        for: 'path',
-        contents: ['見出し語'],
-      },
-      {
-        component: 'input',
-        id: 'path',
-        name: '保存先',
-        type: 'text',
-        reference: 'path',
-      },
-      {
-        component: 'input',
-        id: `path.reset`,
-        type: 'reset',
-        value: 'キャンセル',
-      },
-      {
-        component: 'input',
-        id: `path.submit`,
-        type: 'submit',
-        value: '変更する',
-      },
-    ],
-    outputs: ['保存先：', path, { component: 'edit-button' }],
-  };
-}
-
 function title({ title }: OtmCreatorTemplateFormat): EditableSpan {
   return {
     component: 'editable',
@@ -47,14 +13,14 @@ function title({ title }: OtmCreatorTemplateFormat): EditableSpan {
       {
         component: 'label',
         for: 'title',
-        contents: ['見出し語'],
+        contents: ['OTM辞書のタイトル'],
       },
       {
         component: 'input',
         id: 'title',
         name: 'OTM辞書のタイトル',
         type: 'text',
-        reference: 'path',
+        reference: 'title',
       },
       {
         component: 'input',
@@ -73,6 +39,40 @@ function title({ title }: OtmCreatorTemplateFormat): EditableSpan {
   };
 }
 
+function snoj({ snoj }: OtmCreatorTemplateFormat): EditableSpan {
+  return {
+    component: 'editable',
+    element: 'span',
+    inputs: [
+      {
+        component: 'label',
+        for: 'snoj',
+        contents: ['Akrantiainの設定'],
+      },
+      {
+        component: 'input',
+        id: 'snoj',
+        name: 'Akrantiainの設定',
+        type: 'text',
+        reference: 'snoj',
+      },
+      {
+        component: 'input',
+        id: `snoj.reset`,
+        type: 'reset',
+        value: 'キャンセル',
+      },
+      {
+        component: 'input',
+        id: `snoj.submit`,
+        type: 'submit',
+        value: '変更する',
+      },
+    ],
+    outputs: ['Akrantiainの設定：', snoj, { component: 'edit-button' }],
+  };
+}
+
 export const otmCreatorTemplateLayoutBuilder: LayoutBuilder = {
   properties: {
     name: 'OTM Creator Template Layout Builder',
@@ -80,7 +80,7 @@ export const otmCreatorTemplateLayoutBuilder: LayoutBuilder = {
     version: '1.0.0',
     type: 'layout-builder',
     author: 'skytomo221',
-    pageFormatPattern: '^otm$',
+    pageFormatPattern: '^otm\\.book-parameters$',
     dependentPageUpdaters: [],
   },
   defaultConfiguration(): ConfigurationReturns {
@@ -92,7 +92,7 @@ export const otmCreatorTemplateLayoutBuilder: LayoutBuilder = {
     return Promise.resolve({
       layout: {
         component: 'section',
-        contents: [path(template), title(template)],
+        contents: [title(template), snoj(template)],
       },
     });
   },

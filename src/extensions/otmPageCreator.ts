@@ -17,7 +17,7 @@ const templateData: Word = {
 const template: PageTemplatePage = {
   specialPage: 'page-template',
   pageFormat: 'otm',
-  data: templateData,
+  data: { word: templateData },
 };
 
 export const otmPageCreator: PageCreator = {
