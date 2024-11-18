@@ -55,10 +55,12 @@ describe('otmCreator', () => {
         },
         title: '',
         bookFormat: 'otm',
+        fileFormat: {
+          isDirectory: false,
+        },
       };
-      otmCreator.create({ configuration, template }).then(({ book, path }) => {
+      otmCreator.create({ configuration, template }).then(({ book }) => {
         expect(book).toEqual(expectedBook);
-        expect(path).toEqual('');
       });
     });
   });

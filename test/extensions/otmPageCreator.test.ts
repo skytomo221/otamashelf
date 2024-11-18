@@ -36,15 +36,17 @@ describe('otmPageCreator', () => {
         const { specialPage, data } = template;
         expect(specialPage).toEqual('page-template');
         expect(data).toEqual({
-          entry: {
-            id: -1,
-            form: '新規の単語',
+          word: {
+            entry: {
+              id: -1,
+              form: '新規の単語',
+            },
+            translations: [],
+            tags: [],
+            contents: [],
+            variations: [],
+            relations: [],
           },
-          translations: [],
-          tags: [],
-          contents: [],
-          variations: [],
-          relations: [],
         });
       });
     });
@@ -60,15 +62,17 @@ describe('otmPageCreator', () => {
           expect(page).toEqual({
             pageFormat: 'otm',
             data: {
-              entry: {
-                id: -1,
-                form: '新規の単語',
+              word: {
+                entry: {
+                  id: -1,
+                  form: '新規の単語',
+                },
+                contents: [],
+                tags: [],
+                translations: [],
+                variations: [],
+                relations: [],
               },
-              contents: [],
-              tags: [],
-              translations: [],
-              variations: [],
-              relations: [],
             },
           });
         });
