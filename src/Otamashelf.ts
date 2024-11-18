@@ -310,7 +310,6 @@ export default class Otamashelf extends EventEmitter {
   async openBook(path: string, type: 'directory' | 'file'): Promise<Book> {
     const bookFormat = await this.discriminateBookFormat(path, type);
     if (!bookFormat) throw new Error('Book format not found');
-    console.log(bookFormat);
     const bookLoader = this.bookLoaders.findByBookFormatOrThrow(bookFormat);
     const { configuration } = this.configurationsRegistry.get();
     const { book: bookBase } = await bookLoader.load({
