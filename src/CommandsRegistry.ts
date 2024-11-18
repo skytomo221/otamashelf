@@ -8,7 +8,7 @@ export default class CommandsRegistry {
   public registerCommand(
     command: string,
     callback: Callback,
-    safetyLevel: SafetyLevel = 'read',
+    safetyLevel: SafetyLevel = 'dengerous',
   ) {
     this.commands.set(command, { callback, safetyLevel });
   }
