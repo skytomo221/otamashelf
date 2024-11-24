@@ -1,3 +1,4 @@
+import { Api } from './Api';
 import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { PageExtensionBaseProperties } from './ExtensionProperties';
@@ -11,6 +12,7 @@ export type PagesIndexerProperties =
   };
 
 export type IndexProps = {
+  api: Api;
   configuration: Configuration;
   pages: NormalPage[];
 };

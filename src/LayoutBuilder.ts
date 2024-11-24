@@ -1,3 +1,4 @@
+import { Api } from './Api';
 import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { PageExtensionBaseProperties } from './ExtensionProperties';
@@ -10,6 +11,7 @@ export type LayoutBuilderProperties = PageExtensionBaseProperties & {
 };
 
 export type LayoutProps = {
+  api: Api;
   configuration: Configuration;
   page: Page;
 };

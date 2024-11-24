@@ -1,3 +1,4 @@
+import Otamashelf from '../src/Otamashelf';
 import { ConvertProps, TextConverter } from '../src/TextConverter';
 
 const testTextConverter: TextConverter = {
@@ -20,9 +21,10 @@ const testTextConverter: TextConverter = {
 describe('otmCreator', () => {
   describe('template', () => {
     it('returns html', () => {
+      const api = new Otamashelf().api('read');
       const { configuration } = testTextConverter.defaultConfiguration();
       testTextConverter
-        .convert({ configuration, text: 'Hello, world!' })
+        .convert({ api, configuration, text: 'Hello, world!' })
         .then(({ html }) => {
           expect(html).toBe('<div>Hello, world!</div>');
         });

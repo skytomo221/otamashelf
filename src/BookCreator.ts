@@ -4,12 +4,14 @@ import { ExtensionBase } from './ExtensionBase';
 import { BookExtensionBaseProperties } from './ExtensionProperties';
 import { Configuration } from './Configuration';
 import { FileFormat } from './FileFormat';
+import { Api } from './Api';
 
 export type BookCreatorProperties = BookExtensionBaseProperties & {
   type: 'book-creator';
 };
 
 export type TemplateProps = {
+  api: Api;
   configuration: Configuration;
 };
 
@@ -18,6 +20,7 @@ export type TemplateReturns = {
 };
 
 export type CreateProps = {
+  api: Api;
   configuration: Configuration;
   template: BookTemplatePage;
 };

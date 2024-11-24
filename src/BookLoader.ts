@@ -1,3 +1,4 @@
+import { Api } from './Api';
 import { Book } from './Book';
 import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
@@ -9,6 +10,7 @@ export type BookLoaderProperties = BookExtensionBaseProperties & {
 };
 
 export type LoadProps = {
+  api: Api;
   configuration: Configuration;
   path: string;
 };

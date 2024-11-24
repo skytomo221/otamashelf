@@ -2,12 +2,14 @@ import { ExtensionBase } from './ExtensionBase';
 import { Book } from './Book';
 import { BookExtensionBaseProperties } from './ExtensionProperties';
 import { Configuration } from './Configuration';
+import { Api } from './Api';
 
 export type BookSaverProperties = BookExtensionBaseProperties & {
   type: 'book-saver';
 };
 
 export type SaveProps = {
+  api: Api;
   configuration: Configuration;
   book: Omit<Book, 'indexes'>;
 };

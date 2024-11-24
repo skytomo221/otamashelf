@@ -1,3 +1,4 @@
+import { Api } from './Api';
 import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { ExtensionBaseProperties } from './ExtensionProperties';
@@ -9,6 +10,7 @@ export type BookDiscriminatorProperties = ExtensionBaseProperties & {
 };
 
 export type DiscriminateProps = {
+  api: Api;
   path: string;
   configuration: Configuration;
 };

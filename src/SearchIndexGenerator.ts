@@ -1,3 +1,4 @@
+import { Api } from './Api';
 import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { PageExtensionBaseProperties } from './ExtensionProperties';
@@ -9,6 +10,7 @@ export type SearchIndexGeneratorProperties = PageExtensionBaseProperties & {
 };
 
 export type NameProps = {
+  api: Api;
   configuration: Configuration;
   language: string;
 };
@@ -18,6 +20,7 @@ export type NameReturns = {
 };
 
 export type GenerateProps = {
+  api: Api;
   configuration: Configuration;
   pages: NormalPage[];
 };

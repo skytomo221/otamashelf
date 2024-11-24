@@ -1,14 +1,17 @@
+import Otamashelf from '../../src/Otamashelf';
 import { SearchCard } from '../../src/SearchCard';
 import { includesPageExplorer } from '../../src/extensions/includesPageExplorer';
 
 describe('includesPageExplorer', () => {
   describe('search', () => {
+    const api = new Otamashelf().api('read');
     it('returns empty ids', async () => {
       const { configuration } = includesPageExplorer.defaultConfiguration();
       const searchCards: SearchCard[] = [];
       const searchWord = '';
       expect(
         await includesPageExplorer.search({
+          api,
           configuration,
           searchCards,
           searchWord,
@@ -43,6 +46,7 @@ describe('includesPageExplorer', () => {
       const searchWord = 'ない';
       expect(
         await includesPageExplorer.search({
+          api,
           configuration,
           searchCards,
           searchWord,

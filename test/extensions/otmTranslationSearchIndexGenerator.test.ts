@@ -1,9 +1,11 @@
+import Otamashelf from '../../src/Otamashelf';
 import { NormalPage } from '../../src/Page';
 import { otmTranslationSearchIndexGenerator } from '../../src/extensions/otmTranslationSearchIndexGenerator';
 
 describe('otmTranslationSearchIndexGenerator', () => {
   describe('generate', () => {
     it('generates search cards', () => {
+      const api = new Otamashelf().api('read');
       const { configuration } =
         otmTranslationSearchIndexGenerator.defaultConfiguration();
       const page: NormalPage = {
@@ -35,7 +37,7 @@ describe('otmTranslationSearchIndexGenerator', () => {
       };
       const pages = [page];
       otmTranslationSearchIndexGenerator
-        .generate({ configuration, pages })
+        .generate({ api, configuration, pages })
         .then(({ searchCards }) => {
           expect(searchCards).toEqual([
             {

@@ -1,10 +1,13 @@
+import Otamashelf from '../../src/Otamashelf';
 import { NormalPage } from '../../src/Page';
 import { otmFormSearchIndexGenerator } from '../../src/extensions/otmFormSearchIndexGenerator';
 
 describe('otmFormSearchIndexGenerator', () => {
   describe('generate', () => {
     it('generates search cards', () => {
-      const { configuration } = otmFormSearchIndexGenerator.defaultConfiguration();
+      const api = new Otamashelf().api('read');
+      const { configuration } =
+        otmFormSearchIndexGenerator.defaultConfiguration();
       const page: NormalPage = {
         id: '1',
         pageFormat: 'otmIndex',
@@ -34,7 +37,7 @@ describe('otmFormSearchIndexGenerator', () => {
       };
       const pages = [page];
       otmFormSearchIndexGenerator
-        .generate({ configuration, pages })
+        .generate({ api, configuration, pages })
         .then(({ searchCards }) => {
           expect(searchCards).toEqual([
             {

@@ -1,9 +1,11 @@
+import Otamashelf from '../../src/Otamashelf';
 import { NormalPage } from '../../src/Page';
 import { otmPagesIndexer } from '../../src/extensions/otmPagesIndexer';
 
 describe('otmIndexGenerator', () => {
   describe('indexes', () => {
     it('return indexes', () => {
+      const api = new Otamashelf().api('read');
       const { configuration } = otmPagesIndexer.defaultConfiguration();
       const page: NormalPage = {
         id: '1',
@@ -34,7 +36,7 @@ describe('otmIndexGenerator', () => {
       };
       const pages = [page];
       otmPagesIndexer
-        .index({ configuration, pages })
+        .index({ api, configuration, pages })
         .then(({ indexes }) => {
           expect(indexes).toEqual([
             {

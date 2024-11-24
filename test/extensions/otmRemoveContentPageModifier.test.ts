@@ -1,4 +1,5 @@
 import { Book } from '../../src/Book';
+import Otamashelf from '../../src/Otamashelf';
 import {
   otmRemoveContentPageModifier,
   Script,
@@ -35,6 +36,7 @@ const book: Book = {
 describe('otmRemoveContentPageModifier', () => {
   describe('generate', () => {
     it('generates search cards', () => {
+      const api = new Otamashelf().api('read');
       const { configuration } =
         otmRemoveContentPageModifier.defaultConfiguration();
       const page: NormalPage = {
@@ -66,7 +68,7 @@ describe('otmRemoveContentPageModifier', () => {
       };
       const script: Script = { removeIndex: 0 };
       otmRemoveContentPageModifier
-        .modify({ book, configuration, page, script })
+        .modify({ api, book, configuration, page, script })
         .then(({ page }) => {
           expect(page).toEqual({
             id: '1',

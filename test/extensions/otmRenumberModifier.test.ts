@@ -1,4 +1,5 @@
 import { Book } from '../../src/Book';
+import Otamashelf from '../../src/Otamashelf';
 import { NormalPage } from '../../src/Page';
 import { otmRenumberModifier } from '../../src/extensions/otmRenumberModifier';
 
@@ -38,6 +39,7 @@ const book: Pick<Book, 'title' | 'bookFormat' | 'pages'> = {
 describe('otmRenumberModifier', () => {
   describe('modify', () => {
     it('renumbers otm book', () => {
+      const api = new Otamashelf().api('read');
       const { configuration } = otmRenumberModifier.defaultConfiguration();
       const script = {};
       otmRenumberModifier

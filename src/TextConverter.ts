@@ -1,3 +1,4 @@
+import { Api } from './Api';
 import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { ExtensionBaseProperties } from './ExtensionProperties';
@@ -8,6 +9,7 @@ export type TextConverterProperties = ExtensionBaseProperties & {
 };
 
 export type ConvertProps = {
+  api: Api;
   configuration: Configuration;
   text: string;
 };
