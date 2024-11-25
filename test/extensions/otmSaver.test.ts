@@ -1,11 +1,14 @@
+import Otamashelf from '../../src/Otamashelf';
 import { otmSaver } from '../../src/extensions/otmSaver';
 
 describe('otmSaver', () => {
   describe('search', () => {
     it('returns empty ids', async () => {
+      const api = new Otamashelf().api('read');
       const { configuration } = otmSaver.defaultConfiguration();
       otmSaver
         .save({
+          api,
           configuration,
           book: {
             fileFormat: {

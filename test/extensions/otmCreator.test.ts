@@ -1,10 +1,12 @@
+import Otamashelf from '../../src/Otamashelf';
 import { otmCreator } from '../../src/extensions/otmCreator';
 
 describe('otmCreator', () => {
   describe('template', () => {
+    const api = new Otamashelf().api('read');
     it('returns template', () => {
       const { configuration } = otmCreator.defaultConfiguration();
-      otmCreator.template({ configuration }).then(({ template }) => {
+      otmCreator.template({ api, configuration }).then(({ template }) => {
         const { specialPage, data } = template;
         expect(specialPage).toEqual('book-template');
         expect(data).toEqual({
@@ -27,7 +29,7 @@ describe('otmCreator', () => {
     });
     it('returns otm book', async () => {
       const { configuration } = otmCreator.defaultConfiguration();
-      const { template } = await otmCreator.template({ configuration });
+      const { template } = await otmCreator.template({ api, configuration });
       const expectedBook = {
         pages: [],
         description: {
@@ -59,7 +61,7 @@ describe('otmCreator', () => {
           isDirectory: false,
         },
       };
-      otmCreator.create({ configuration, template }).then(({ book }) => {
+      otmCreator.create({ api, configuration, template }).then(({ book }) => {
         expect(book).toEqual(expectedBook);
       });
     });

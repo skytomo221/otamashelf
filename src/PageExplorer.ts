@@ -1,3 +1,4 @@
+import { Api } from './Api';
 import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { ExtensionBaseProperties } from './ExtensionProperties';
@@ -8,6 +9,7 @@ export type PageExplorerProperties = ExtensionBaseProperties & {
 };
 
 export type NameProps = {
+  api: Api;
   configuration: Configuration;
   language: string;
 };
@@ -17,6 +19,7 @@ export type NameReturns = {
 };
 
 export type SearchProps = {
+  api: Api;
   configuration: Configuration;
   searchCards: SearchCard[];
   searchWord: string;

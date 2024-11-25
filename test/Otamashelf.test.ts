@@ -7,22 +7,24 @@ describe('Otamashelf', () => {
   describe('search', () => {
     it('has commands', async () => {
       const otamashelf = new Otamashelf();
-      expect(
-        Array.from(otamashelf.executeCommand('otamashelf.getCommands')).sort(),
-      ).toStrictEqual([
-        'log.debug',
-        'log.error',
-        'log.info',
-        'log.notice',
-        'log.warning',
-        'noop',
-        'otamashelf.booksController.constructor',
-        'otamashelf.booksController.registerBook',
-        'otamashelf.getCommands',
-        'otamashelf.getContext',
-        'otamashelf.registerCommand',
-        'otamashelf.registerContext',
-      ]);
+      otamashelf.executeCommand('otamashelf.getCommands').then(result => {
+        expect(Array.from(result).sort()).toStrictEqual([
+          'log.debug',
+          'log.error',
+          'log.info',
+          'log.notice',
+          'log.warning',
+          'noop',
+          'otamashelf.booksController.constructor',
+          'otamashelf.booksController.registerBook',
+          'otamashelf.executeCommand',
+          'otamashelf.getCommands',
+          'otamashelf.getContext',
+          'otamashelf.readPage',
+          'otamashelf.registerCommand',
+          'otamashelf.registerContext',
+        ]);
+      });
     });
     it('has noop command', async () => {
       expect(new Otamashelf().executeCommand('noop')).toBeUndefined();

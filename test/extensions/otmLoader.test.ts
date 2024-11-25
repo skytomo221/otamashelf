@@ -1,11 +1,14 @@
+import Otamashelf from '../../src/Otamashelf';
 import { otmLoader } from '../../src/extensions/otmLoader';
 
 describe('otmLoader', () => {
   describe('load', () => {
     it('returns empty ids', async () => {
+      const api = new Otamashelf().api('read');
       const { configuration } = otmLoader.defaultConfiguration();
       otmLoader
         .load({
+          api,
           configuration,
           path: 'data/sample.json',
         })
@@ -37,8 +40,7 @@ describe('otmLoader', () => {
               },
               zpdicOnline: {
                 enableMarkdown: true,
-                explanation:
-                  `OTM-JSON辞書のサンプル辞書です。  
+                explanation: `OTM-JSON辞書のサンプル辞書です。  
 [Unlicense](http://unlicense.org/)で公開されています。  
 テストコードを書くときとかにご自由にお使いください。
 

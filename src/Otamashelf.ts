@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 
 import BooksController from './BooksController';
 import ContextsRegistry, { ContextTypes } from './ContextsRegistry';
-import CommandsRegistry from './CommandsRegistry';
+import CommandsRegistry, { SafetyLevel } from './CommandsRegistry';
 import { Extension } from './Extension';
 import ExtensionsRegistry from './ExtensionsRegistry';
 import { Book } from './Book';
@@ -125,34 +125,50 @@ export default class Otamashelf extends EventEmitter {
 
   constructor() {
     super();
-    this.commandsRegistry.registerCommand('noop', () => {});
+    this.commandsRegistry.registerCommand('noop', () =>
+      Promise.resolve(undefined),
+    );
     ['debug', 'info', 'notice', 'warning', 'error'].forEach(command => {
       this.commandsRegistry.registerCommand(
         `log.${command}`,
-        (...message: any[]) => this.emit(`log.${command}`, ...message),
+        (...message: any[]) =>
+          Promise.resolve(this.emit(`log.${command}`, ...message)),
+        'read',
       );
     });
-    this.commandsRegistry.executeCommand(
+    this.commandsRegistry.registerCommand(
       'otamashelf.executeCommand',
       (action: string, ...props: any[]) =>
         this.executeCommand(action, ...props),
+      'dengerous',
     );
     this.commandsRegistry.registerCommand(
       'otamashelf.registerCommand',
       (action: string, callback: (...props: any[]) => any) =>
-        this.registerCommand(action, callback),
+        Promise.resolve(this.registerCommand(action, callback)),
+      'dengerous',
     );
-    this.commandsRegistry.registerCommand('otamashelf.getCommands', () =>
-      this.commandsRegistry.getCommands(),
+    this.commandsRegistry.registerCommand(
+      'otamashelf.getCommands',
+      () => Promise.resolve(this.commandsRegistry.getCommands()),
+      'read',
     );
     this.commandsRegistry.registerCommand(
       'otamashelf.registerContext',
       (action: string, value: ContextTypes) =>
-        this.contextsRegistry.registerContext(action, value),
+        Promise.resolve(this.contextsRegistry.registerContext(action, value)),
+      'write',
     );
     this.commandsRegistry.registerCommand(
       'otamashelf.getContext',
-      (action: string) => this.contextsRegistry.get(action),
+      (action: string) => Promise.resolve(this.contextsRegistry.get(action)),
+      'read',
+    );
+    this.commandsRegistry.registerCommand(
+      'otamashelf.readPage',
+      (pageReference: NormalPageReference) =>
+        Promise.resolve(this.readPage(pageReference)),
+      'read',
     );
     this.registerMethodCommands(this.booksController);
   }
@@ -214,10 +230,22 @@ export default class Otamashelf extends EventEmitter {
     this.registerExtensionMethodCommands(extension);
   }
 
+  api(safetyLevel: SafetyLevel) {
+    return (command: string, ...props: any[]) =>
+      this.commandsRegistry.executeCommandSafely(
+        safetyLevel,
+        command,
+        ...props,
+      );
+  }
+
   async requestNewBook(bookCreatorId: string) {
     const bookCreator = this.bookCreators.findByIdOrThrow(bookCreatorId);
     const { configuration } = this.configurationsRegistry.get();
-    const { template } = await bookCreator.template({ configuration });
+    const { template } = await bookCreator.template({
+      configuration,
+      api: this.api('load').bind(this),
+    });
     const layout = await this.layout(template);
     const index: BookTemplatePageReference = {
       type: 'book-template',
@@ -248,6 +276,7 @@ export default class Otamashelf extends EventEmitter {
           const { configuration } = this.configurationsRegistry.get();
           const { indexes } = await pagesIndexer.index({
             configuration,
+            api: this.api('load').bind(this),
             pages: pages.filter((page): page is NormalPage => 'id' in page),
           });
           return indexes.map<NormalPageReference & PageDisplayInformation>(
@@ -272,6 +301,7 @@ export default class Otamashelf extends EventEmitter {
     const { configuration } = this.configurationsRegistry.get();
     const { book: bookBase } = await bookCreator.create({
       configuration,
+      api: this.api('dengerous').bind(this),
       template,
     });
     const { pages: pagesWithoutId } = bookBase;
@@ -299,6 +329,7 @@ export default class Otamashelf extends EventEmitter {
       if (type === 'directory' && !directoryDiscriminatable) continue;
       const { configuration } = this.configurationsRegistry.get();
       const { bookFormat } = await extension.discriminate({
+        api: this.api('read').bind(this),
         path,
         configuration,
       });
@@ -310,10 +341,10 @@ export default class Otamashelf extends EventEmitter {
   async openBook(path: string, type: 'directory' | 'file'): Promise<Book> {
     const bookFormat = await this.discriminateBookFormat(path, type);
     if (!bookFormat) throw new Error('Book format not found');
-    console.log(bookFormat);
     const bookLoader = this.bookLoaders.findByBookFormatOrThrow(bookFormat);
     const { configuration } = this.configurationsRegistry.get();
     const { book: bookBase } = await bookLoader.load({
+      api: this.api('load').bind(this),
       path,
       configuration,
     });
@@ -334,6 +365,7 @@ export default class Otamashelf extends EventEmitter {
     );
     const { configuration } = this.configurationsRegistry.get();
     const { savedTime } = await bookSaver.save({
+      api: this.api('read').bind(this),
       book: currentBook,
       configuration,
     });
@@ -347,6 +379,7 @@ export default class Otamashelf extends EventEmitter {
     const pageCreator = this.pageCreators.findByBookFormatOrThrow(bookFormat);
     const { configuration } = this.configurationsRegistry.get();
     const { template } = await pageCreator.template({
+      api: this.api('read').bind(this),
       configuration,
       book: { bookFormat, bookParameters, title },
     });
@@ -369,6 +402,7 @@ export default class Otamashelf extends EventEmitter {
     const pageCreator = this.pageCreators.findByIdOrThrow(pageCreatorId);
     const { configuration } = this.configurationsRegistry.get();
     const { page: pagesWithoutId } = await pageCreator.create({
+      api: this.api('read').bind(this),
       configuration,
       book: { bookFormat, bookParameters, title },
       template,
@@ -378,6 +412,7 @@ export default class Otamashelf extends EventEmitter {
     bookTimeMachine.addPage(page, 'Create page');
     const pagesIndexer = this.pagesIndexers.findByPageFormatOrThrow(pageFormat);
     const { indexes } = await pagesIndexer.index({
+      api: this.api('read').bind(this),
       configuration,
       pages: [page],
     });
@@ -412,7 +447,11 @@ export default class Otamashelf extends EventEmitter {
         const { properties } = decorator;
         const { id } = properties;
         const { configuration } = this.configurationsRegistry.get();
-        const props = { configuration, layout: await currentLayout };
+        const props = {
+          api: this.api('read').bind(this),
+          configuration,
+          layout: await currentLayout,
+        };
         const { layout } = await decorator.decorateLayout(props);
         return layout;
       },
@@ -428,7 +467,11 @@ export default class Otamashelf extends EventEmitter {
         const { properties } = decorator;
         const { id } = properties;
         const { configuration } = this.configurationsRegistry.get();
-        const props = { configuration, page: await currentPage };
+        const props = {
+          api: this.api('read').bind(this),
+          configuration,
+          page: await currentPage,
+        };
         const { page } = await decorator.decoratePage(props);
         return page;
       }, new Promise(resolve => resolve(page)));
@@ -441,6 +484,7 @@ export default class Otamashelf extends EventEmitter {
     const { configuration } = this.configurationsRegistry.get();
     const decoratedPage = await this.decoratePage(page);
     const { layout } = await layoutBuilder.layout({
+      api: this.api('read').bind(this),
       configuration,
       page: decoratedPage,
     });
@@ -522,6 +566,7 @@ export default class Otamashelf extends EventEmitter {
       book: { pages: modifiedPages },
       page: modifiedPage,
     } = await pagesModifier.modify({
+      api: this.api('read').bind(this),
       configuration,
       book: { bookFormat, bookParameters, pages },
       page: pages[index],
@@ -547,6 +592,7 @@ export default class Otamashelf extends EventEmitter {
       book: { pages: modifiedPages },
       page: modifiedPage,
     } = await pagesModifier.modify({
+      api: this.api('read').bind(this),
       configuration,
       book: { bookFormat, bookParameters, pages },
       page,
@@ -570,6 +616,7 @@ export default class Otamashelf extends EventEmitter {
     const pageModifier = this.pageModifiers.findByIdOrThrow(pageModifierId);
     const { configuration } = this.configurationsRegistry.get();
     const { page: modifiedPage } = await pageModifier.modify({
+      api: this.api('read').bind(this),
       configuration,
       book: { bookFormat, bookParameters, title },
       page: pages[index],
@@ -591,6 +638,7 @@ export default class Otamashelf extends EventEmitter {
     const pageModifier = this.pageModifiers.findByIdOrThrow(pageModifierId);
     const { configuration } = this.configurationsRegistry.get();
     const { page: modifiedPage } = await pageModifier.modify({
+      api: this.api('read').bind(this),
       configuration,
       book: { bookFormat, bookParameters, title },
       page,
@@ -607,6 +655,7 @@ export default class Otamashelf extends EventEmitter {
     const pageModifier = this.pageModifiers.findByIdOrThrow(pageModifierId);
     const { configuration } = this.configurationsRegistry.get();
     const { page: modifiedPage } = await pageModifier.modify({
+      api: this.api('read').bind(this),
       configuration,
       page,
       script,
@@ -625,6 +674,7 @@ export default class Otamashelf extends EventEmitter {
     const pageModifier = this.pageModifiers.findByPageFormatOrThrow(pageFormat);
     const { configuration } = this.configurationsRegistry.get();
     const { page: modifiedConfiguration } = await pageModifier.modify({
+      api: this.api('read').bind(this),
       configuration,
       book: currentBook,
       page: bookParameters,
@@ -651,6 +701,7 @@ export default class Otamashelf extends EventEmitter {
     const pageModifier = this.pageModifiers.findByPageFormatOrThrow(pageFormat);
     const { configuration } = this.configurationsRegistry.get();
     const { page: modifiedDescription } = await pageModifier.modify({
+      api: this.api('read').bind(this),
       configuration,
       book: currentBook,
       page: description,
@@ -678,6 +729,7 @@ export default class Otamashelf extends EventEmitter {
     const pagesIndexer = this.pagesIndexers.findByPageFormatOrThrow(pageFormat);
     const { configuration } = this.configurationsRegistry.get();
     const { indexes } = await pagesIndexer.index({
+      api: this.api('read').bind(this),
       configuration,
       pages,
     });
@@ -703,6 +755,7 @@ export default class Otamashelf extends EventEmitter {
     );
     const { configuration } = this.configurationsRegistry.get();
     const { searchCards } = await searchIndexGenerator.generate({
+      api: this.api('read').bind(this),
       configuration,
       pages,
     });
@@ -714,6 +767,7 @@ export default class Otamashelf extends EventEmitter {
       this.pageExplorers.map(async pageExplorer => {
         const { configuration } = this.configurationsRegistry.get();
         const { name } = await pageExplorer.name({
+          api: this.api('read').bind(this),
           language: 'ja',
           configuration,
         });
@@ -731,6 +785,7 @@ export default class Otamashelf extends EventEmitter {
         .map(async searchIndexGenerator => {
           const { configuration } = this.configurationsRegistry.get();
           const { name } = await searchIndexGenerator.name({
+            api: this.api('read').bind(this),
             language: 'ja',
             configuration,
           });
@@ -754,6 +809,7 @@ export default class Otamashelf extends EventEmitter {
     const pageExplorer = this.pageExplorers.findByIdOrThrow(pageExplorerId);
     const { configuration } = this.configurationsRegistry.get();
     const { results } = await pageExplorer.search({
+      api: this.api('read').bind(this),
       configuration,
       searchCards,
       searchWord,
