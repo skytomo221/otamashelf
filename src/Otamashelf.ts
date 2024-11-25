@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { EventEmitter } from 'node:events';
 import { v4 } from 'uuid';
+import { JSONPath } from 'jsonpath-plus';
 
 import BooksController from './BooksController';
 import ContextsRegistry, { ContextTypes } from './ContextsRegistry';
@@ -170,6 +171,12 @@ export default class Otamashelf extends EventEmitter {
         Promise.resolve(this.readPage(pageReference)),
       'read',
     );
+    this.commandsRegistry.registerCommand(
+      'otamashelf.findPagesByJsonPath',
+      (bookPath: string, command: string) =>
+        Promise.resolve(this.findPagesByJsonPath(bookPath, command)),
+      'read',
+    );
     this.registerMethodCommands(this.booksController);
   }
 
@@ -237,6 +244,13 @@ export default class Otamashelf extends EventEmitter {
         command,
         ...props,
       );
+  }
+
+  async findPagesByJsonPath(bookPath: string, command: string) {
+    const bookTimeMachine = this.booksController.getOrThrow(bookPath);
+    const { currentBook } = bookTimeMachine;
+    const { pages } = currentBook;
+    return JSONPath({ path: command, json: pages });
   }
 
   async requestNewBook(bookCreatorId: string) {
