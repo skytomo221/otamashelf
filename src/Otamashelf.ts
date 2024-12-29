@@ -363,7 +363,11 @@ export default class Otamashelf extends EventEmitter {
       configuration,
     });
     const { pages: pagesWithoutId } = bookBase;
-    const pages = pagesWithoutId.map(page => ({ id: v4(), ...page }));
+    const pages = pagesWithoutId.map(page => ({
+      id: v4(),
+      bookPath: path,
+      ...page,
+    }));
     const fileFormat = this.setFileFormat(path);
     const indexes = await this.indexPages(pages, path);
     const book = { ...bookBase, bookFormat, fileFormat, indexes, pages };

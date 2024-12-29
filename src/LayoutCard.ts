@@ -1,4 +1,5 @@
 import { Json } from "./Json";
+import { PageReference } from "./PageReference";
 
 /* eslint-disable no-use-before-define */
 export type Layout = LayoutComponent;
@@ -13,6 +14,7 @@ export type LayoutComponent =
   | H4
   | H5
   | H6
+  | Link
   | ModifyPageButton
   | ModifyPagesButton
   | P
@@ -72,6 +74,11 @@ export type H5 = LayoutBaseComponent & {
 export type H6 = LayoutBaseComponent & {
   component: 'h6';
   contents: LayoutComponent[];
+};
+
+export type Link = LayoutBaseComponent & {
+  component: 'link';
+  pageReference: PageReference;
 };
 
 export type Mime = LayoutBaseComponent & {

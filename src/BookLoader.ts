@@ -17,7 +17,7 @@ export type LoadProps = {
 
 export type LoadReturns = {
   book: Pick<Book, 'bookParameters' | 'description' | 'title'> & {
-    pages: Omit<NormalPage, 'id'>[];
+    pages: Omit<NormalPage, 'id' | 'bookPath'>[];
   };
 };
 

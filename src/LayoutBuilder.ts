@@ -1,4 +1,5 @@
 import { Api } from './Api';
+import { Book } from './Book';
 import { Configuration } from './Configuration';
 import { ExtensionBase } from './ExtensionBase';
 import { PageExtensionBaseProperties } from './ExtensionProperties';

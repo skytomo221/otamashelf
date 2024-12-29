@@ -7,14 +7,17 @@ export type PageBase = {
 
 export type NormalPage = PageBase & {
   id: string;
+  bookPath: string;
 };
 
 export type BookParametersPage = PageBase & {
   specialPage: 'book-parameters';
+  bookPath: string;
 };
 
 export type DescriptionPage = PageBase & {
   specialPage: 'description';
+  bookPath: string;
 };
 
 export type BookTemplatePage = PageBase & {
@@ -23,6 +26,7 @@ export type BookTemplatePage = PageBase & {
 
 export type PageTemplatePage = PageBase & {
   specialPage: 'page-template';
+  bookPath: string;
 };
 
 export type ViewPage = PageBase & {
